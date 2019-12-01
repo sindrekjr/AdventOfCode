@@ -1,4 +1,3 @@
-using System; 
 using System.Linq; 
 
 namespace AdventOfCode.Solutions.Year2019 {
@@ -8,8 +7,6 @@ namespace AdventOfCode.Solutions.Year2019 {
         public Day01() : base(1, 2019, "The Tyranny of the Rocket Equation") {
             
         }
-
-
 
         protected override string SolvePartOne() {
             return Input.SplitByNewline()
