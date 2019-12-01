@@ -9,16 +9,14 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         protected override string SolvePartOne() {
-            return Input.SplitByNewline()
-                .Select(mass => int.Parse(mass) / 3 - 2)
-                .ToArray<int>()
+            return Input.ToIntArray("\n")
+                .Select(mass => mass / 3 - 2)
                 .Sum().ToString();
         }
 
         protected override string SolvePartTwo() {
-            return Input.SplitByNewline()
-                .Select(mass => FuelFuel(int.Parse(mass)))
-                .ToArray<int>()
+            return Input.ToIntArray("\n")
+                .Select(mass => FuelFuel(mass))
                 .Sum().ToString();
         }
 
