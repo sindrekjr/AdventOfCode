@@ -10,13 +10,13 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         protected override string SolvePartOne() {
-            return Input.ToIntArray(",").Run(12, 2)[0].ToString();
+            return Run(Input.ToIntArray(","), 12, 2)[0].ToString();
         }
 
         protected override string SolvePartTwo() {
             foreach(int noun in Enumerable.Range(0, 99)) {
                 foreach(int verb in Enumerable.Range(0, 99)) {
-                    if(Input.ToIntArray(",").Run(noun, verb)[0] == 19690720) {
+                    if(Run(Input.ToIntArray(","), noun, verb)[0] == 19690720) {
                         return (100 * noun + verb).ToString(); 
                     }
                 }
@@ -24,7 +24,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             return null; 
         }
         
-        int[] Run(this int[] code, int noun, int verb) {
+        int[] Run(int[] code, int noun, int verb) {
             code[1] = noun;
             code[2] = verb; 
             for(int i = 0; i < code.Length; i++) {
