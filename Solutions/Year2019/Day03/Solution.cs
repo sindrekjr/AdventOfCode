@@ -27,6 +27,24 @@ namespace AdventOfCode.Solutions.Year2019 {
             return closest.ToString();
         }
 
+        protected override string SolvePartTwo() {
+            string[] wires = Input.SplitByNewline();
+            List<(int x, int y)> path1 = Path(wires[0]);
+            List<(int x, int y)> path2 = Path(wires[1]);
+
+            int closest = 0; 
+            for(int i = 0; i < path1.Count; i++) {
+                (int, int) pos = path1[i];
+                if(path2.Contains(pos)) {
+                    int steps = 2 + i + path2.FindIndex(0, (element) => element == pos);
+                    if(closest > steps || closest == 0) {
+                        closest = steps; 
+                    } 
+                }
+            }
+            return closest.ToString();
+        }
+
         List<(int, int)> Path(string instructions) {
             var path = new List<(int x, int y)>();
             (int x, int y) pos = (0,0);
@@ -62,10 +80,6 @@ namespace AdventOfCode.Solutions.Year2019 {
                 }
             }
             return path; 
-        }
-
-        protected override string SolvePartTwo() {
-            return null;
         }
     }
 }
