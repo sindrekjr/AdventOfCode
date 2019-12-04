@@ -1,5 +1,3 @@
-using System;
-
 namespace AdventOfCode.Solutions.Year2019 {
 
     class Day04 : ASolution {
@@ -17,6 +15,15 @@ namespace AdventOfCode.Solutions.Year2019 {
             return passwords.ToString(); 
         }
 
+        protected override string SolvePartTwo() {
+            int[] range = Input.ToIntArray("-");
+            int passwords = 0;
+            for(int n = range[0]; n <= range[1]; n++) {
+                if(Test(n.ToString(), true)) passwords++;
+            }
+            return passwords.ToString(); 
+        }
+
         bool Test(string password, bool part2 = false) {
             bool duplicate = false;
             if(password.Length == 6) {
@@ -24,15 +31,15 @@ namespace AdventOfCode.Solutions.Year2019 {
                     if(password[i] < password[i - 1]) {
                         return false; 
                     } else if(password[i] == password[i - 1]) {
-                        duplicate = true;                        
+                        if(part2) {
+                            if(password.Split(password[i]).Length - 1 == 2) duplicate = true;
+                        } else {
+                            duplicate = true; 
+                        }
                     }
                 }
             }
             return duplicate; 
-        }
-
-        protected override string SolvePartTwo() {
-            return null;
         }
     }
 }
