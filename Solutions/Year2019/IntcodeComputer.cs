@@ -39,10 +39,18 @@ namespace AdventOfCode.Solutions.Year2019 {
                     int val2 = (modes[1] == Mode.Position) ? memory[memory[++i]] : memory[++i];
                     switch(opcode) {
                         case Opcode.Add: 
-                            memory[memory[++i]] = val1 + val2; 
+                            if(modes[2] == Mode.Position) {
+                                memory[memory[++i]] = val1 + val2; 
+                            } else {
+                                memory[++i] = val1 + val2; 
+                            }
                             break; 
                         case Opcode.Multiply: 
-                            memory[memory[++i]] = val1 * val2;
+                            if(modes[2] == Mode.Position) {
+                                memory[memory[++i]] = val1 * val2; 
+                            } else {
+                                memory[++i] = val1 * val2; 
+                            }
                             break;
                         case Opcode.JumpTrue:
                             if(val1 != 0) {
@@ -57,10 +65,18 @@ namespace AdventOfCode.Solutions.Year2019 {
                             }
                             break; 
                         case Opcode.Lt:
-                            memory[memory[++i]] = (val1 < val2) ? 1 : 0; 
+                            if(modes[2] == Mode.Position) {
+                                memory[memory[++i]] = (val1 < val2) ? 1 : 0; 
+                            } else {
+                                memory[++i] = (val1 < val2) ? 1 : 0; 
+                            }
                             break; 
-                        case Opcode.Eq: 
-                            memory[memory[++i]] = (val1 == val2) ? 1 : 0; 
+                        case Opcode.Eq:
+                            if(modes[2] == Mode.Position) {
+                                memory[memory[++i]] = (val1 == val2) ? 1 : 0; 
+                            } else {
+                                memory[++i] = (val1 == val2) ? 1 : 0; 
+                            }
                             break; 
                         default: 
                             throw new SomethingWentWrongException();
@@ -71,9 +87,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             return memory; 
         }
 
-        public int Diagnose() {
-            return Output.Last(); 
-        }
+        public int Diagnose() => Output.Last(); 
 
         (Mode[] modes, Opcode opcode) ParseInstruction(int instruction) {
             return (
