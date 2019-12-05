@@ -5,17 +5,17 @@ namespace AdventOfCode.Solutions.Year2019 {
         IntcodeComputer Machine;
 
         public Day05() : base(5, 2019, "Sunny with a Chance of Asteroids") {
-            string DebugInput = "3,0,4,0,99"; 
             Machine = new IntcodeComputer(Input.ToIntArray(","));
         }        
 
         protected override string SolvePartOne() {
-            Machine.Run(1).ToString(); 
+            Machine.Run(1); 
             return Machine.Diagnose().ToString(); 
         }
 
         protected override string SolvePartTwo() {
-            return null;
+            Machine.Run(5); 
+            return Machine.Diagnose().ToString(); 
         }
     }
 }
