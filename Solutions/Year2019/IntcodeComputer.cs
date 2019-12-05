@@ -15,12 +15,13 @@ namespace AdventOfCode.Solutions.Year2019 {
             Initialize(); 
         }
 
-        public void Initialize(int? noun = null, int? verb = null) {
+        public IntcodeComputer Initialize(int? noun = null, int? verb = null) {
             memory = new int[intcode.Length];
             intcode.CopyTo(memory, 0);
             if(noun != null) memory[1] = noun.Value; 
             if(verb != null) memory[2] = verb.Value; 
             Output = new List<int>(); 
+            return this; 
         } 
 
         public int[] Run(int? input = null) {

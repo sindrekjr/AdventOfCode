@@ -8,17 +8,11 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         }
 
-        protected override string SolvePartOne() {
-            return Input.ToIntArray("\n").Select(Fuel).Sum().ToString();
-        }
+        protected override string SolvePartOne() => Input.ToIntArray("\n").Select(Fuel).Sum().ToString();
 
-        protected override string SolvePartTwo() {
-            return Input.ToIntArray("\n").Select(FuelFuel).Sum().ToString();
-        }
+        protected override string SolvePartTwo() => Input.ToIntArray("\n").Select(FuelFuel).Sum().ToString();
 
-        int Fuel(int module) {
-            return module / 3 - 2;
-        }
+        int Fuel(int module) => module / 3 - 2;
 
         int FuelFuel(int module) {
             int fuel = Fuel(module);
