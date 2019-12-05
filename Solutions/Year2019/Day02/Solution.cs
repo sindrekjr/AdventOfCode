@@ -11,13 +11,15 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         protected override string SolvePartOne() {
-            return Machine.Run(12, 2)[0].ToString();
+            Machine.Initialize(12, 2); 
+            return Machine.Run()[0].ToString();
         }
 
         protected override string SolvePartTwo() {
             foreach(int noun in Enumerable.Range(0, 99)) {
                 foreach(int verb in Enumerable.Range(0, 99)) {
-                    if(Machine.Run(noun, verb)[0] == 19690720) {
+                    Machine.Initialize(noun, verb);
+                    if(Machine.Run()[0] == 19690720) {
                         return (100 * noun + verb).ToString();
                     }
                 }
