@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq; 
 
 namespace AdventOfCode.Solutions.Year2019 {
+
     class IntcodeComputer {
 
-        readonly int[] intcode; 
-        int[] memory; 
+        int[] intcode, memory; 
 
         public List<int> Output;
 
@@ -27,16 +27,16 @@ namespace AdventOfCode.Solutions.Year2019 {
             if(input != null) Initialize(); 
             int i = 0; 
             while(true) {
-                (string modes, Opcode opcode) = ParseInstruction(memory[i]); 
+                (Mode[] modes, Opcode opcode) = ParseInstruction(memory[i]); 
                 if(opcode == Opcode.Input) {
                     memory[memory[++i]] = input.Value;
                 } else if(opcode == Opcode.Output) {
-                    Output.Add((modes[0] == '0') ? memory[memory[++i]] : memory[++i]);
+                    Output.Add((modes[0] == Mode.Position) ? memory[memory[++i]] : memory[++i]);
                 } else if(opcode == Opcode.Halt) {
                     break; 
                 } else {
-                    int val1 = (modes[0] == '0') ? memory[memory[++i]] : memory[++i];
-                    int val2 = (modes[1] == '0') ? memory[memory[++i]] : memory[++i];
+                    int val1 = (modes[0] == Mode.Position) ? memory[memory[++i]] : memory[++i];
+                    int val2 = (modes[1] == Mode.Position) ? memory[memory[++i]] : memory[++i];
                     switch(opcode) {
                         case Opcode.Add: 
                             memory[memory[++i]] = val1 + val2; 
@@ -75,9 +75,11 @@ namespace AdventOfCode.Solutions.Year2019 {
             return Output.Last(); 
         }
 
-        (string modes, Opcode opcode) ParseInstruction(int instruction) {
+        (Mode[] modes, Opcode opcode) ParseInstruction(int instruction) {
             return (
-                instruction.ToString("D5").Remove(3).Reverse(),
+                instruction.ToString("D5").Remove(3).Reverse()
+                    .Select<char, Mode>(c => Enum.Parse<Mode>(c.ToString()))
+                    .ToArray(),
                 (Opcode) (instruction % 100)
             );
         }
