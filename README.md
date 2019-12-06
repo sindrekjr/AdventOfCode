@@ -8,3 +8,4 @@ Solutions in C#.
 | [3: Crossed Wires](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day03/Solution.cs) | 
 | [4: Secure Container](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day04/Solution.cs) | 
 | [5: Sunny with a Chance of Asteroids](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day05/Solution.cs) | 
+| [6: Universal Orbit Map](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day06/Solution.cs) | 
