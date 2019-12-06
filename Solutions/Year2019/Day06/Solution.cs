@@ -1,4 +1,3 @@
-using System; 
 using System.Collections.Generic; 
 using System.Linq; 
 
@@ -42,10 +41,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         protected override string SolvePartTwo() {
             InitializeCollection(); 
-            var meList = CollectIndirectOrbits("YOU");
-            var sanList = CollectIndirectOrbits("SAN"); 
-            var both = new List<string>(meList.Concat(sanList));
-            return (both.Count - ((both.Count - new HashSet<string>(both).Count + 1) * 2)).ToString();
+            var meAndSanta = new List<string>(CollectIndirectOrbits("YOU").Concat(CollectIndirectOrbits("SAN")));
+            return (meAndSanta.Count - ((meAndSanta.Count - new HashSet<string>(meAndSanta).Count + 1) * 2)).ToString();
         }
     }
 }
