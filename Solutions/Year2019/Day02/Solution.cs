@@ -8,7 +8,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             Machine = new IntcodeComputer(Input.ToIntArray(","));
         }
 
-        protected override string SolvePartOne() => Machine.Initialize(12, 2).Run()[0].ToString();
+        protected override string SolvePartOne() => Machine.Initialize(12, 2).Run().Memory[0].ToString();
 
         protected override string SolvePartTwo() {
             int noun = 0; 
@@ -16,7 +16,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 int verb = 0;
                 while(verb <= 100) {
                     Machine.Initialize(noun, verb);
-                    if(Machine.Run()[0] == 19690720) {
+                    if(Machine.Run().Memory[0] == 19690720) {
                         return (100 * noun + verb).ToString();
                     }
                     verb++;
