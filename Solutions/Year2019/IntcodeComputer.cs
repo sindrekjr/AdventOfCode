@@ -6,10 +6,11 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class IntcodeComputer {
 
-        int[] intcode, memory; 
-        Queue<int> inputs; 
-
-        public List<int> Output;
+        readonly int[] intcode; 
+        
+        public int[] Memory { get; private set; }
+        public Queue<int> Input { get; private set; }
+        public Queue<int> Output { get; private set; }
 
         public IntcodeComputer(int[] intcode) {
             this.intcode = intcode;
@@ -17,48 +18,52 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         public IntcodeComputer Initialize(int? noun = null, int? verb = null) {
-            memory = new int[intcode.Length];
-            intcode.CopyTo(memory, 0);
-            if(noun != null) memory[1] = noun.Value; 
-            if(verb != null) memory[2] = verb.Value; 
-            inputs = new Queue<int>(); 
-            Output = new List<int>(); 
+            Memory = new int[intcode.Length];
+            intcode.CopyTo(Memory, 0);
+            if(noun != null) Memory[1] = noun.Value; 
+            if(verb != null) Memory[2] = verb.Value; 
+            Input = new Queue<int>(); 
+            Output = new Queue<int>(); 
             return this; 
         } 
 
-        public IntcodeComputer Input(params int[] inp) {
+        public IntcodeComputer InputSequence(params int[] inp) {
             Initialize(); 
-            foreach(int i in inp) inputs.Enqueue(i); 
+            foreach(int i in inp) Input.Enqueue(i); 
             return this; 
         }
 
-        public int[] Run(int? input = null) {
-            if(input != null) Input(input.Value); 
+        public IntcodeComputer Run(int? inp = null) {
+            if(inp != null) InputSequence(inp.Value); 
             int i = 0; 
             while(true) {
-                (Mode[] modes, Opcode opcode) = ParseInstruction(memory[i]); 
+                (Mode[] modes, Opcode opcode) = ParseInstruction(Memory[i]); 
                 if(opcode == Opcode.Input) {
-                    memory[memory[++i]] = inputs.Dequeue();
+                    if(modes[0] == Mode.Position) {
+                        Memory[Memory[++i]] = Input.Dequeue();
+                    } else {
+                        Memory[++i] = Input.Dequeue();
+                    }                    
                 } else if(opcode == Opcode.Output) {
-                    Output.Add((modes[0] == Mode.Position) ? memory[memory[++i]] : memory[++i]);
+                    Output.Enqueue((modes[0] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i]);
                 } else if(opcode == Opcode.Halt) {
                     break; 
                 } else {
-                    int val1 = (modes[0] == Mode.Position) ? memory[memory[++i]] : memory[++i];
-                    int val2 = (modes[1] == Mode.Position) ? memory[memory[++i]] : memory[++i];
+                    int val1 = (modes[0] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i];
+                    int val2 = (modes[1] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i];
                     switch(opcode) {
                         case Opcode.Add: 
                             if(modes[2] == Mode.Position) {
-                                memory[memory[++i]] = val1 + val2; 
+                                Memory[Memory[++i]] = val1 + val2; 
                             } else {
-                                memory[++i] = val1 + val2; 
+                                Memory[++i] = val1 + val2; 
                             }
                             break; 
                         case Opcode.Multiply: 
                             if(modes[2] == Mode.Position) {
-                                memory[memory[++i]] = val1 * val2; 
+                                Memory[Memory[++i]] = val1 * val2; 
                             } else {
-                                memory[++i] = val1 * val2; 
+                                Memory[++i] = val1 * val2; 
                             }
                             break;
                         case Opcode.JumpTrue:
@@ -75,16 +80,16 @@ namespace AdventOfCode.Solutions.Year2019 {
                             break; 
                         case Opcode.Lt:
                             if(modes[2] == Mode.Position) {
-                                memory[memory[++i]] = (val1 < val2) ? 1 : 0; 
+                                Memory[Memory[++i]] = (val1 < val2) ? 1 : 0; 
                             } else {
-                                memory[++i] = (val1 < val2) ? 1 : 0; 
+                                Memory[++i] = (val1 < val2) ? 1 : 0; 
                             }
                             break; 
                         case Opcode.Eq:
                             if(modes[2] == Mode.Position) {
-                                memory[memory[++i]] = (val1 == val2) ? 1 : 0; 
+                                Memory[Memory[++i]] = (val1 == val2) ? 1 : 0; 
                             } else {
-                                memory[++i] = (val1 == val2) ? 1 : 0; 
+                                Memory[++i] = (val1 == val2) ? 1 : 0; 
                             }
                             break; 
                         default: 
@@ -93,7 +98,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 }
                 i++; 
             }
-            return memory; 
+            return this; 
         }
 
         public int Diagnose() => Output.Last(); 
