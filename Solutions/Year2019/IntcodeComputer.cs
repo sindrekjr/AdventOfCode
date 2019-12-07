@@ -7,6 +7,7 @@ namespace AdventOfCode.Solutions.Year2019 {
     class IntcodeComputer {
 
         int[] intcode, memory; 
+        Queue<int> inputs; 
 
         public List<int> Output;
 
@@ -20,17 +21,24 @@ namespace AdventOfCode.Solutions.Year2019 {
             intcode.CopyTo(memory, 0);
             if(noun != null) memory[1] = noun.Value; 
             if(verb != null) memory[2] = verb.Value; 
+            inputs = new Queue<int>(); 
             Output = new List<int>(); 
             return this; 
         } 
 
+        public IntcodeComputer Input(params int[] inp) {
+            Initialize(); 
+            foreach(int i in inp) inputs.Enqueue(i); 
+            return this; 
+        }
+
         public int[] Run(int? input = null) {
-            if(input != null) Initialize(); 
+            if(input != null) Input(input.Value); 
             int i = 0; 
             while(true) {
                 (Mode[] modes, Opcode opcode) = ParseInstruction(memory[i]); 
                 if(opcode == Opcode.Input) {
-                    memory[memory[++i]] = input.Value;
+                    memory[memory[++i]] = inputs.Dequeue();
                 } else if(opcode == Opcode.Output) {
                     Output.Add((modes[0] == Mode.Position) ? memory[memory[++i]] : memory[++i]);
                 } else if(opcode == Opcode.Halt) {
