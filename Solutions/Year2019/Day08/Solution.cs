@@ -1,3 +1,6 @@
+using System.Drawing;
+using System.Drawing.Imaging;
+
 namespace AdventOfCode.Solutions.Year2019 {
 
     class Day08 : ASolution {
@@ -31,7 +34,32 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         protected override string SolvePartTwo() {
-            return null;
+            var image = Input.ToIntArray().Split(25).Split(6); 
+            int?[,] display = new int?[6,25];
+            foreach(var layer in image) {
+                int r = 0; 
+                foreach(var row in layer) {
+                    int p = 0; 
+                    foreach(int pixel in row) {
+                        if(pixel != 2) {
+                            display[r,p] = display[r,p] ?? pixel; 
+                        }
+                        p++; 
+                    }
+                    r++; 
+                }
+            }
+            //var actualImage = new Bitmap(6, 25);
+            string result = "\n";
+            for(int i = 0; i < display.GetLength(0); i++) {
+                for(int j = 0; j < display.GetLength(1); j++) {
+                    result += (display[i,j] == 0) ? " " : 0.ToString();
+                    //actualImage.SetPixel(i, j, (display[i,j] == 0) ? Color.Black : Color.White); 
+                }
+                result += "\n";
+            }
+            //actualImage.Save("SpaceImage.png", ImageFormat.Png); 
+            return result; 
         }
     }
 }
