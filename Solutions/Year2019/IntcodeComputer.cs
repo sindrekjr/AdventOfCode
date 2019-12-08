@@ -8,6 +8,7 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         readonly int[] intcode; 
         
+        public bool Paused { get; private set; }
         public int[] Memory { get; private set; }
         public Queue<int> Input { get; private set; }
         public Queue<int> Output { get; private set; }
@@ -35,15 +36,21 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         public IntcodeComputer Run(int? inp = null) {
             if(inp != null) InputSequence(inp.Value); 
+            Paused = false; 
             int i = 0; 
             while(true) {
                 (Mode[] modes, Opcode opcode) = ParseInstruction(Memory[i]); 
                 if(opcode == Opcode.Input) {
-                    if(modes[0] == Mode.Position) {
-                        Memory[Memory[++i]] = Input.Dequeue();
+                    if(Input.Count > 0) {
+                        if(modes[0] == Mode.Position) {
+                            Memory[Memory[++i]] = Input.Dequeue();
+                        } else {
+                            Memory[++i] = Input.Dequeue();
+                        }
                     } else {
-                        Memory[++i] = Input.Dequeue();
-                    }                    
+                        Paused = true; 
+                        break; 
+                    }
                 } else if(opcode == Opcode.Output) {
                     Output.Enqueue((modes[0] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i]);
                 } else if(opcode == Opcode.Halt) {
