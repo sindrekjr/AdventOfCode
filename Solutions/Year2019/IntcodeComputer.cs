@@ -7,6 +7,7 @@ namespace AdventOfCode.Solutions.Year2019 {
     class IntcodeComputer {
 
         readonly int[] intcode; 
+        bool initialized = false; 
         
         public bool Paused { get; private set; }
         public int[] Memory { get; private set; }
@@ -15,7 +16,6 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         public IntcodeComputer(int[] intcode) {
             this.intcode = intcode;
-            Initialize(); 
         }
 
         public IntcodeComputer Initialize(int? noun = null, int? verb = null) {
@@ -25,6 +25,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             if(verb != null) Memory[2] = verb.Value; 
             Input = new Queue<int>(); 
             Output = new Queue<int>(); 
+            initialized = true; 
             return this; 
         } 
 
@@ -36,42 +37,69 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         public IntcodeComputer Run(int? inp = null) {
             if(inp != null) InputSequence(inp.Value); 
+            if(!initialized) Initialize(); 
             Paused = false; 
             int i = 0; 
+            int rel = 0; 
             while(true) {
                 (Mode[] modes, Opcode opcode) = ParseInstruction(Memory[i]); 
                 if(opcode == Opcode.Input) {
                     if(Input.Count > 0) {
-                        if(modes[0] == Mode.Position) {
-                            Memory[Memory[++i]] = Input.Dequeue();
-                        } else {
-                            Memory[++i] = Input.Dequeue();
-                        }
+                        Memory[modes[0] switch {
+                            Mode.Position => Memory[++i],
+                            Mode.Immediate => ++i,
+                            Mode.Relative => Memory[++i] + rel,
+                            _ => throw new SomethingWentWrongException()
+                        }] = Input.Dequeue(); 
                     } else {
                         Paused = true; 
-                        break; 
+                        return this; 
                     }
                 } else if(opcode == Opcode.Output) {
-                    Output.Enqueue((modes[0] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i]);
+                    Output.Enqueue(modes[0] switch {
+                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Immediate => Memory[++i],
+                        Mode.Relative => Memory[Memory[++i] + rel],
+                        _ => throw new SomethingWentWrongException()
+                    });
+                } else if(opcode == Opcode.Adjust) {
+                    rel += modes[0] switch {
+                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Immediate => Memory[++i],
+                        Mode.Relative => Memory[Memory[++i] + rel],
+                        _ => throw new SomethingWentWrongException()
+                    };
                 } else if(opcode == Opcode.Halt) {
-                    break; 
+                    return this; 
                 } else {
-                    int val1 = (modes[0] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i];
-                    int val2 = (modes[1] == Mode.Position) ? Memory[Memory[++i]] : Memory[++i];
+                    int val1 = modes[0] switch {
+                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Immediate => Memory[++i],
+                        Mode.Relative => Memory[Memory[++i] + rel],
+                        _ => throw new SomethingWentWrongException()
+                    };
+                    int val2 = modes[1] switch {
+                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Immediate => Memory[++i],
+                        Mode.Relative => Memory[Memory[++i] + rel],
+                        _ => throw new SomethingWentWrongException()
+                    };
                     switch(opcode) {
                         case Opcode.Add: 
-                            if(modes[2] == Mode.Position) {
-                                Memory[Memory[++i]] = val1 + val2; 
-                            } else {
-                                Memory[++i] = val1 + val2; 
-                            }
+                            Memory[modes[2] switch {
+                                Mode.Position => Memory[++i],
+                                Mode.Immediate => ++i,
+                                Mode.Relative => Memory[++i] + rel,
+                                _ => throw new SomethingWentWrongException()
+                            }] = val1 + val2; 
                             break; 
                         case Opcode.Multiply: 
-                            if(modes[2] == Mode.Position) {
-                                Memory[Memory[++i]] = val1 * val2; 
-                            } else {
-                                Memory[++i] = val1 * val2; 
-                            }
+                            Memory[modes[2] switch {
+                                Mode.Position => Memory[++i],
+                                Mode.Immediate => ++i,
+                                Mode.Relative => Memory[++i] + rel,
+                                _ => throw new SomethingWentWrongException()
+                            }] = val1 * val2; 
                             break;
                         case Opcode.JumpTrue:
                             if(val1 != 0) {
@@ -86,18 +114,20 @@ namespace AdventOfCode.Solutions.Year2019 {
                             }
                             break; 
                         case Opcode.Lt:
-                            if(modes[2] == Mode.Position) {
-                                Memory[Memory[++i]] = (val1 < val2) ? 1 : 0; 
-                            } else {
-                                Memory[++i] = (val1 < val2) ? 1 : 0; 
-                            }
+                            Memory[modes[2] switch {
+                                Mode.Position => Memory[++i],
+                                Mode.Immediate => ++i,
+                                Mode.Relative => Memory[++i] + rel,
+                                _ => throw new SomethingWentWrongException()
+                            }] = (val1 < val2) ? 1 : 0; 
                             break; 
                         case Opcode.Eq:
-                            if(modes[2] == Mode.Position) {
-                                Memory[Memory[++i]] = (val1 == val2) ? 1 : 0; 
-                            } else {
-                                Memory[++i] = (val1 == val2) ? 1 : 0; 
-                            }
+                            Memory[modes[2] switch {
+                                Mode.Position => Memory[++i],
+                                Mode.Immediate => ++i,
+                                Mode.Relative => Memory[++i] + rel,
+                                _ => throw new SomethingWentWrongException()
+                            }] = (val1 == val2) ? 1 : 0; 
                             break; 
                         default: 
                             throw new SomethingWentWrongException();
@@ -105,7 +135,6 @@ namespace AdventOfCode.Solutions.Year2019 {
                 }
                 i++; 
             }
-            return this; 
         }
 
         public int Diagnose() => Output.Last(); 
@@ -119,8 +148,8 @@ namespace AdventOfCode.Solutions.Year2019 {
             );
         }
 
-        enum Opcode { Add = 1, Multiply, Input, Output, JumpTrue, JumpFalse, Lt, Eq, Halt = 99 }
-        enum Mode { Position, Immediate }
+        enum Opcode { Add = 1, Multiply, Input, Output, JumpTrue, JumpFalse, Lt, Eq, Adjust, Halt = 99 }
+        enum Mode { Position, Immediate, Relative }
     }
 
     class SomethingWentWrongException : Exception {
