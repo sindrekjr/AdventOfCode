@@ -5,10 +5,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day07 : ASolution {
 
-        IntcodeComputer Amplifier; 
+        IntcodeComputer<int> Amplifier; 
 
         public Day07() : base(7, 2019, "Amplification Circuit") {
-            Amplifier = new IntcodeComputer(Input.ToIntArray(","));
+            Amplifier = new IntcodeComputer<int>(Input.ToIntArray(","));
         }
 
         protected override string SolvePartOne() {

@@ -2,10 +2,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day05 : ASolution {
 
-        IntcodeComputer Machine;
+        IntcodeComputer<int> Machine;
 
         public Day05() : base(5, 2019, "Sunny with a Chance of Asteroids") {
-            Machine = new IntcodeComputer(Input.ToIntArray(","));
+            Machine = new IntcodeComputer<int>(Input.ToIntArray(","));
         }        
 
         protected override string SolvePartOne() {
