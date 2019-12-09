@@ -4,46 +4,50 @@ using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2019 {
 
-    class IntcodeComputer {
+    class IntcodeComputer<T> where T : IComparable<T> {
 
-        readonly int[] intcode; 
+        readonly T[] intcode; 
         bool initialized = false; 
         
+        public T[] Memory { get; private set; }
         public bool Paused { get; private set; }
-        public int[] Memory { get; private set; }
-        public Queue<int> Input { get; private set; }
-        public Queue<int> Output { get; private set; }
+        public Queue<T> Input { get; private set; }
+        public Queue<T> Output { get; private set; }
 
-        public IntcodeComputer(int[] intcode) {
+        public IntcodeComputer(T[] intcode) {
             this.intcode = intcode;
         }
 
-        public IntcodeComputer Initialize(int? noun = null, int? verb = null) {
-            Memory = new int[intcode.Length];
+        public IntcodeComputer<T> Initialize(int? noun = null, int? verb = null) {
+            Memory = new T[intcode.Length];
             intcode.CopyTo(Memory, 0);
-            if(noun != null) Memory[1] = noun.Value; 
-            if(verb != null) Memory[2] = verb.Value; 
-            Input = new Queue<int>(); 
-            Output = new Queue<int>(); 
+            if(noun != null) Memory[1] = (T)(object)noun.Value; 
+            if(verb != null) Memory[2] = (T)(object)verb.Value; 
+            Input = new Queue<T>(); 
+            Output = new Queue<T>(); 
             initialized = true; 
             return this; 
         } 
 
-        public IntcodeComputer InputSequence(params int[] inp) {
+        public IntcodeComputer<T> InputSequence(params T[] inp) {
             Initialize(); 
-            foreach(int i in inp) Input.Enqueue(i); 
+            foreach(T i in inp) Input.Enqueue(i); 
             return this; 
         }
 
-        public IntcodeComputer Run(int? inp = null) {
-            if(inp != null) InputSequence(inp.Value); 
+        public IntcodeComputer<T> Run(int? inp = null) {
+            if(inp != null) InputSequence((T)(object)inp.Value); 
             if(!initialized) Initialize(); 
             Paused = false; 
-            int i = 0; 
-            int rel = 0; 
+            dynamic i = 0; 
+            dynamic rel = 0; 
             while(true) {
-                (Mode[] modes, Opcode opcode) = ParseInstruction(Memory[i]); 
-                if(opcode == Opcode.Input) {
+                //Console.WriteLine(Memory[2]);
+                (Mode[] modes, Opcode opcode) = ParseInstruction((int)(object)Memory[i]); 
+                //Console.WriteLine(modes.ToString());
+                if(opcode == Opcode.Halt) {
+                    return this; 
+                } else if(opcode == Opcode.Input) {
                     if(Input.Count > 0) {
                         Memory[modes[0] switch {
                             Mode.Position => Memory[++i],
@@ -57,29 +61,27 @@ namespace AdventOfCode.Solutions.Year2019 {
                     }
                 } else if(opcode == Opcode.Output) {
                     Output.Enqueue(modes[0] switch {
-                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Position => Memory[(dynamic)Memory[++i]],
                         Mode.Immediate => Memory[++i],
                         Mode.Relative => Memory[Memory[++i] + rel],
                         _ => throw new SomethingWentWrongException()
                     });
                 } else if(opcode == Opcode.Adjust) {
                     rel += modes[0] switch {
-                        Mode.Position => Memory[Memory[++i]],
+                        Mode.Position => Memory[(dynamic)Memory[++i]],
                         Mode.Immediate => Memory[++i],
                         Mode.Relative => Memory[Memory[++i] + rel],
                         _ => throw new SomethingWentWrongException()
                     };
-                } else if(opcode == Opcode.Halt) {
-                    return this; 
                 } else {
-                    int val1 = modes[0] switch {
-                        Mode.Position => Memory[Memory[++i]],
+                    dynamic val1 = modes[0] switch {
+                        Mode.Position => Memory[(dynamic)Memory[++i]],
                         Mode.Immediate => Memory[++i],
                         Mode.Relative => Memory[Memory[++i] + rel],
                         _ => throw new SomethingWentWrongException()
                     };
-                    int val2 = modes[1] switch {
-                        Mode.Position => Memory[Memory[++i]],
+                    dynamic val2 = modes[1] switch {
+                        Mode.Position => Memory[(dynamic)Memory[++i]],
                         Mode.Immediate => Memory[++i],
                         Mode.Relative => Memory[Memory[++i] + rel],
                         _ => throw new SomethingWentWrongException()
@@ -119,7 +121,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                                 Mode.Immediate => ++i,
                                 Mode.Relative => Memory[++i] + rel,
                                 _ => throw new SomethingWentWrongException()
-                            }] = (val1 < val2) ? 1 : 0; 
+                            }] = (dynamic) ((val1 < val2) ? 1 : 0); 
                             break; 
                         case Opcode.Eq:
                             Memory[modes[2] switch {
@@ -127,7 +129,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                                 Mode.Immediate => ++i,
                                 Mode.Relative => Memory[++i] + rel,
                                 _ => throw new SomethingWentWrongException()
-                            }] = (val1 == val2) ? 1 : 0; 
+                            }] = (dynamic) ((val1 == val2) ? 1 : 0); 
                             break; 
                         default: 
                             throw new SomethingWentWrongException();
@@ -137,7 +139,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             }
         }
 
-        public int Diagnose() => Output.Last(); 
+        public T Diagnose() => Output.Last(); 
 
         (Mode[] modes, Opcode opcode) ParseInstruction(int instruction) {
             return (
