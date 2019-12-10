@@ -20,8 +20,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         protected override string SolvePartOne() {
             int count = 0; 
-            for(int y = 0; y < Map.GetLength(1); y++) {
-                for(int x = 0; x < Map.GetLength(0); x++) {
+            for(int x = 0; x < Map.GetLength(0); x++) {
+                for(int y = 0; y < Map.GetLength(1); y++) {
                     if(Map[y,x]) count = Math.Max(count, CountVisibleAsteroids((x,y))); 
                 }
             }
@@ -30,8 +30,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         int CountVisibleAsteroids((int x, int y) asteroid) {
             var seen = new HashSet<(int, int)>();
-            for(int y = 0; y < Map.GetLength(1); y++) {
-                for(int x = 0; x < Map.GetLength(0); x++) {
+            for(int x = 0; x < Map.GetLength(0); x++) {
+                for(int y = 0; y < Map.GetLength(1); y++) {
                     bool hAsteroid = Map[y,x]; 
                     if(hAsteroid) {
                         int v = asteroid.y - y; 
