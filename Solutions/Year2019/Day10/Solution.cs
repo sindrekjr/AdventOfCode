@@ -1,6 +1,5 @@
 using System; 
 using System.Collections.Generic; 
-using System.Linq; 
 using static AdventOfCode.Solutions.Utilities; 
 
 namespace AdventOfCode.Solutions.Year2019 {
@@ -12,8 +11,8 @@ namespace AdventOfCode.Solutions.Year2019 {
         public Day10() : base(10, 2019, "Monitoring Station") {
             var lines = Input.SplitByNewline(); 
             Map = new bool[lines[0].Length, lines.Length]; 
-            for(int x = 0; x < lines[0].Length; x++) {
-                for(int y = 0; y < lines.Length; y++) {
+            for(int x = 0; x < Map.GetLength(0); x++) {
+                for(int y = 0; y < Map.GetLength(1); y++) {
                     Map[x,y] = lines[y][x] == '#';
                 }
             }
@@ -23,17 +22,17 @@ namespace AdventOfCode.Solutions.Year2019 {
             int count = 0; 
             for(int y = 0; y < Map.GetLength(1); y++) {
                 for(int x = 0; x < Map.GetLength(0); x++) {
-                    count = Math.Max(count, CountVisibleAsteroids((x,y))); 
+                    if(Map[y,x]) count = Math.Max(count, CountVisibleAsteroids((x,y))); 
                 }
             }
             return count.ToString();
         }
 
         int CountVisibleAsteroids((int x, int y) asteroid) {
-            var seen = new HashSet<(int x, int y)>();
+            var seen = new HashSet<(int, int)>();
             for(int y = 0; y < Map.GetLength(1); y++) {
                 for(int x = 0; x < Map.GetLength(0); x++) {
-                    bool hAsteroid = Map[x,y]; 
+                    bool hAsteroid = Map[y,x]; 
                     if(hAsteroid) {
                         int v = asteroid.y - y; 
                         int h = asteroid.x - x; 
@@ -47,11 +46,11 @@ namespace AdventOfCode.Solutions.Year2019 {
                                 h = h / GCD; 
                             }
                         }
-                        seen.Add((v,h)); 
+                        seen.Add((v,h));
                     }
                 }
             }
-            return seen.Count() - 1; 
+            return seen.Count - 1;
         }
 
         protected override string SolvePartTwo() {
