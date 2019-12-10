@@ -81,7 +81,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         (int x, int y) FindNthAsteroidToBeVaporized(int n) {
-            if(Asteroids == null) FindVisibleAsteroids(Station); 
+            if(Asteroids == null) DeployStation(); 
 
             var keys = new List<double>(Asteroids.Keys); 
             foreach(double i in keys) {
