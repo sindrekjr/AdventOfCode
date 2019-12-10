@@ -9,7 +9,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         int size; 
         bool[,] Map; 
         (int x, int y) Station; 
-        HashSet<(int x, int y)> Asteroids; 
+        Dictionary<(int a, int b), (int x, int y)> Asteroids; 
 
         public Day10() : base(10, 2019, "Monitoring Station") {
             var lines = Input.SplitByNewline(); 
@@ -49,8 +49,8 @@ namespace AdventOfCode.Solutions.Year2019 {
             return best; 
         }
 
-        HashSet<(int x, int y)> FindVisibleAsteroids((int x, int y) asteroid) {
-            var seen = new HashSet<(int, int)>();
+        Dictionary<(int a, int b), (int x, int y)> FindVisibleAsteroids((int x, int y) asteroid) {
+            var seen = new Dictionary<(int a, int b), (int x, int y)>();
             for(int x = 0; x < size; x++) {
                 for(int y = 0; y < size; y++) {
                     if(!Map[x,y] || (x, y) == asteroid) continue; 
@@ -67,7 +67,14 @@ namespace AdventOfCode.Solutions.Year2019 {
                             h = h / GCD; 
                         }
                     }
-                    seen.Add((v,h));
+
+                    if(seen.ContainsKey((v,h))) {
+                        if(ManhattanDistance(asteroid, (x,y)) < ManhattanDistance(asteroid, seen[(v,h)])) {
+                            seen[(v,h)] = (x,y); 
+                        }
+                    } else {
+                        seen[(v,h)] = (x,y); 
+                    }
                 }
             }
             return seen;
