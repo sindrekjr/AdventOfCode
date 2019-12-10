@@ -7,54 +7,100 @@ namespace AdventOfCode.Solutions.Year2019 {
     class Day10 : ASolution {
 
         bool[,] Map; 
+        (int x, int y) Station; 
+        HashSet<(int x, int y)> Asteroids; 
 
         public Day10() : base(10, 2019, "Monitoring Station") {
             var lines = Input.SplitByNewline(); 
             Map = new bool[lines[0].Length, lines.Length]; 
-            for(int x = 0; x < Map.GetLength(0); x++) {
-                for(int y = 0; y < Map.GetLength(1); y++) {
+            for(int x = 0; x < Map.GetLength(1); x++) {
+                for(int y = 0; y < Map.GetLength(0); y++) {
                     Map[x,y] = lines[y][x] == '#';
                 }
             }
         }
 
-        protected override string SolvePartOne() {
-            int count = 0; 
-            for(int x = 0; x < Map.GetLength(0); x++) {
-                for(int y = 0; y < Map.GetLength(1); y++) {
-                    if(Map[y,x]) count = Math.Max(count, CountVisibleAsteroids((x,y))); 
-                }
-            }
-            return count.ToString();
+        protected override string SolvePartOne() => DeployStation().ToString();
+
+        protected override string SolvePartTwo() {
+            if(Station == default((int,int))) DeployStation(); 
+
+            return Station.x + ", " + Station.y;
         }
 
-        int CountVisibleAsteroids((int x, int y) asteroid) {
-            var seen = new HashSet<(int, int)>();
-            for(int x = 0; x < Map.GetLength(0); x++) {
-                for(int y = 0; y < Map.GetLength(1); y++) {
-                    bool hAsteroid = Map[y,x]; 
-                    if(hAsteroid) {
-                        int v = asteroid.y - y; 
-                        int h = asteroid.x - x; 
-                        if(h == 0 || v == 0) {
-                            h = h < 0 ? -1 : h > 0 ? 1 : 0; 
-                            v = v < 0 ? -1 : v > 0 ? 1 : 0; 
-                        } else {
-                            int GCD = FindGCD(Math.Abs(v), Math.Abs(h)); 
-                            if(GCD > 1) {
-                                v = v / GCD; 
-                                h = h / GCD; 
-                            }
+        int DeployStation() {
+            int best = 0; 
+            for(int x = 0; x < Map.GetLength(1); x++) {
+                for(int y = 0; y < Map.GetLength(0); y++) {
+                    if(Map[x, y]) {
+                        var visible = FindVisibleAsteroids((x,y));
+                        int count = visible.Count; 
+                        if(count > best) {
+                            best = count; 
+                            Station = (x, y); 
+                            Asteroids = visible; 
                         }
-                        seen.Add((v,h));
                     }
                 }
             }
-            return seen.Count - 1;
+            return best; 
         }
 
-        protected override string SolvePartTwo() {
-            return null;
+        HashSet<(int x, int y)> FindVisibleAsteroids((int x, int y) asteroid) {
+            var seen = new HashSet<(int, int)>();
+            for(int x = 0; x < Map.GetLength(1); x++) {
+                for(int y = 0; y < Map.GetLength(0); y++) {
+                    if(!Map[x,y] || (x, y) == asteroid) continue; 
+                    
+                    int v = asteroid.y - y; 
+                    int h = asteroid.x - x; 
+                    if(h == 0 || v == 0) {
+                        h = h < 0 ? -1 : h > 0 ? 1 : 0; 
+                        v = v < 0 ? -1 : v > 0 ? 1 : 0; 
+                    } else {
+                        int GCD = FindGCD(Math.Abs(v), Math.Abs(h)); 
+                        if(GCD > 1) {
+                            v = v / GCD; 
+                            h = h / GCD; 
+                        }
+                    }
+                    seen.Add((v,h));
+                }
+            }
+            return seen;
+        }
+
+        (int x, int y) Find200thDestroyedAsteroid((int x, int y) station) {
+            var MapOfVaporizedDestruction = (bool[,]) Map.Clone(); 
+            int destroyed = 0; 
+            while(true) {
+                bool done = false; 
+                for(int x = station.x; !done; x++) {
+                    for(int y = 0; y < Map.GetLength(0); y++) {
+                        bool hAsteroid = MapOfVaporizedDestruction[y,x]; 
+                        if(hAsteroid) {
+                            if(y == station.y && x == station.x) continue; 
+
+                            int v = station.y - y; 
+                            int h = station.x - x; 
+                            if(h == 0 || v == 0) {
+                                h = h < 0 ? -1 : h > 0 ? 1 : 0; 
+                                v = v < 0 ? -1 : v > 0 ? 1 : 0; 
+                            } else {
+                                int GCD = FindGCD(Math.Abs(v), Math.Abs(h)); 
+                                if(GCD > 1) {
+                                    v = v / GCD; 
+                                    h = h / GCD; 
+                                }
+                            }
+
+                            if(++destroyed == 200) return (x,y);
+                        }
+                    }
+                    done = x == station.x - 1; 
+                    if(x + 1 == Map.GetLength(1)) x = -1; 
+                }
+            }
         }
     }
 }
