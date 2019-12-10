@@ -87,7 +87,10 @@ namespace AdventOfCode.Solutions {
         }
 
         public static int FindGCD(int a, int b) {
-            while(a != b) a = a > b ? a - b : b - a; 
+            while(a != b) {
+                if(a > b) a = a - b; 
+                if(b > a) b = b - a; 
+            }
             return a; 
         }
 
