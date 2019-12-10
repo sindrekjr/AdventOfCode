@@ -6,15 +6,18 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day10 : ASolution {
 
+        int size; 
         bool[,] Map; 
         (int x, int y) Station; 
         HashSet<(int x, int y)> Asteroids; 
 
         public Day10() : base(10, 2019, "Monitoring Station") {
             var lines = Input.SplitByNewline(); 
-            Map = new bool[lines[0].Length, lines.Length]; 
-            for(int x = 0; x < Map.GetLength(1); x++) {
-                for(int y = 0; y < Map.GetLength(0); y++) {
+
+            size = lines.Length; 
+            Map = new bool[size, size]; 
+            for(int x = 0; x < size; x++) {
+                for(int y = 0; y < size; y++) {
                     Map[x,y] = lines[y][x] == '#';
                 }
             }
@@ -30,8 +33,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         int DeployStation() {
             int best = 0; 
-            for(int x = 0; x < Map.GetLength(1); x++) {
-                for(int y = 0; y < Map.GetLength(0); y++) {
+            for(int x = 0; x < size; x++) {
+                for(int y = 0; y < size; y++) {
                     if(Map[x, y]) {
                         var visible = FindVisibleAsteroids((x,y));
                         int count = visible.Count; 
@@ -48,8 +51,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         HashSet<(int x, int y)> FindVisibleAsteroids((int x, int y) asteroid) {
             var seen = new HashSet<(int, int)>();
-            for(int x = 0; x < Map.GetLength(1); x++) {
-                for(int y = 0; y < Map.GetLength(0); y++) {
+            for(int x = 0; x < size; x++) {
+                for(int y = 0; y < size; y++) {
                     if(!Map[x,y] || (x, y) == asteroid) continue; 
                     
                     int v = asteroid.y - y; 
@@ -76,7 +79,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             while(true) {
                 bool done = false; 
                 for(int x = station.x; !done; x++) {
-                    for(int y = 0; y < Map.GetLength(0); y++) {
+                    for(int y = 0; y < size; y++) {
                         bool hAsteroid = MapOfVaporizedDestruction[y,x]; 
                         if(hAsteroid) {
                             if(y == station.y && x == station.x) continue; 
@@ -98,7 +101,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                         }
                     }
                     done = x == station.x - 1; 
-                    if(x + 1 == Map.GetLength(1)) x = -1; 
+                    if(x + 1 == size) x = -1; 
                 }
             }
         }
