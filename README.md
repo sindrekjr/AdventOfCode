@@ -9,7 +9,7 @@ Solutions in C#.
 | [4: Secure Container](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day04/Solution.cs) | 1+2 |
 | [5: Sunny with a Chance of Asteroids](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day05/Solution.cs) | 1+2 |
 | [6: Universal Orbit Map](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day06/Solution.cs) | 1+2 |
-| [7: Amplification Circuit](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day07/Solution.cs) | 1 |
+| [7: Amplification Circuit](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day07/Solution.cs) | 1+2 |
 | [8: Space Image Format](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day08/Solution.cs) | 1+2 |
-| [~~9: Sensor Boost~~](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day09/Solution.cs) |  |
+| [9: Sensor Boost](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day09/Solution.cs) | 1+2 |
 | [10: Monitoring Station](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day10/Solution.cs) | 1+2 |
