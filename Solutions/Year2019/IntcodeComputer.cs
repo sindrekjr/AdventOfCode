@@ -36,14 +36,19 @@ namespace AdventOfCode.Solutions.Year2019 {
             return this; 
         }
 
-        public NewIntcodeComputer<T> SetMemory(params (int, T)[] values) {
-            foreach((int pos, T val) x in values) Memory[x.pos] = Convert.ToInt64(x.val); 
-            return this; 
-        }
-
         // Outward input method; takes any amount of ints
         public NewIntcodeComputer<T> WriteInput(params T[] input) {
             foreach(T i in input) Input.Enqueue(Convert.ToInt64(i)); 
+            return this; 
+        }
+
+        public NewIntcodeComputer<T> SetMemory(int pos, T val) {
+            Memory[pos] = Convert.ToInt64(val); 
+            return this; 
+        }
+
+        public NewIntcodeComputer<T> SetMemory(params (int, T)[] values) {
+            foreach((int pos, T val) x in values) SetMemory(x.pos, x.val); 
             return this; 
         }
 
