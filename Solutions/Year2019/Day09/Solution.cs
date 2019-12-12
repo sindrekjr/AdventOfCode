@@ -2,10 +2,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day09 : ASolution {
 
-        IntcodeComputer<int> Machine; 
+        IntcodeComputer Machine; 
 
         public Day09() : base(9, 2019, "Sensor Boost") {
-            Machine = new IntcodeComputer<int>(Input.ToIntArray(","));
+            Machine = new IntcodeComputer(Input.ToIntArray(","));
         }
 
         protected override string SolvePartOne() => Machine.Initialize(1030).WriteInput(1).Run().Output.Dequeue().ToString();

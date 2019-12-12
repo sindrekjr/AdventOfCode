@@ -5,10 +5,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day07 : ASolution {
 
-        IntcodeComputer<int> Amplifier; 
+        IntcodeComputer Amplifier; 
 
         public Day07() : base(7, 2019, "Amplification Circuit") {
-            Amplifier = new IntcodeComputer<int>(Input.ToIntArray(","));
+            Amplifier = new IntcodeComputer(Input.ToIntArray(","));
         }
 
         protected override string SolvePartOne() {
@@ -29,8 +29,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 var Amplifiers = new Queue<IntcodeComputer<int>>(); 
                 for(int i = 0; i < 5; i++) {
                     Amplifiers.Enqueue(
-                        new IntcodeComputer<int>(Input.ToIntArray(","))
-                            .WriteInput(signal.ToArray()[i])
+                        new IntcodeComputer(Input.ToIntArray(",")).WriteInput(signal.ToArray()[i])
                     );
                 }
                 
