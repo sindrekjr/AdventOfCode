@@ -10,6 +10,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         int pointer, relative; 
         readonly BigInteger[] intcode; 
 
+        public bool Debug { get; set; }
         public BigInteger[] Memory { get; private set; }
         public Queue<BigInteger> Input { get; private set; }
         public Queue<BigInteger> Output { get; private set; }
@@ -36,7 +37,13 @@ namespace AdventOfCode.Solutions.Year2019 {
             return this; 
         }
 
-        // Outward input method; takes any amount of ints
+        // Main method 
+        public NewIntcodeComputer<T> Run(bool debug = false) {
+            Debug = debug; 
+            while(DoOperation(ParseInstruction((int) Memory[pointer]))); 
+            return this;                 
+        }
+
         public NewIntcodeComputer<T> WriteInput(params T[] input) {
             foreach(T i in input) Input.Enqueue(Convert.ToInt64(i)); 
             return this; 
@@ -52,43 +59,85 @@ namespace AdventOfCode.Solutions.Year2019 {
             return this; 
         }
 
-        // Main method 
-        public NewIntcodeComputer<T> Run() {
-            while(DoOperation(ParseInstruction((int) Memory[pointer]))); 
-            return this;                 
-        }
+        public BigInteger Diagnose() => Output.Last(); 
 
         // Returns true as long as program should continue
         bool DoOperation((Opcode opcode, Mode[] modes) instruction) {
+            if(Debug) {
+                Console.WriteLine("Opcode: " + instruction.opcode + "; Ptr: " + pointer);
+                Console.WriteLine("Modes " + instruction.modes[0] + " " + instruction.modes[1] + " " + instruction.modes[2]);
+                foreach(BigInteger i in Memory) Console.Write(i + ",");
+                Console.ReadLine();
+            }
+            
             int[] pointers; 
             switch(instruction.opcode) {
-                case Opcode.Halt: // Immediately halt
+                // Immediately halt the program
+                case Opcode.Halt: 
                     return false; 
-                
+
+
+                // Store the sum of the first two parameters in the position given by the third parameter
                 case Opcode.Add: 
                     pointers = ParseParams(instruction.modes, 3); 
                     Memory[pointers[2]] = Memory[pointers[0]] + Memory[pointers[1]]; 
                     return true; 
 
+
+                // Store the product of the first two parameters in position given by the third parameter
                 case Opcode.Multiply:
                     pointers = ParseParams(instruction.modes, 3); 
                     Memory[pointers[2]] = Memory[pointers[0]] * Memory[pointers[1]]; 
                     return true; 
 
 
+                // Store the next queued input in the position given by the instruction's only parameter
                 case Opcode.Input:
                     if(Input.Count == 0) {
                         return false; 
                     } else {
-                        Memory[(int) ParseParams(instruction.modes, 1)[0]] = Input.Dequeue(); 
+                        Memory[ParseParams(instruction.modes, 1)[0]] = Input.Dequeue(); 
                         return true; 
                     }
-                
+
+
+                // Output the value of the position given by the instruction's only parameter
                 case Opcode.Output: 
-                    Output.Enqueue(ParseParams(instruction.modes, 1)[0]);
+                    Output.Enqueue(Memory[ParseParams(instruction.modes, 1)[0]]);
                     return true; 
 
-                default: // Something went wrong
+
+                // Jump to the value given by the second parameter if the first parameter does not equal 0
+                case Opcode.JumpIfTrue:
+                    pointers = ParseParams(instruction.modes, 2); 
+                    //Console.WriteLine(pointers[0] + ", " + pointers[1]);
+                    if(Memory[pointers[0]] != 0) pointer = (int) Memory[pointers[1]];
+                    return true; 
+
+
+                // Jump to the value given by the second parameter if the first parameter equals 0
+                case Opcode.JumpIfFalse:
+                    pointers = ParseParams(instruction.modes, 2); 
+                    if(Memory[pointers[0]] == 0) pointer = (int) Memory[pointers[1]];
+                    return true;
+
+
+                // Store 1 (true) or 0 (false) in the position given by the third parameter if the first parameter is less than the second
+                case Opcode.LessThan:
+                    pointers = ParseParams(instruction.modes, 3); 
+                    Memory[pointers[2]] = (Memory[pointers[0]] < Memory[pointers[1]]) ? 1 : 0; 
+                    return true; 
+
+
+                // Store 1 (true) or 0 (false) in the position given by the third parameter if the first two parameters are equal
+                case Opcode.Equals:
+                    pointers = ParseParams(instruction.modes, 3); 
+                    Memory[pointers[2]] = (Memory[pointers[0]] == Memory[pointers[1]]) ? 1 : 0; 
+                    return true; 
+
+
+                // Something went wrong
+                default: 
                     throw new SomethingWentWrongException(); 
             }
         }
@@ -96,23 +145,24 @@ namespace AdventOfCode.Solutions.Year2019 {
         (Opcode opcode, Mode[] modes) ParseInstruction(int instruction) =>
             (
                 (Opcode) (instruction % 100),
-                instruction.ToString("D5").Remove(3).Select<char, Mode>(c => Enum.Parse<Mode>(c.ToString())).ToArray()
+                instruction.ToString("D5").Remove(3).Select<char, Mode>(c => Enum.Parse<Mode>(c.ToString())).ToArray().Reverse().ToArray()
             );
 
-        int[] ParseParams(Mode[] modes, int i) {
-            var result = new int[i]; 
-            for(pointer++, i--; i != -1; --i, ++pointer) {
+        int[] ParseParams(Mode[] modes, int amount) {
+            var result = new int[amount]; 
+            for(int i = 0; i < amount; i++) {
                 result[i] = modes[i] switch {
-                    Mode.Position => (int) Memory[pointer],
-                    Mode.Immediate => pointer,
-                    Mode.Relative => (int) Memory[pointer + relative],
+                    Mode.Position => (int) Memory[++pointer],
+                    Mode.Immediate => ++pointer,
+                    Mode.Relative => (int) Memory[++pointer + relative],
                     _ => throw new SomethingWentWrongException()
                 };
             }
-            return result.Reverse().ToArray(); 
+            pointer++; 
+            return result; 
         }
 
-        enum Opcode { Add = 1, Multiply, Input, Output, JumpTrue, JumpFalse, Lt, Eq, Adjust, Halt = 99 }
+        enum Opcode { Add = 1, Multiply, Input, Output, JumpIfTrue, JumpIfFalse, LessThan, Equals, Adjust, Halt = 99 }
         enum Mode { Position, Immediate, Relative }
     }
 
