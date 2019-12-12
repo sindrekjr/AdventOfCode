@@ -5,10 +5,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day07 : ASolution {
 
-        NewIntcodeComputer<int> Amplifier; 
+        IntcodeComputer<int> Amplifier; 
 
         public Day07() : base(7, 2019, "Amplification Circuit") {
-            Amplifier = new NewIntcodeComputer<int>(Input.ToIntArray(","));
+            Amplifier = new IntcodeComputer<int>(Input.ToIntArray(","));
         }
 
         protected override string SolvePartOne() {
@@ -26,18 +26,20 @@ namespace AdventOfCode.Solutions.Year2019 {
         protected override string SolvePartTwo() {
             int highest = 0;
             foreach(var signal in Enumerable.Range(5, 5).Permutations()) {
-                var Amplifiers = new Queue<NewIntcodeComputer<int>>(); 
-                for(int i = 0; i < 5; i++) Amplifiers.Enqueue(new NewIntcodeComputer<int>(Input.ToIntArray(",")).WriteInput(signal.ToArray()[i]));
+                var Amplifiers = new Queue<IntcodeComputer<int>>(); 
+                for(int i = 0; i < 5; i++) {
+                    Amplifiers.Enqueue(
+                        new IntcodeComputer<int>(Input.ToIntArray(","))
+                            .WriteInput(signal.ToArray()[i])
+                    );
+                }
                 
                 int output = 0;
-                int terminations = 0; 
                 while(Amplifiers.Count > 0) {
                     var Amp = Amplifiers.Dequeue(); 
                     Amp.Input.Enqueue(output);
                     if(Amp.Run().Paused) {
                         Amplifiers.Enqueue(Amp); 
-                    } else {
-                        terminations++; 
                     }
                     output = (int) Amp.Output.Dequeue();
                 }
