@@ -5,6 +5,12 @@ using System.Numerics;
 
 namespace AdventOfCode.Solutions.Year2019 {
 
+    class IntcodeComputer : IntcodeComputer<int> {
+        public IntcodeComputer(int[] input) : base(input) {
+
+        }
+    }
+
     class IntcodeComputer<T> where T : IComparable<T> {
 
         int pointer, relative; 

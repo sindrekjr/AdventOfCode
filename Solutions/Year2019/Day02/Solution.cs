@@ -2,10 +2,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day02 : ASolution {
 
-        IntcodeComputer<int> Machine;
+        IntcodeComputer Machine;
 
         public Day02() : base(2, 2019, "1202 Program Alarm") {
-            Machine = new IntcodeComputer<int>(Input.ToIntArray(","));
+            Machine = new IntcodeComputer(Input.ToIntArray(","));
         }
 
         protected override string SolvePartOne() => Machine.Initialize().SetMemory(1, 12).SetMemory(2, 02).Run().Memory[0].ToString();
