@@ -18,18 +18,13 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         // Constructor
         public IntcodeComputer(T[] input) {
-            var list = new List<BigInteger>();
-            foreach(T i in input) {
-                list.Add(Convert.ToInt64(i));
-            }
-            this.intcode = list.ToArray(); 
-            
+            this.intcode = input.Select(n => (BigInteger) Convert.ToInt64(n)).ToArray();            
             Initialize(); 
         }
 
         // Field initializer
-        public IntcodeComputer<T> Initialize() {
-            Memory = new BigInteger[intcode.Length];
+        public IntcodeComputer<T> Initialize(int? size = null) {
+            Memory = new BigInteger[size ?? intcode.Length];
             Array.Copy(intcode, Memory, intcode.Length); 
             Input = new Queue<BigInteger>(); 
             Output = new Queue<BigInteger>(); 
