@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace AdventOfCode.Solutions.Year2019 {
 
-    class NewIntcodeComputer<T> where T : IComparable<T> {
+    class IntcodeComputer<T> where T : IComparable<T> {
 
         int pointer, relative; 
         readonly BigInteger[] intcode; 
@@ -17,7 +17,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         public Queue<BigInteger> Output { get; private set; }
 
         // Constructor
-        public NewIntcodeComputer(T[] input) {
+        public IntcodeComputer(T[] input) {
             var list = new List<BigInteger>();
             foreach(T i in input) {
                 list.Add(Convert.ToInt64(i));
@@ -28,7 +28,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         // Field initializer
-        public NewIntcodeComputer<T> Initialize() {
+        public IntcodeComputer<T> Initialize() {
             Memory = new BigInteger[intcode.Length];
             Array.Copy(intcode, Memory, intcode.Length); 
             Input = new Queue<BigInteger>(); 
@@ -39,24 +39,24 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         // Main method 
-        public NewIntcodeComputer<T> Run(bool debug = false) {
+        public IntcodeComputer<T> Run(bool debug = false) {
             Debug = debug; 
             Paused = false; 
             while(DoOperation(ParseInstruction((int) Memory[pointer]))); 
             return this;                 
         }
 
-        public NewIntcodeComputer<T> WriteInput(params T[] input) {
+        public IntcodeComputer<T> WriteInput(params T[] input) {
             foreach(T i in input) Input.Enqueue(Convert.ToInt64(i)); 
             return this; 
         }
 
-        public NewIntcodeComputer<T> SetMemory(int pos, T val) {
+        public IntcodeComputer<T> SetMemory(int pos, T val) {
             Memory[pos] = Convert.ToInt64(val); 
             return this; 
         }
 
-        public NewIntcodeComputer<T> SetMemory(params (int, T)[] values) {
+        public IntcodeComputer<T> SetMemory(params (int, T)[] values) {
             foreach((int pos, T val) x in values) SetMemory(x.pos, x.val); 
             return this; 
         }
@@ -171,154 +171,6 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         enum Opcode { Add = 1, Multiply, Input, Output, JumpIfTrue, JumpIfFalse, LessThan, Equals, Adjust, Halt = 99 }
-        enum Mode { Position, Immediate, Relative }
-    }
-
-    class IntcodeComputer<T> where T : IComparable<T> {
-
-        readonly T[] intcode; 
-        bool initialized = false; 
-        
-        public T[] Memory { get; private set; }
-        public bool Paused { get; private set; }
-        public Queue<T> Input { get; private set; }
-        public Queue<T> Output { get; private set; }
-
-        public IntcodeComputer(T[] intcode) {
-            this.intcode = intcode;
-        }
-
-        public IntcodeComputer<T> Initialize(int? noun = null, int? verb = null) {
-            Memory = new T[intcode.Length];
-            intcode.CopyTo(Memory, 0);
-            if(noun != null) Memory[1] = (T)(object)noun.Value; 
-            if(verb != null) Memory[2] = (T)(object)verb.Value; 
-            Input = new Queue<T>(); 
-            Output = new Queue<T>(); 
-            initialized = true; 
-            return this; 
-        } 
-
-        public IntcodeComputer<T> InputSequence(params T[] inp) {
-            Initialize(); 
-            foreach(T i in inp) Input.Enqueue(i); 
-            return this; 
-        }
-
-        public IntcodeComputer<T> Run(int? inp = null) {
-            if(inp != null) InputSequence((T)(dynamic)inp.Value); 
-            if(!initialized) Initialize(); 
-            Paused = false; 
-            int i = 0; 
-            int rel = 0; 
-            while(true) {
-                (Mode[] modes, Opcode opcode) = ParseInstruction((int)(dynamic)Memory[i]); 
-                if(opcode == Opcode.Halt) {
-                    return this; 
-                } else if(opcode == Opcode.Input) {
-                    if(Input.Count > 0) {
-                        Memory[modes[0] switch {
-                            Mode.Position => (dynamic)Memory[++i],
-                            Mode.Immediate => ++i,
-                            Mode.Relative => (dynamic)Memory[++i + rel],
-                            _ => throw new SomethingWentWrongException()
-                        }] = Input.Dequeue(); 
-                    } else {
-                        Paused = true; 
-                        return this; 
-                    }
-                } else if(opcode == Opcode.Output) {
-                    Output.Enqueue(modes[0] switch {
-                        Mode.Position => Memory[(dynamic)Memory[++i]],
-                        Mode.Immediate => Memory[++i],
-                        Mode.Relative => Memory[(dynamic)Memory[++i + rel]],
-                        _ => throw new SomethingWentWrongException()
-                    });
-                } else if(opcode == Opcode.Adjust) {
-                    rel += modes[0] switch {
-                        Mode.Position => (dynamic)Memory[(dynamic)Memory[++i]],
-                        Mode.Immediate => (dynamic)Memory[++i],
-                        Mode.Relative => (dynamic)Memory[(dynamic)Memory[++i + rel]],
-                        _ => throw new SomethingWentWrongException()
-                    };
-                } else {
-                    dynamic val1 = modes[0] switch {
-                        Mode.Position => Memory[(dynamic)Memory[++i]],
-                        Mode.Immediate => Memory[++i],
-                        Mode.Relative => Memory[(dynamic)Memory[++i + rel]],
-                        _ => throw new SomethingWentWrongException()
-                    };
-                    dynamic val2 = modes[1] switch {
-                        Mode.Position => Memory[(dynamic)Memory[++i]],
-                        Mode.Immediate => Memory[++i],
-                        Mode.Relative => Memory[(dynamic)Memory[++i + rel]],
-                        _ => throw new SomethingWentWrongException()
-                    };
-                    switch(opcode) {
-                        case Opcode.Add: 
-                            Memory[modes[2] switch {
-                                Mode.Position => (dynamic)Memory[++i],
-                                Mode.Immediate => ++i,
-                                Mode.Relative => (dynamic)Memory[++i + rel],
-                                _ => throw new SomethingWentWrongException()
-                            }] = val1 + val2; 
-                            break; 
-                        case Opcode.Multiply: 
-                            Memory[modes[2] switch {
-                                Mode.Position => (dynamic)Memory[++i],
-                                Mode.Immediate => ++i,
-                                Mode.Relative => (dynamic)Memory[++i + rel],
-                                _ => throw new SomethingWentWrongException()
-                            }] = val1 * val2; 
-                            break;
-                        case Opcode.JumpTrue:
-                            if(val1 != 0) {
-                                i = val2; 
-                                continue; 
-                            }
-                            break; 
-                        case Opcode.JumpFalse:
-                            if(val1 == 0) {
-                                i = val2; 
-                                continue; 
-                            }
-                            break; 
-                        case Opcode.Lt:
-                            Memory[modes[2] switch {
-                                Mode.Position => (dynamic)Memory[++i],
-                                Mode.Immediate => ++i,
-                                Mode.Relative => (dynamic)Memory[++i + rel],
-                                _ => throw new SomethingWentWrongException()
-                            }] = (dynamic) ((val1 < val2) ? 1 : 0); 
-                            break; 
-                        case Opcode.Eq:
-                            Memory[modes[2] switch {
-                                Mode.Position => (dynamic)Memory[++i],
-                                Mode.Immediate => ++i,
-                                Mode.Relative => (dynamic)Memory[++i + rel],
-                                _ => throw new SomethingWentWrongException()
-                            }] = (dynamic) ((val1 == val2) ? 1 : 0); 
-                            break; 
-                        default: 
-                            throw new SomethingWentWrongException();
-                    }
-                }
-                i++; 
-            }
-        }
-
-        public T Diagnose() => Output.Last(); 
-
-        (Mode[] modes, Opcode opcode) ParseInstruction(int instruction) {
-            return (
-                instruction.ToString("D5").Remove(3).Reverse()
-                    .Select<char, Mode>(c => Enum.Parse<Mode>(c.ToString()))
-                    .ToArray(),
-                (Opcode) (instruction % 100)
-            );
-        }
-
-        enum Opcode { Add = 1, Multiply, Input, Output, JumpTrue, JumpFalse, Lt, Eq, Adjust, Halt = 99 }
         enum Mode { Position, Immediate, Relative }
     }
 
