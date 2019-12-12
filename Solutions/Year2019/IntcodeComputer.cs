@@ -137,6 +137,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                     return true; 
 
 
+                // Adjust the value of the relative base by the instruction's only parameter
                 case Opcode.Adjust: 
                     relative += (int) Memory[ParseParams(instruction.modes, 1)[0]]; 
                     return true; 

@@ -25,20 +25,6 @@ namespace AdventOfCode.Solutions {
             }
         }
 
-        public static long[] ToLongArray(this string str, string delimiter = "") {
-            if(delimiter == "") {
-                var result = new List<long>(); 
-                foreach(char c in str) if(long.TryParse(c.ToString(), out long n)) result.Add(n); 
-                return result.ToArray(); 
-            } else {
-                return str
-                    .Split(delimiter)
-                    .Where(n => long.TryParse(n, out long v))
-                    .Select(n => Convert.ToInt64(n))
-                    .ToArray();
-            }
-        }
-
         public static int MinOfMany(params int[] items) {
             var result = items[0];
             for (int i = 1; i < items.Length; i++) {
