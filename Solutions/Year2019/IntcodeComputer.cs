@@ -11,6 +11,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         readonly BigInteger[] intcode; 
 
         public bool Debug { get; set; }
+        public bool Paused { get; private set; }
         public BigInteger[] Memory { get; private set; }
         public Queue<BigInteger> Input { get; private set; }
         public Queue<BigInteger> Output { get; private set; }
@@ -40,6 +41,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         // Main method 
         public NewIntcodeComputer<T> Run(bool debug = false) {
             Debug = debug; 
+            Paused = false; 
             while(DoOperation(ParseInstruction((int) Memory[pointer]))); 
             return this;                 
         }
@@ -94,6 +96,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 // Store the next queued input in the position given by the instruction's only parameter
                 case Opcode.Input:
                     if(Input.Count == 0) {
+                        Paused = true; 
                         return false; 
                     } else {
                         Memory[ParseParams(instruction.modes, 1)[0]] = Input.Dequeue(); 
@@ -133,6 +136,11 @@ namespace AdventOfCode.Solutions.Year2019 {
                 case Opcode.Equals:
                     pointers = ParseParams(instruction.modes, 3); 
                     Memory[pointers[2]] = (Memory[pointers[0]] == Memory[pointers[1]]) ? 1 : 0; 
+                    return true; 
+
+
+                case Opcode.Adjust: 
+                    relative += (int) Memory[ParseParams(instruction.modes, 1)[0]]; 
                     return true; 
 
 
