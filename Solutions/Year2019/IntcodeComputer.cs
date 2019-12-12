@@ -66,9 +66,12 @@ namespace AdventOfCode.Solutions.Year2019 {
         // Returns true as long as program should continue
         bool DoOperation((Opcode opcode, Mode[] modes) instruction) {
             if(Debug) {
-                Console.WriteLine("Opcode: " + instruction.opcode + "; Ptr: " + pointer);
-                Console.WriteLine("Modes " + instruction.modes[0] + " " + instruction.modes[1] + " " + instruction.modes[2]);
+                Console.WriteLine(); 
+                Console.WriteLine($"Opcode: {instruction.opcode }; Ptr: {pointer}; Rel: {relative}");
+                Console.WriteLine($"Modes: {instruction.modes[0]}, {instruction.modes[1]}, {instruction.modes[2]}");
                 foreach(BigInteger i in Memory) Console.Write(i + ",");
+                
+                Console.Write("\n>> ");
                 Console.ReadLine();
             }
             
@@ -162,7 +165,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 result[i] = modes[i] switch {
                     Mode.Position => (int) Memory[++pointer],
                     Mode.Immediate => ++pointer,
-                    Mode.Relative => (int) Memory[++pointer + relative],
+                    Mode.Relative => (int) Memory[++pointer] + relative,
                     _ => throw new SomethingWentWrongException()
                 };
             }
