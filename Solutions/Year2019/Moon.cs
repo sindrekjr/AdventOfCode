@@ -1,18 +1,23 @@
 using System; 
+using System.Collections.Generic; 
 using System.Text.RegularExpressions; 
 
 namespace AdventOfCode.Solutions.Year2019 {
 
     class Moon {
 
+        HashSet<((int x, int y, int z), (int x, int y, int z))> History; 
+
         public string Name { get; private set; }
+        public bool OhMyGodIHaveBeenHereBefore { get; private set; } 
         public (int x, int y, int z) Position { get; private set; }
         public (int x, int y, int z) Velocity { get; private set; }
 
         public Moon(string name, string position) {
-            this.Name = name; 
-            this.Position = ParsePosition(position); 
-            this.Velocity = (0, 0, 0); 
+            Name = name; 
+            Position = ParsePosition(position); 
+            Velocity = (0, 0, 0); 
+            History = new HashSet<((int x, int y, int z), (int x, int y, int z))>(){(Position, Velocity)}; 
         }
 
         public void UpdateVelocity((int x, int y, int z) gravity) {
@@ -29,6 +34,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 Position.y + Velocity.y, 
                 Position.z + Velocity.z
             ); 
+            OhMyGodIHaveBeenHereBefore = !History.Add((Position, Velocity));
         }
 
         public int GetPotentialEnergy() => Math.Abs(Position.x) + Math.Abs(Position.y) + Math.Abs(Position.z);

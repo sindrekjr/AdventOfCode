@@ -5,11 +5,16 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Day12 : ASolution {
 
-        List<Moon> Moons = new List<Moon>(); 
-        HashSet<(Moon a, Moon b)> Pairs; 
+        List<Moon> Moons; 
+        HashSet<(Moon, Moon)> Pairs;
 
         public Day12() : base(12, 2019, "The N-Body Problem") {
+            Initialize(); 
+        }
+
+        void Initialize() {
             var names = new Stack<string>(new string[]{"Callisto", "Ganymede", "Europa", "Io"}); 
+            Moons = new List<Moon>();
             foreach(string position in Input.SplitByNewline()) {
                 Moons.Add(new Moon(names.Pop(), position)); 
             }
@@ -19,11 +24,12 @@ namespace AdventOfCode.Solutions.Year2019 {
         protected override string SolvePartOne() => TimeStep(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
 
         protected override string SolvePartTwo() {
+            Initialize(); 
             return null;
         }
 
         List<Moon> TimeStep(int steps = 1) {
-            while(steps-- > 0) {
+            for(int i = 1; i <= steps; i++) {
                 foreach((Moon, Moon) p in Pairs) {
                     Moon A = p.Item1; 
                     Moon B = p.Item2; 
@@ -63,8 +69,8 @@ namespace AdventOfCode.Solutions.Year2019 {
             return Moons; 
         }
 
-        HashSet<(Moon a, Moon b)> FindPairs() {
-            var pairs = new HashSet<(Moon a, Moon b)>(); 
+        HashSet<(Moon, Moon)> FindPairs() {
+            var pairs = new HashSet<(Moon, Moon)>(); 
             for(int i = 0; i < Moons.Count; i++) {
                 for(int j = i + 1; j < Moons.Count; j++) {
                     pairs.Add((Moons[i], Moons[j])); 
