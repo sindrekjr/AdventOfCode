@@ -15,4 +15,4 @@ Solutions in C#.
 | [10: Monitoring Station](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day10/Solution.cs) | 1+2 |
 | [11: Space Police](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day11/Solution.cs) | 1 |
 | [~~12:~~](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day12/Solution.cs) | |
-| [13: Care Package](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day13/Solution.cs) | 1 |
+| [13: Care Package](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day13/Solution.cs) | 1+2 |
