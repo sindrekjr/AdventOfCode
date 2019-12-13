@@ -17,7 +17,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         public Moon(string name, string position) {
             Name = name; 
             Position = ParsePosition(position); 
-            Velocity = new Vector3(0, 0, 0); 
+            Velocity = Vector3.Zero; 
             History = new HashSet<(Vector3, Vector3)>(){(Position, Velocity)}; 
         }
 
