@@ -47,7 +47,5 @@ namespace AdventOfCode.Solutions.Year2019 {
         int FindPaddle() => Grid.First(x => x.Value == 3).Key.x; 
 
         int FindBall() => Grid.First(x => x.Value == 4).Key.x; 
-
-        public enum Joystick { Left = -1, Neutral = 0, Right = 1 }
     }
 }
