@@ -14,14 +14,14 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         public Dictionary<(int, int), int> Run(int start = 0) {
-            Computer.Initialize(1200); 
+            Computer.Initialize(30000); 
 
             (int x, int y) position = (0,0); 
             var Map = new Dictionary<(int x, int y), int>(); 
 
             Map.Add(position, start); 
             do {
-                Computer.WriteInput(Map.ContainsKey(position) ? Map[position] : start).Run(); 
+                Computer.WriteInput(Map.ContainsKey(position) ? Map[position] : 0).Run(); 
                 Map[position] = (int) Computer.Output.Dequeue();
 
                 if(Computer.Output.Dequeue() == 0) {
