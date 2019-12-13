@@ -151,7 +151,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
                 // Something went wrong
                 default: 
-                    throw new SomethingWentWrongException(); 
+                    string error = $"\nOpcode: {instruction.opcode }; Ptr: {pointer}; Rel: {relative}\n";
+                    error += $"Modes: {instruction.modes[0]}, {instruction.modes[1]}, {instruction.modes[2]}\n";
+                    foreach(BigInteger i in Memory) error += i + ",";
+                    throw new SomethingWentWrongException(error); 
             }
         }
 
@@ -181,5 +184,7 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class SomethingWentWrongException : Exception {
 
+        public SomethingWentWrongException() {}
+        public SomethingWentWrongException(string message) : base(message) {}
     }
 }
