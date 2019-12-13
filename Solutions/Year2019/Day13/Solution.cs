@@ -8,10 +8,7 @@ namespace AdventOfCode.Solutions.Year2019 {
             Arcade = new Arcade(new IntcodeComputer(Input.ToIntArray(","))); 
         }
 
-        protected override string SolvePartOne() => Arcade.Run().GetTileAmount(2).ToString();
-
-        protected override string SolvePartTwo() {
-            return null;
-        }
+        protected override string SolvePartOne() => Arcade.Initialize().Run().GetTileAmount(2).ToString();
+        protected override string SolvePartTwo() => Arcade.Initialize().Run(2).Score.ToString();
     }
 }
