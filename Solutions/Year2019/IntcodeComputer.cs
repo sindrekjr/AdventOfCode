@@ -70,7 +70,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                 Console.WriteLine(); 
                 Console.WriteLine($"Opcode: {instruction.opcode }; Ptr: {pointer}; Rel: {relative}");
                 Console.WriteLine($"Modes: {instruction.modes[0]}, {instruction.modes[1]}, {instruction.modes[2]}");
-                foreach(BigInteger i in Memory) Console.Write(i + ",");
+                for(int i = 0; i < intcode.Length; i++) Console.Write(Memory[i] + ",");
                 
                 Console.Write("\n>> ");
                 Console.ReadLine();
@@ -153,7 +153,6 @@ namespace AdventOfCode.Solutions.Year2019 {
                 default: 
                     string error = $"\nOpcode: {instruction.opcode }; Ptr: {pointer}; Rel: {relative}\n";
                     error += $"Modes: {instruction.modes[0]}, {instruction.modes[1]}, {instruction.modes[2]}\n";
-                    foreach(BigInteger i in Memory) error += i + ",";
                     throw new SomethingWentWrongException(error); 
             }
         }

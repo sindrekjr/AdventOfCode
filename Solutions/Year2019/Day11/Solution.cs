@@ -11,7 +11,7 @@ namespace AdventOfCode.Solutions.Year2019 {
         protected override string SolvePartOne() => Robot.Run().Count.ToString();
 
         protected override string SolvePartTwo() {
-            var Map = Robot.Run(1); 
+            var Map = Robot.Initialize().Run(1); 
             return null;
         }
     }

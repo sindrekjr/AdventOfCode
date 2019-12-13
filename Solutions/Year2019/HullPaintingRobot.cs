@@ -10,7 +10,12 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         public HullPaintingRobot(IntcodeComputer comp) {
             Computer = comp; 
-            Facing = Direction.Up; 
+            Initialize(); 
+        }
+
+        public HullPaintingRobot Initialize() {
+            Facing = Direction.Up;
+            return this; 
         }
 
         public Dictionary<(int, int), int> Run(int start = 0) {
