@@ -1,5 +1,4 @@
 using System; 
-using System.Linq; 
 using System.Text.RegularExpressions; 
 
 namespace AdventOfCode.Solutions.Year2019 {
@@ -36,11 +35,11 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         public int GetKineticEnergy() => Math.Abs(Velocity.x) + Math.Abs(Velocity.y) + Math.Abs(Velocity.z);
 
-        public override string ToString() => $"pos=<x={Position.x}, y={Position.y}, z={Position.z}>, vel=<x={Velocity.x}, y={Velocity.y}, z={Velocity.z}>"; 
-
         (int, int, int) ParsePosition(string position) {
             var values = new Regex("(-?[0-9]+)").Matches(position); 
             return (int.Parse(values[0].Value), int.Parse(values[1].Value), int.Parse(values[2].Value)); 
         }
+
+        public override string ToString() => $"pos=<x={Position.x}, y={Position.y}, z={Position.z}>, vel=<x={Velocity.x}, y={Velocity.y}, z={Velocity.z}>"; 
     }
 }
