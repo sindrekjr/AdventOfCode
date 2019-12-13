@@ -36,26 +36,26 @@ namespace AdventOfCode.Solutions.Year2019 {
                     (int x, int y, int z) velA = (0, 0, 0); 
                     (int x, int y, int z) velB = (0, 0, 0); 
                     
-                    if(A.Position.x > B.Position.x) {
+                    if(A.Position.X > B.Position.X) {
                         velA.x--; 
                         velB.x++; 
-                    } else if(A.Position.x < B.Position.x) {
+                    } else if(A.Position.X < B.Position.X) {
                         velA.x++; 
                         velB.x--; 
                     }
 
-                    if(A.Position.y > B.Position.y) {
+                    if(A.Position.Y > B.Position.Y) {
                         velA.y--; 
                         velB.y++; 
-                    } else if(A.Position.y < B.Position.y) {
+                    } else if(A.Position.Y < B.Position.Y) {
                         velA.y++; 
                         velB.y--; 
                     }
 
-                    if(A.Position.z > B.Position.z) {
+                    if(A.Position.Z > B.Position.Z) {
                         velA.z--; 
                         velB.z++; 
-                    } else if(A.Position.z < B.Position.z) {
+                    } else if(A.Position.Z < B.Position.Z) {
                         velA.z++; 
                         velB.z--; 
                     }
