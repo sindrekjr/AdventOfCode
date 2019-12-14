@@ -1,5 +1,8 @@
+using System; 
 using System.Linq; 
 using System.Collections.Generic; 
+using System.Numerics; 
+using static AdventOfCode.Solutions.Utilities; 
 
 namespace AdventOfCode.Solutions.Year2019 {
 
@@ -24,49 +27,73 @@ namespace AdventOfCode.Solutions.Year2019 {
         protected override string SolvePartOne() => TimeStep(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
 
         protected override string SolvePartTwo() {
-            Initialize(); 
-            return null;
+            return null; 
+            //return FindFirstRepetitionOfSpaceHistory().ToString();
         }
 
-        List<Moon> TimeStep(int steps = 1) {
-            for(int i = 1; i <= steps; i++) {
+        List<Moon> TimeStep(double steps = 1) {
+            for(double i = 1; i <= steps; i++) {
                 foreach((Moon, Moon) p in Pairs) {
                     Moon A = p.Item1; 
                     Moon B = p.Item2; 
-                    (int x, int y, int z) velA = (0, 0, 0); 
-                    (int x, int y, int z) velB = (0, 0, 0); 
+                    var VelocityVectorA = new Vector3(0, 0, 0); 
+                    var VelcoityVectorB = new Vector3(0, 0, 0); 
                     
                     if(A.Position.X > B.Position.X) {
-                        velA.x--; 
-                        velB.x++; 
+                        VelocityVectorA.X--; 
+                        VelcoityVectorB.X++; 
                     } else if(A.Position.X < B.Position.X) {
-                        velA.x++; 
-                        velB.x--; 
+                        VelocityVectorA.X++; 
+                        VelcoityVectorB.X--; 
                     }
 
                     if(A.Position.Y > B.Position.Y) {
-                        velA.y--; 
-                        velB.y++; 
+                        VelocityVectorA.Y--; 
+                        VelcoityVectorB.Y++; 
                     } else if(A.Position.Y < B.Position.Y) {
-                        velA.y++; 
-                        velB.y--; 
+                        VelocityVectorA.Y++; 
+                        VelcoityVectorB.Y--; 
                     }
 
                     if(A.Position.Z > B.Position.Z) {
-                        velA.z--; 
-                        velB.z++; 
+                        VelocityVectorA.Z--; 
+                        VelcoityVectorB.Z++; 
                     } else if(A.Position.Z < B.Position.Z) {
-                        velA.z++; 
-                        velB.z--; 
+                        VelocityVectorA.Z++; 
+                        VelcoityVectorB.Z--; 
                     }
 
-                    A.UpdateVelocity(velA); 
-                    B.UpdateVelocity(velB); 
+                    A.UpdateVelocity(VelocityVectorA); 
+                    B.UpdateVelocity(VelcoityVectorB); 
                 }
-
                 foreach(Moon M in Moons) M.ApplyVelocity();
             } 
             return Moons; 
+        }
+
+        double FindFirstRepetitionOfSpaceHistory() {
+            (double x, double y, double z) = (0, 0, 0); 
+            for(int i = 0; i < 3; i++) {
+                Initialize(); 
+
+                for(double j = 0; j < double.MaxValue; j++) {
+                    TimeStep(); 
+
+                    bool match = true; 
+                    for(int k = 0; k < Moons.Count; k++) match &= Moons[k].Velocity == Vector3.Zero; 
+                    if(match) {
+                        if(i == 0) {
+                            x = j + 1; 
+                        } else if(i == 1) {
+                            y = j + 1; 
+                        } else if(i == 2) {
+                            z = j + 1; 
+                        }
+                        break; 
+                    }
+                }
+            }
+            return FindLCM(x, FindLCM(y, z)) * 2; 
         }
 
         HashSet<(Moon, Moon)> FindPairs() {
