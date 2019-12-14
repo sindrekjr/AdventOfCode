@@ -1,4 +1,3 @@
-using System; 
 using System.Linq; 
 using System.Collections.Generic; 
 
@@ -6,13 +5,20 @@ namespace AdventOfCode.Solutions.Year2019 {
 
     class Nanofactory {
 
+        long Ore; 
+        Dictionary<string, int> Surplus; 
+
         public Dictionary<string, Reaction> Reactions; 
-        public Dictionary<string, int> Surplus; 
 
         public Nanofactory(string[] reactions) {
             Reactions = new Dictionary<string, Reaction>(); 
-            Surplus = new Dictionary<string, int>(); 
             foreach(string r in reactions) AddReaction(new Reaction(r)); 
+        }
+
+        public Nanofactory Initialize() {
+            Ore = 0; 
+            Surplus = new Dictionary<string, int>(); 
+            return this; 
         }
 
         public int CountRequiredOre(Reaction R, int amount) {
@@ -25,6 +31,20 @@ namespace AdventOfCode.Solutions.Year2019 {
             Surplus[R.Output] = count - amount; 
 
             return sum; 
+        }
+
+        public long CollectOre(long amount) => Ore += amount; 
+
+        public int ProduceMaxFuel() {
+            int initialCost = CountRequiredOre(Reactions["FUEL"], 1); 
+            int fuel = (int) (Ore / initialCost); 
+
+            foreach(string c in Reactions.Keys) {
+                Surplus[c] *= fuel; 
+            }
+            while(CountRequiredOre(Reactions["FUEL"], 1) == 0) fuel++; 
+
+            return fuel;
         }
         
         void AddReaction(Reaction R) => Reactions[R.Output] = R; 

@@ -1,5 +1,3 @@
-using System.Collections.Generic; 
-
 namespace AdventOfCode.Solutions.Year2019 {
 
     class Day14 : ASolution {
@@ -10,10 +8,11 @@ namespace AdventOfCode.Solutions.Year2019 {
             Factory = new Nanofactory(Input.SplitByNewline()); 
         }
 
-        protected override string SolvePartOne() => Factory.CountRequiredOre(Factory.Reactions["FUEL"], 1).ToString(); 
+        protected override string SolvePartOne() => Factory.Initialize().CountRequiredOre(Factory.Reactions["FUEL"], 1).ToString(); 
 
         protected override string SolvePartTwo() {
-            return null;
+            Factory.Initialize().CollectOre(1000000000000);
+            return Factory.ProduceMaxFuel().ToString();
         }
     }
 }
