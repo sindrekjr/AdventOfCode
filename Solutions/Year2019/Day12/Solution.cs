@@ -24,21 +24,25 @@ namespace AdventOfCode.Solutions.Year2019 {
             Pairs = FindPairs(); 
         }
 
-        protected override string SolvePartOne() => TimeStep(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
+        protected override string SolvePartOne() => TimeSteps(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
 
-        protected override string SolvePartTwo() {
-            return null; 
-            //return FindFirstRepetitionOfSpaceHistory().ToString();
+        protected override string SolvePartTwo() => FindFirstRepetitionOfSpaceHistory().ToString();
+
+        List<Moon> TimeSteps(double steps) {
+            for(int i = 0; i < steps; i++) {
+                TimeStep(); 
+            }
+            return Moons; 
         }
 
-        List<Moon> TimeStep(double steps = 1) {
-            for(double i = 1; i <= steps; i++) {
-                foreach((Moon, Moon) p in Pairs) {
-                    Moon A = p.Item1; 
-                    Moon B = p.Item2; 
-                    var GravityVectorA = new Vector3(0, 0, 0); 
-                    var GravityVectorB = new Vector3(0, 0, 0); 
-                    
+        List<Moon> TimeStep(int a = 3) {
+            foreach((Moon, Moon) p in Pairs) {
+                Moon A = p.Item1; 
+                Moon B = p.Item2; 
+                var GravityVectorA = new Vector3(0, 0, 0); 
+                var GravityVectorB = new Vector3(0, 0, 0); 
+                
+                if(a == 0 || a == 3) {
                     if(A.Position.X > B.Position.X) {
                         GravityVectorA.X--; 
                         GravityVectorB.X++; 
@@ -46,7 +50,9 @@ namespace AdventOfCode.Solutions.Year2019 {
                         GravityVectorA.X++; 
                         GravityVectorB.X--; 
                     }
+                }
 
+                if(a == 1 || a == 3) {
                     if(A.Position.Y > B.Position.Y) {
                         GravityVectorA.Y--; 
                         GravityVectorB.Y++; 
@@ -54,7 +60,9 @@ namespace AdventOfCode.Solutions.Year2019 {
                         GravityVectorA.Y++; 
                         GravityVectorB.Y--; 
                     }
+                }
 
+                if(a == 2 || a == 3) {
                     if(A.Position.Z > B.Position.Z) {
                         GravityVectorA.Z--; 
                         GravityVectorB.Z++; 
@@ -62,12 +70,12 @@ namespace AdventOfCode.Solutions.Year2019 {
                         GravityVectorA.Z++; 
                         GravityVectorB.Z--; 
                     }
-
-                    A.UpdateVelocity(GravityVectorA); 
-                    B.UpdateVelocity(GravityVectorB); 
                 }
-                foreach(Moon M in Moons) M.ApplyVelocity();
-            } 
+
+                A.UpdateVelocity(GravityVectorA); 
+                B.UpdateVelocity(GravityVectorB); 
+            }
+            foreach(Moon M in Moons) M.ApplyVelocity();
             return Moons; 
         }
 
@@ -75,13 +83,11 @@ namespace AdventOfCode.Solutions.Year2019 {
             (double x, double y, double z) = (0, 0, 0); 
             for(int i = 0; i < 3; i++) {
                 Initialize(); 
-
+                
                 for(double j = 0; j < double.MaxValue; j++) {
-                    TimeStep(); 
+                    TimeStep(i); 
 
-                    bool match = true; 
-                    for(int k = 0; k < Moons.Count; k++) match &= Moons[k].Velocity == Vector3.Zero; 
-                    if(match) {
+                    if(!Moons.Select(M => M.Velocity == Vector3.Zero).Contains(false)) {
                         if(i == 0) {
                             x = j + 1; 
                         } else if(i == 1) {
