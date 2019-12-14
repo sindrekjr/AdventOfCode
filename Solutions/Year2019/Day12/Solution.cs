@@ -36,35 +36,35 @@ namespace AdventOfCode.Solutions.Year2019 {
                 foreach((Moon, Moon) p in Pairs) {
                     Moon A = p.Item1; 
                     Moon B = p.Item2; 
-                    var VelocityVectorA = new Vector3(0, 0, 0); 
-                    var VelcoityVectorB = new Vector3(0, 0, 0); 
+                    var GravityVectorA = new Vector3(0, 0, 0); 
+                    var GravityVectorB = new Vector3(0, 0, 0); 
                     
                     if(A.Position.X > B.Position.X) {
-                        VelocityVectorA.X--; 
-                        VelcoityVectorB.X++; 
+                        GravityVectorA.X--; 
+                        GravityVectorB.X++; 
                     } else if(A.Position.X < B.Position.X) {
-                        VelocityVectorA.X++; 
-                        VelcoityVectorB.X--; 
+                        GravityVectorA.X++; 
+                        GravityVectorB.X--; 
                     }
 
                     if(A.Position.Y > B.Position.Y) {
-                        VelocityVectorA.Y--; 
-                        VelcoityVectorB.Y++; 
+                        GravityVectorA.Y--; 
+                        GravityVectorB.Y++; 
                     } else if(A.Position.Y < B.Position.Y) {
-                        VelocityVectorA.Y++; 
-                        VelcoityVectorB.Y--; 
+                        GravityVectorA.Y++; 
+                        GravityVectorB.Y--; 
                     }
 
                     if(A.Position.Z > B.Position.Z) {
-                        VelocityVectorA.Z--; 
-                        VelcoityVectorB.Z++; 
+                        GravityVectorA.Z--; 
+                        GravityVectorB.Z++; 
                     } else if(A.Position.Z < B.Position.Z) {
-                        VelocityVectorA.Z++; 
-                        VelcoityVectorB.Z--; 
+                        GravityVectorA.Z++; 
+                        GravityVectorB.Z--; 
                     }
 
-                    A.UpdateVelocity(VelocityVectorA); 
-                    B.UpdateVelocity(VelcoityVectorB); 
+                    A.UpdateVelocity(GravityVectorA); 
+                    B.UpdateVelocity(GravityVectorB); 
                 }
                 foreach(Moon M in Moons) M.ApplyVelocity();
             } 
