@@ -60,7 +60,7 @@ namespace AdventOfCode.Solutions.Year2019 {
                         v = v < 0 ? -1 : v > 0 ? 1 : 0; 
                         h = h < 0 ? -1 : h > 0 ? 1 : 0; 
                     } else {
-                        int GCD = FindGCD(Math.Abs(v), Math.Abs(h)); 
+                        int GCD = (int) FindGCD(Math.Abs(v), Math.Abs(h)); 
                         if(GCD > 1) {
                             v = v / GCD; 
                             h = h / GCD; 
