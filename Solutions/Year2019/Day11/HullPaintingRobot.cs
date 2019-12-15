@@ -2,32 +2,23 @@ using System.Collections.Generic;
 
 namespace AdventOfCode.Solutions.Year2019 {
 
-    class HullPaintingRobot {
-
-        IntcodeComputer Computer; 
+    class HullPaintingRobot : XYRobot {
 
         public Direction Facing { get; private set; }
 
-        public HullPaintingRobot(IntcodeComputer comp) {
-            Computer = comp; 
-            Initialize(); 
-        }
+        public HullPaintingRobot(IntcodeComputer comp) : base(comp) => Initialize(); 
 
         public HullPaintingRobot Initialize() {
+            InitializeComputer(30000); 
             Facing = Direction.Up;
             return this; 
         }
 
         public Dictionary<(int, int), int> Run(int start = 0) {
-            Computer.Initialize(30000); 
-
-            (int x, int y) position = (0,0); 
-            var Map = new Dictionary<(int x, int y), int>(); 
-
-            Map.Add(position, start); 
+            Map.Add(Position, start); 
             do {
-                Computer.WriteInput(Map.ContainsKey(position) ? Map[position] : 0).Run(); 
-                Map[position] = (int) Computer.Output.Dequeue();
+                Computer.WriteInput(Map.ContainsKey(Position) ? Map[Position] : 0).Run(); 
+                Map[Position] = (int) Computer.Output.Dequeue();
 
                 if(Computer.Output.Dequeue() == 0) {
                     if(Facing == Direction.Up) {
@@ -45,20 +36,19 @@ namespace AdventOfCode.Solutions.Year2019 {
 
                 switch(Facing) {
                     case Direction.Up:
-                        position.y++; 
+                        MoveUp(); 
                         break; 
                     case Direction.Right: 
-                        position.x++; 
+                        MoveRight(); 
                         break; 
                     case Direction.Down: 
-                        position.y--; 
+                        MoveDown();  
                         break; 
                     case Direction.Left:
-                        position.x--;
+                        MoveLeft(); 
                         break; 
                 }
             } while(Computer.Paused); 
-
             return Map; 
         }
     }
