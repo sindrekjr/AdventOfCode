@@ -47,11 +47,6 @@ namespace AdventOfCode.Solutions.Year2019 {
             return this;                 
         }
 
-        public IntcodeComputer<T> WriteInput(params T[] input) {
-            foreach(T i in input) Input.Enqueue(Convert.ToInt64(i)); 
-            return this; 
-        }
-
         public IntcodeComputer<T> SetMemory(int pos, T val) {
             Memory[pos] = Convert.ToInt64(val); 
             return this; 
@@ -61,6 +56,13 @@ namespace AdventOfCode.Solutions.Year2019 {
             foreach((int pos, T val) x in values) SetMemory(x.pos, x.val); 
             return this; 
         }
+
+        public IntcodeComputer<T> WriteInput(params T[] input) {
+            foreach(T i in input) Input.Enqueue(Convert.ToInt64(i)); 
+            return this; 
+        }
+
+        public BigInteger ReadOutput() => Output.Dequeue(); 
 
         public BigInteger Diagnose() => Output.Last(); 
 
