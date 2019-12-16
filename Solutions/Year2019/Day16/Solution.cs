@@ -5,20 +5,18 @@ namespace AdventOfCode.Solutions.Year2019 {
     class Day16 : ASolution {
 
         public Day16() : base(16, 2019, "Flawed Frequency Transmission") {
-
+            
         }
 
-        protected override string SolvePartOne() => string.Join("", RunPhases(Input.ToIntArray()).Take(8).Select(i => i.ToString()));
-
-        protected override string SolvePartTwo() {
-            int[] rEaLsIgNaL = string.Concat(Enumerable.Repeat(Input, 10000)).ToIntArray(); 
-            int[] signalReturn = RunPhases(rEaLsIgNaL); 
-
-            string result = ""; 
-            int offset = int.Parse(Input.Substring(0, 7)); 
-            for(int i = offset; i < offset + 8; i++) result += signalReturn[i]; 
-            return result;
-        }
+        protected override string SolvePartOne() => string.Join("", RunPhases(Input.ToIntArray()).Take(8));
+        protected override string SolvePartTwo() => 
+            string.Join(
+                "",
+                RunPhases(string.Concat(Enumerable.Repeat(Input, 10000))
+                    .ToIntArray())
+                    .Skip(int.Parse(Input.Substring(0, 7)))
+                    .Take(8)
+            );
 
         int[] RunPhases(int[] signal, int phases = 100) {
             int[] pattern = {0, 1, 0, -1};
@@ -28,11 +26,10 @@ namespace AdventOfCode.Solutions.Year2019 {
 
                 for(int i = 0; i < signal.Length; i++) {
                     int sum = 0; 
-                    int ln = i + 1;
                     int pl = 0; 
 
                     for(int j = 0; j < signal.Length; j++) {
-                        int pos = (j + 1) * ln - 1; 
+                        int pos = (j + 1) * i + 1 - 1; 
                         if(pos >= signal.Length) {
                             sum += (deconstruct[signal.Length] - deconstruct[pl]) * pattern[j % 4]; 
                             break; 
