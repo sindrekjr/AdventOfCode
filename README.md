@@ -16,3 +16,6 @@ Solutions in C#.
 | [11: Space Police](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day11/Solution.cs) | 1 |
 | [12: The N-Body Problem](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day12/Solution.cs) | 1+2 |
 | [13: Care Package](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day13/Solution.cs) | 1+2 |
+| [14: Space Stoichiometry](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day14/Solution.cs) | 1 |
+| [~~15~~](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day15/Solution.cs) |  |
+| [16: Flawed Frequency Transmission](https://github.com/sindrekjr/AdventOfCode/blob/master/Solutions/Year2019/Day16/Solution.cs) | 1+2 |
