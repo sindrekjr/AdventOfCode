@@ -4,9 +4,8 @@ namespace AdventOfCode.Solutions.Year2019 {
 
         IntcodeComputer Drone; 
 
-        public Day19() : base(19, 2019, "") {
+        public Day19() : base(19, 2019, "Tractor Beam") {
             Drone = new IntcodeComputer(Input.ToIntArray(",")); 
-            //Drone.Initialize(5000); 
         }
 
         protected override string SolvePartOne() {
@@ -20,7 +19,13 @@ namespace AdventOfCode.Solutions.Year2019 {
         }
 
         protected override string SolvePartTwo() {
-            return null;
+            int x = 0; 
+            for(int y = 1000; ; y++) {
+                while(Drone.Initialize(500).WriteInput(x, y).Run().ReadOutput() == 0) x++; 
+                if(Drone.Initialize(500).WriteInput(x + 99, y - 99).Run().ReadOutput() == 1) {
+                    return ((x * 10000) + (y - 99)).ToString(); 
+                }
+            }
         }
     }
 }
