@@ -9,38 +9,40 @@ namespace AdventOfCode.Solutions.Year2020
     class Day01 : ASolution
     {
 
-        int[] Expenses;
+        IEnumerable<int> Report;
 
         public Day01() : base(01, 2020, "Report Repair")
         {
-            Expenses = Input.ToIntArray("\n").Where(e => e < 2020).ToArray();
+            Report = Input.ToIntArray("\n").ToHashSet().Where(e => e < 2020);
         }
 
         protected override string SolvePartOne()
         {
-            foreach (var e1 in Expenses)
+            var expenses = new Queue<int>(Report);
+            while (true) 
             {
-                foreach (var e2 in Expenses)
+                var e1 = expenses.Dequeue();
+                foreach (var e2 in expenses)
                 {
                     if (e1 + e2 == 2020) return (e1 * e2).ToString();
                 }
             }
-            return null;
         }
 
         protected override string SolvePartTwo()
         {
-            foreach (var e1 in Expenses)
+            var expenses = new Queue<int>(Report);
+            while (true)
             {
-                foreach (var e2 in Expenses)
+                var e1 = expenses.Dequeue();
+                foreach (var e2 in expenses)
                 {
-                    foreach (var e3 in Expenses)
+                    foreach (var e3 in expenses)
                     {
                         if (e1 + e2 + e3 == 2020) return (e1 * e2 * e3).ToString();
                     }
                 }
             }
-            return null;
         }
     }
 }
