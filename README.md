@@ -4,7 +4,7 @@ Solutions in C#.
 | [Year 2019](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019) | [Year 2020](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020) |
 |-|-|
 | [1: The Tyranny of the Rocket Equation](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day01/Solution.cs) | [1: Report Repair](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day01/Solution.cs) |
-| [2: 1202 Program Alarm](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day02/Solution.cs) | |
+| [2: 1202 Program Alarm](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day02/Solution.cs) | [2: Password Philosophy](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day02/Solution.cs) |
 | [3: Crossed Wires](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day03/Solution.cs) | |
 | [4: Secure Container](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day04/Solution.cs) | |
 | [5: Sunny with a Chance of Asteroids](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day05/Solution.cs) | |
