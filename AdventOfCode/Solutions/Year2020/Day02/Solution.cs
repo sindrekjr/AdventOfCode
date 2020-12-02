@@ -8,52 +8,45 @@ namespace AdventOfCode.Solutions.Year2020
 
     class Day02 : ASolution
     {
-        string[][] Passwords;
+        (int, int, string) Policy;
 
-        public Day02() : base(02, 2020, "Password Philosophy")
-        {
-            Passwords = Input.SplitByNewline().Select(str => str.Split(": ")).ToArray();
-        }
+        public Day02() : base(02, 2020, "Password Philosophy") { }
 
         protected override string SolvePartOne()
-        {
-            int valid = 0;
-            foreach(var pass in Passwords)
-            {
-                if (isValid_Deprecated(pass[0], pass[1])) valid++;
-            }
-            return valid.ToString();
-        }
+            => Input.SplitByNewline().Count(line => IsValid_Deprecated(ParseLine(line))).ToString();
 
         protected override string SolvePartTwo()
+            => Input.SplitByNewline().Count(line => IsValid(ParseLine(line))).ToString();
+
+        string ParseLine(string line)
         {
-            int valid = 0;
-            foreach(var pass in Passwords)
-            {
-                if (isValid(pass[0], pass[1])) valid++;
-            }
-            return valid.ToString();
+            var (policy, password, _) = line.Split(": ");
+            Policy = ParsePolicy(policy);
+            return password;
         }
 
-        bool isValid_Deprecated(string policy, string password)
+        (int, int, string) ParsePolicy(string policy)
         {
-            var (rule, pattern, _) = policy.Split(" ");
-            var (lo, hi, _) = rule.Split("-");
-            
+            var (numbers, pattern, _) = policy.Split(" ");
+            var (first, second, _) = numbers.Split("-");
+            return (int.Parse(first), int.Parse(second), pattern);
+        }
+
+        bool IsValid_Deprecated(string password)
+        {
+            var (min, max, pattern) = Policy;
             var count = (password.Length - password.Replace(pattern, "").Length) / pattern.Length;
-            return count >= int.Parse(lo) && count <= int.Parse(hi);
+            return count >= min && count <= max;
         }
 
-        bool isValid(string policy, string password)
+        bool IsValid(string password)
         {
-            var (rule, pattern, _) = policy.Split(" ");
-            var (lo, hi, _) = rule.Split("-");
-
             int i = 0;
             int count = 0;
+            var (first, second, pattern) = Policy;
             while ((i = password.IndexOf(pattern, i)) != -1)
             {
-                if ((i + 1) == int.Parse(lo) || (i + 1) == int.Parse(hi)) count++;
+                if ((i + 1) == first || (i + 1) == second) count++;
                 i += pattern.Length;
             }
 
