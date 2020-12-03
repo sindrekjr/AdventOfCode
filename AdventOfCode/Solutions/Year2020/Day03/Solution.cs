@@ -12,9 +12,7 @@ namespace AdventOfCode.Solutions.Year2020
         bool[][] Map;
 
         public Day03() : base(03, 2020, "Toboggan Trajectory")
-        {
-            Map = Input.SplitByNewline().Select(line => line.Select(c => c == '#').ToArray()).ToArray();
-        }
+            => Map = Input.SplitByNewline().Select(line => line.Select(c => c == '#').ToArray()).ToArray();
 
         protected override string SolvePartOne() => CountSlopeTrees(1, 3).ToString();
 
@@ -23,11 +21,10 @@ namespace AdventOfCode.Solutions.Year2020
 
         long CountSlopeTrees(int down, int right)
         {
-            int x = 0;
             int count = 0;
-            for (int y = 0; y < Map.Length; y += down, x += right)
+            for (int x = 0, y = 0; y < Map.Length; y += down, x += right)
             {
-                if (x >= Map[y].Length) x -= Map[y].Length;
+                x %= Map[y].Length;
                 if (Map[y][x]) count++;
             }
             return count;
