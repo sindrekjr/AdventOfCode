@@ -119,11 +119,15 @@ namespace AdventOfCode.Solutions
             return input;
         }
 
-        private string SolveSafely(Func<string> solver)
+        string SolveSafely(Func<string> solver)
         {
             try
             {
-                return solver();
+                var timer = new Stopwatch();
+                timer.Start();
+                var result = solver();
+                timer.Stop();
+                return solver().PadRight(20) + $":: {timer.ElapsedMilliseconds}ms";
             }
             catch( Exception ) {
                 if( Debugger.IsAttached )
