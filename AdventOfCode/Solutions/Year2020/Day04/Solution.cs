@@ -31,7 +31,7 @@ namespace AdventOfCode.Solutions.Year2020
             => Passports.Count(ContainsRequiredFields).ToString();
 
         protected override string SolvePartTwo()
-            => Passports.Count(Validate).ToString();
+            => Passports.Where(ContainsRequiredFields).Count(Validate).ToString();
 
         bool ContainsRequiredFields(Dictionary<string, string> dict)
         {
