@@ -114,6 +114,9 @@ namespace AdventOfCode.Solutions
             }
         }
 
+        public static string[] SplitAtIndex(this string input, int index)
+            => new string[] { input.Substring(0, index), input.Substring(index) };
+
         // https://stackoverflow.com/questions/49190830/is-it-possible-for-string-split-to-return-tuple
         public static void Deconstruct<T>(this IList<T> list, out T first, out IList<T> rest)
         {
