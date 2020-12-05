@@ -123,11 +123,10 @@ namespace AdventOfCode.Solutions
         {
             try
             {
-                var timer = new Stopwatch();
-                timer.Start();
+                var then = DateTime.Now;
                 var result = solver();
-                timer.Stop();
-                return solver().PadRight(20) + $":: {timer.ElapsedMilliseconds}ms";
+                var now = DateTime.Now;
+                return result != null ? result.PadRight(18) + $"~ {(now - then).TotalMilliseconds.ToString("F2")} ms" : result;
             }
             catch( Exception ) {
                 if( Debugger.IsAttached )
