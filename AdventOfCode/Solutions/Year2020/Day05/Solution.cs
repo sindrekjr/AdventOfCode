@@ -9,39 +9,38 @@ namespace AdventOfCode.Solutions.Year2020
     class Day05 : ASolution
     {
 
-        public Day05() : base(05, 2020, "Binary Boarding")
-        {
-
-        }
+        public Day05() : base(05, 2020, "Binary Boarding") { }
 
         protected override string SolvePartOne()
-            => Input.SplitByNewline().Aggregate(0, (hi, bpass) => 
+            => Input.SplitByNewline().Aggregate(0, (hi, bpass) =>
             {
-                var (row, col) = GetSeat(bpass);
-                var id = (row * 8) + col;
+                var id = GetSeatId(bpass);
                 return id > hi ? id : hi;
             }).ToString();
 
         protected override string SolvePartTwo()
-        {
-            return null;
-        }
+            => FindFreeSeat(Input.SplitByNewline().Select(GetSeatId).OrderBy(b => b).ToArray()).ToString();
 
-        (int row, int col) GetSeat(string bpass)
+        int GetSeatId(string bpass)
         {
-            double front = 0;
-            double back = 127;
-            double left = 0;
-            double right = 7;
+            int front = 0;
+            int back = 128;
+            int left = 0;
+            int right = 8;
             foreach (var ch in bpass)
             {
-                if (ch == 'F') back -= Math.Ceiling((back - front) / 2);
-                if (ch == 'B') front += Math.Ceiling((back - front) / 2);
-                if (ch == 'L') right -= Math.Ceiling((right - left) / 2);
-                if (ch == 'R') left += Math.Ceiling((right - left) / 2);
+                if (ch == 'F') back -= (back - front) / 2;
+                if (ch == 'B') front += (back - front) / 2;
+                if (ch == 'L') right -= (right - left) / 2;
+                if (ch == 'R') left += (right - left) / 2;
             }
 
-            return ((int) front, (int) left);
+            return (front * 8) + left;
+        }
+
+        int FindFreeSeat(int[] seats)
+        {
+            for (int i = 0;; i++) if (seats[i] + 1 != seats[i + 1]) return seats[i] + 1;
         }
     }
 }
