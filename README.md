@@ -7,7 +7,7 @@ Solutions in C#.
 | [2: 1202 Program Alarm](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day02/Solution.cs) | [2: Password Philosophy](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day02/Solution.cs) |
 | [3: Crossed Wires](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day03/Solution.cs) | [3: Toboggan Trajectory](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day03/Solution.cs) |
 | [4: Secure Container](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day04/Solution.cs) | [4: Passport Processing](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day04/Solution.cs) |
-| [5: Sunny with a Chance of Asteroids](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day05/Solution.cs) | |
+| [5: Sunny with a Chance of Asteroids](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day05/Solution.cs) | [5: Binary Boarding](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day05/Solution.cs) |
 | [6: Universal Orbit Map](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day06/Solution.cs) | |
 | [7: Amplification Circuit](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day07/Solution.cs) | |
 | [8: Space Image Format](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day08/Solution.cs) | |
