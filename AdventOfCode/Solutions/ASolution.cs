@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -9,16 +10,17 @@ namespace AdventOfCode.Solutions
 
     abstract class ASolution
     {
-
-        Lazy<string> _input, _part1, _part2;
+        Lazy<string> _input;
+        Lazy<(string, TimeSpan)> _part1, _part2;
 
         public int Day { get; }
         public int Year { get; }
         public string Title { get; }
         public string DebugInput { get; set; }
-        public string Input => DebugInput != null ? DebugInput : (string.IsNullOrEmpty(_input.Value) ? null : _input.Value);
-        public string Part1 => string.IsNullOrEmpty(_part1.Value) ? "" : _part1.Value;
-        public string Part2 => string.IsNullOrEmpty(_part2.Value) ? "" : _part2.Value;
+        public string Input => DebugInput ?? _input.Value ?? null;
+        public (string answer, TimeSpan time) Part1 => _part1.Value;
+        public (string answer, TimeSpan time) Part2 => _part2.Value;
+
 
         private protected ASolution(int day, int year, string title)
         {
@@ -26,8 +28,8 @@ namespace AdventOfCode.Solutions
             Year = year;
             Title = title;
             _input = new Lazy<string>(LoadInput);
-            _part1 = new Lazy<string>(() => SolveSafely(SolvePartOne));
-            _part2 = new Lazy<string>(() => SolveSafely(SolvePartTwo));
+            _part1 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartOne));
+            _part2 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartTwo));
         }
 
         public void Solve(int part = 0)
@@ -41,29 +43,33 @@ namespace AdventOfCode.Solutions
                 output += $"!!! DebugInput used: {DebugInput}\n";
             }
 
+            output += $"+{new String('-', 8)}+{new String('-', 18)}+{new String('-', 12)}+\n";
+
             if(part != 2)
             {
-                if(Part1 != "")
+                var (answer, time) = Part1;
+                if(answer != "")
                 {
-                    output += $"Part 1: {Part1}\n";
+                    output += $"| Part 1 | {answer.PadRight(16)} | {$"{time.TotalMilliseconds}ms".PadRight(10)} |\n";
                     doOutput = true;
                 }
                 else
                 {
-                    output += "Part 1: Unsolved\n";
+                    output += "| Part 1 | Unsolved\n";
                     if(part == 1) doOutput = true;
                 }
             }
             if(part != 1)
             {
-                if(Part2 != "")
+                var (answer, time) = Part2;
+                if(answer != "")
                 {
-                    output += $"Part 2: {Part2}\n";
+                    output += $"| Part 2 | {answer.PadRight(16)} | {$"{time.TotalMilliseconds}ms".PadRight(10)} |\n";
                     doOutput = true;
                 }
                 else
                 {
-                    output += "Part 2: Unsolved\n";
+                    output += "| Part 2 | Unsolved\n";
                     if(part == 2) doOutput = true;
                 }
             }
@@ -119,20 +125,20 @@ namespace AdventOfCode.Solutions
             return input;
         }
 
-        string SolveSafely(Func<string> solver)
+        (string, TimeSpan) Solver(Func<string> SolverFunction)
         {
             try
             {
                 var then = DateTime.Now;
-                var result = solver();
+                var result = SolverFunction();
                 var now = DateTime.Now;
-                return result != null ? result.PadRight(18) + $"~ {(now - then).TotalMilliseconds.ToString("F2")} ms" : result;
+                return string.IsNullOrEmpty(result) ? (string.Empty, TimeSpan.Zero) : (result, (now - then));
             }
-            catch( Exception ) {
-                if( Debugger.IsAttached )
+            catch(Exception) {
+                if(Debugger.IsAttached)
                 {
                     Debugger.Break();
-                    return string.Empty;
+                    return (string.Empty, TimeSpan.Zero);
                 }
                 else
                 {
