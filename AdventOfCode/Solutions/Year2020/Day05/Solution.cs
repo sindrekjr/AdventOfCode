@@ -28,11 +28,11 @@ namespace AdventOfCode.Solutions.Year2020
             int left = 0;
             int right = 8;
             foreach (var ch in bpass)
-            {
+            {                
                 if (ch == 'F') back -= (back - front) / 2;
-                if (ch == 'B') front += (back - front) / 2;
-                if (ch == 'L') right -= (right - left) / 2;
-                if (ch == 'R') left += (right - left) / 2;
+                else if (ch == 'B') front += (back - front) / 2;
+                else if (ch == 'L') right -= (right - left) / 2;
+                else if (ch == 'R') left += (right - left) / 2;
             }
 
             return (front * 8) + left;
