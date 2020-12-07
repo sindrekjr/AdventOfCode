@@ -23,6 +23,7 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     if (bag == "noother") continue;
                     if (!rules.ContainsKey(bag)) rules.Add(bag, new List<string>());
+                    else if (rules[bag].Contains(container)) continue;
                     rules[bag].Add(container);
                 }
             }
@@ -32,7 +33,7 @@ namespace AdventOfCode.Solutions.Year2020
         protected override string SolvePartOne()
         {
             Rules = GetBagRules();
-            return CountPossibleContainers("shinygold").ToString();
+            return GetPossibleContainers("shinygold").Count.ToString();
         }
 
         protected override string SolvePartTwo()
@@ -40,7 +41,18 @@ namespace AdventOfCode.Solutions.Year2020
             return null;
         }
 
-        int CountPossibleContainers(string colour)
-            => Rules.ContainsKey(colour) ? Rules[colour].Count + Rules[colour].Aggregate(0, (count, bag) => count + CountPossibleContainers(bag)) : 1;
+        HashSet<string> GetPossibleContainers(string colour)
+        {
+            var set = new HashSet<string>();
+            if (Rules.ContainsKey(colour))
+            {
+                set.UnionWith(Rules[colour]);
+                foreach (var rule in Rules[colour])
+                {
+                    set.UnionWith(GetPossibleContainers(rule));
+                }
+            }
+            return set;
+        }
     }
 }
