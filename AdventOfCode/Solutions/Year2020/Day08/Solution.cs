@@ -9,35 +9,73 @@ namespace AdventOfCode.Solutions.Year2020
     class Day08 : ASolution
     {
 
-        public Day08() : base(08, 2020, "Handheld Halting")
-        {
+        public Day08() : base(08, 2020, "Handheld Halting") { }
 
-        }
+        protected override string SolvePartOne() => GetInstructions().Boot().acc.ToString();
 
-        (string cmd, int n, bool visited)[] GetInstructions() => Input.SplitByNewline().Select(l => 
+        protected override string SolvePartTwo() => GetInstructions().TryFix().ToString();
+
+        (string cmd, int n)[] GetInstructions() => Input.SplitByNewline().Select(l => 
         {
             var (inst, val, _) = l.Split(" ");
-            return (inst, int.Parse(val.Contains("+") ? val.Substring(1) : val), false);
+            return (inst, int.Parse(val.Contains("+") ? val.Substring(1) : val));
         }).ToArray();
+    }
 
-        protected override string SolvePartOne()
+    static class Extensions
+    {
+        public static (int acc, bool terminated) Boot(this (string cmd, int n)[] instructions)
         {
             int acc = 0;
-            var instructions = GetInstructions();
-            for (int i = 0;;)
+            var visited = new bool[instructions.Length];
+            for (int i = 0; i < instructions.Length;)
             {
-                if (instructions[i].visited) return acc.ToString();
+                if (visited[i]) return (acc, false);
 
-                instructions[i].visited = true;
+                visited[i] = true;
+
                 if (instructions[i].cmd == "acc") acc += instructions[i++].n;
-                if (instructions[i].cmd == "jmp") i += instructions[i].n;
-                if (instructions[i].cmd == "nop") i++;
+                else if (instructions[i].cmd == "jmp") i += instructions[i].n;
+                else if (instructions[i].cmd == "nop") i++;
             }
+            
+            return (acc, true);
         }
 
-        protected override string SolvePartTwo()
+        public static int TryFix(this (string cmd, int n)[] instructions, int i = 0)
         {
-            return null;
+            if (instructions[i].cmd == "jmp")
+            {
+                instructions[i].cmd = "nop";
+                var (acc, success) = instructions.Boot();
+                
+                if (success)
+                {
+                    return acc;
+                }
+                else
+                {
+                    instructions[i].cmd = "jmp";
+                    return instructions.TryFix(i + 1);
+                }
+            }
+            else if (instructions[i].cmd == "nop")
+            {
+                instructions[i].cmd = "jmp";
+                var (acc, success) = instructions.Boot();
+                
+                if (success)
+                {
+                    return acc;
+                }
+                else
+                {
+                    instructions[i].cmd = "nop";
+                    return instructions.TryFix(i + 1);
+                }
+            }
+
+            return instructions.TryFix(i + 1);
         }
     }
 }
