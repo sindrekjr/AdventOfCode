@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 
@@ -16,17 +17,19 @@ namespace AdventOfCode.Solutions
         public int Day { get; }
         public int Year { get; }
         public string Title { get; }
-        public string DebugInput { get; set; }
-        public string Input => DebugInput ?? _input.Value ?? null;
+        public string Input => Debug && !string.IsNullOrEmpty(DebugInput) ? DebugInput : _input.Value ?? null;
         public (string answer, TimeSpan time) Part1 => _part1.Value;
         public (string answer, TimeSpan time) Part2 => _part2.Value;
 
+        public string DebugInput { get; set; }
+        public bool Debug { get; set; }
 
-        private protected ASolution(int day, int year, string title)
+        private protected ASolution(int day, int year, string title, bool debug = false)
         {
             Day = day;
             Year = year;
             Title = title;
+            Debug = debug;
             _input = new Lazy<string>(LoadInput);
             _part1 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartOne));
             _part2 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartTwo));
@@ -36,46 +39,35 @@ namespace AdventOfCode.Solutions
         {
             if(Input == null) return;
 
-            bool doOutput = false;
-            string output = $"--- Day {Day}: {Title} --- \n";
-            if(DebugInput != null)
-            {
-                output += $"!!! DebugInput used: {DebugInput}\n";
-            }
+            Console.WriteLine();
+            Console.WriteLine(FormatTitle());
 
-            output += $"+{new String('-', 8)}+{new String('-', 18)}+{new String('-', 12)}+\n";
+            if(Debug)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(string.IsNullOrEmpty(DebugInput)
+                    ? "!! Debug mode active with no DebugInput defined" 
+                    : "!! Debugmode active, using DebugInput");
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
 
             if(part != 2)
             {
                 var (answer, time) = Part1;
-                if(answer != "")
-                {
-                    output += $"| Part 1 | {answer.PadRight(16)} | {$"{time.TotalMilliseconds}ms".PadRight(10)} |\n";
-                    doOutput = true;
-                }
-                else
-                {
-                    output += "| Part 1 | Unsolved\n";
-                    if(part == 1) doOutput = true;
-                }
+                if (part == 1 || !string.IsNullOrEmpty(answer)) Console.WriteLine(FormatPart(1, answer, time));
             }
+
             if(part != 1)
             {
                 var (answer, time) = Part2;
-                if(answer != "")
-                {
-                    output += $"| Part 2 | {answer.PadRight(16)} | {$"{time.TotalMilliseconds}ms".PadRight(10)} |\n";
-                    doOutput = true;
-                }
-                else
-                {
-                    output += "| Part 2 | Unsolved\n";
-                    if(part == 2) doOutput = true;
-                }
+                if (part == 2 || !string.IsNullOrEmpty(answer)) Console.WriteLine(FormatPart(2, answer, time));
             }
-
-            if(doOutput) Console.WriteLine(output);
         }
+
+        string FormatTitle() => $"Day {Day}: {Title}";
+
+        string FormatPart(int part, string answer, TimeSpan time)
+            => $"  - Part{part} => " + (string.IsNullOrEmpty(answer) ? "Unsolved" : $"{answer} ({time.TotalMilliseconds}ms)");
 
         string LoadInput()
         {
