@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
-namespace AdventOfCode
+namespace AdventOfCode.Infrastructure.Models
 {
 
     class Config
