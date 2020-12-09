@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
+using AdventOfCode.Solutions;
 
-namespace AdventOfCode.Solutions
+namespace AdventOfCode.Infrastructure
 {
 
     class SolutionCollector : IEnumerable<ASolution>
