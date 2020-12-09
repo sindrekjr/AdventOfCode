@@ -11,7 +11,7 @@ namespace AdventOfCode.Solutions
 
     abstract class ASolution
     {
-        Lazy<string> _input;
+        Lazy<string> _input, _debugInput;
         Lazy<(string, TimeSpan)> _part1, _part2;
 
         public int Day { get; }
@@ -21,16 +21,17 @@ namespace AdventOfCode.Solutions
         public (string answer, TimeSpan time) Part1 => _part1.Value;
         public (string answer, TimeSpan time) Part2 => _part2.Value;
 
-        public string DebugInput { get; set; }
+        public string DebugInput => _debugInput.Value ?? null;
         public bool Debug { get; set; }
 
-        private protected ASolution(int day, int year, string title, bool debug = false)
+        private protected ASolution(int day, int year, string title, bool useDebugInput = false)
         {
             Day = day;
             Year = year;
             Title = title;
-            Debug = debug;
+            Debug = useDebugInput;
             _input = new Lazy<string>(LoadInput);
+            _debugInput = new Lazy<string>(LoadDebugInput);
             _part1 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartOne));
             _part2 = new Lazy<(string, TimeSpan)>(() => Solver(SolvePartTwo));
         }
@@ -46,7 +47,7 @@ namespace AdventOfCode.Solutions
             {
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine(string.IsNullOrEmpty(DebugInput)
-                    ? "!! Debug mode active with no DebugInput defined" 
+                    ? "!! Debug mode active with no DebugInput defined"
                     : "!! Debugmode active, using DebugInput");
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
@@ -115,6 +116,14 @@ namespace AdventOfCode.Solutions
                 }
             }
             return input;
+        }
+
+        string LoadDebugInput()
+        {
+            string INPUT_FILEPATH = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, $"../../../Solutions/Year{Year}/Day{Day.ToString("D2")}/debug"));
+            return (File.Exists(INPUT_FILEPATH) && new FileInfo(INPUT_FILEPATH).Length > 0)
+                ? File.ReadAllText(INPUT_FILEPATH)
+                : "";
         }
 
         (string, TimeSpan) Solver(Func<string> SolverFunction)
