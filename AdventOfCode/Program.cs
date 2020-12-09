@@ -13,7 +13,7 @@ namespace AdventOfCode
 
         static void Main(string[] args)
         {
-            foreach(ASolution solution in Solutions)
+            foreach (ASolution solution in Solutions)
             {
                 Console.WriteLine();
                 Console.WriteLine(FormatHelper.FormatDay(solution));

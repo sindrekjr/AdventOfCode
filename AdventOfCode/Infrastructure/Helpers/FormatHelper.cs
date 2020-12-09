@@ -7,7 +7,7 @@ namespace AdventOfCode.Infrastructure.Helpers
     static class FormatHelper
     {
         public static string FormatDay(ASolution solution) => solution.ToString();
-        
+
         public static string FormatTitle(int day, string title) => $"Day {day}: {title}";
 
         public static string FormatDebug(string debugInput) => string.IsNullOrEmpty(debugInput)
