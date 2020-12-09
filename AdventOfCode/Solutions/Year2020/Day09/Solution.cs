@@ -9,33 +9,44 @@ namespace AdventOfCode.Solutions.Year2020
     class Day09 : ASolution
     {
 
-        public Day09() : base(09, 2020, "Encoding Error")
-        {
-
-        }
+        public Day09() : base(09, 2020, "Encoding Error") { }
 
         protected override string SolvePartOne()
-        {
-            var sequence = ParseXMAS();
-            for (int i = 25; i < sequence.Length; i++)
-            {
-                int value = sequence[i];
-                if (!IsSumOfPreamble(sequence.Skip(i - 25).Take(25), value))
-                {
-                    return value.ToString();
-                }
-            }
-            return null;
-        }
+            => FindInvalidNumber(Input.ToIntArray("\n")).ToString();
 
         protected override string SolvePartTwo()
+            => FindDecryptionWeakness(Input.ToIntArray("\n")).ToString();
+
+        int FindInvalidNumber(int[] sequence, int preambleLength = 25)
         {
-            return null;
+            for (int i = preambleLength;; i++)
+            {
+                int value = sequence[i];
+                if (!IsValid(sequence.Skip(i - preambleLength).Take(preambleLength), value))
+                {
+                    return value;
+                }
+            }
         }
 
-        int[] ParseXMAS() => Input.ToIntArray("\n");
+        int FindDecryptionWeakness(int[] sequence, int preambleLength = 25)
+        {
+            var targetSum = FindInvalidNumber(sequence, preambleLength);
 
-        bool IsSumOfPreamble(IEnumerable<int> preamble, int sum)
+            for (int end = 0, start = 0, sum = 0;; end++)
+            {
+                sum += sequence[end];
+                while (sum > targetSum) sum -= sequence[start++];
+                
+                if (sum == targetSum)
+                {
+                    var subSequence = sequence.Subarray(start, end - start);
+                    return subSequence.Max() + subSequence.Min();
+                }
+            }
+        }
+
+        bool IsValid(IEnumerable<int> preamble, int sum)
         {
             var queue = new Queue<int>(preamble);
             while (queue.Any())
