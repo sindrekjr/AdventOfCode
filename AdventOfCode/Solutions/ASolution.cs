@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using AdventOfCode.Infrastructure.Exceptions;
 using AdventOfCode.Infrastructure.Helpers;
 using AdventOfCode.Infrastructure.Models;
 
@@ -14,7 +15,7 @@ namespace AdventOfCode.Solutions
         public int Day { get; }
         public int Year { get; }
         public string Title { get; }
-        public string Input => Debug && !string.IsNullOrEmpty(DebugInput) ? DebugInput : _input.Value ?? null;
+        public string Input => Debug ? DebugInput : _input.Value ?? null;
         public SolutionResult Part1 => _part1.Value;
         public SolutionResult Part2 => _part2.Value;
 
@@ -35,17 +36,12 @@ namespace AdventOfCode.Solutions
 
         public IEnumerable<SolutionResult> Solve(int part = 0)
         {
-            if(Input == null)
-            {
-                throw new Exception();
-            }
-
-            if(part != 2 && (part == 1 || !string.IsNullOrEmpty(Part1.Answer)))
+            if (part != 2 && (part == 1 || !string.IsNullOrEmpty(Part1.Answer)))
             {
                 yield return Part1;
             }
 
-            if(part != 1 && (part == 2 || !string.IsNullOrEmpty(Part2.Answer)))
+            if (part != 1 && (part == 2 || !string.IsNullOrEmpty(Part2.Answer)))
             {
                 yield return Part2;
             }
@@ -59,6 +55,18 @@ namespace AdventOfCode.Solutions
 
         SolutionResult Solver(Func<string> SolverFunction)
         {
+            if (Debug)
+            {
+                if (string.IsNullOrEmpty(DebugInput))
+                {
+                    throw new InputException("DebugInput is null or empty");
+                }
+            }
+            else if (string.IsNullOrEmpty(Input))
+            {
+                throw new InputException("Input is null or empty");
+            }
+
             try
             {
                 var then = DateTime.Now;
@@ -66,8 +74,9 @@ namespace AdventOfCode.Solutions
                 var now = DateTime.Now;
                 return string.IsNullOrEmpty(result) ? null : new SolutionResult { Answer = result, Time = now - then };
             }
-            catch(Exception) {
-                if(Debugger.IsAttached)
+            catch (Exception)
+            {
+                if (Debugger.IsAttached)
                 {
                     Debugger.Break();
                     return null;
