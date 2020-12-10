@@ -72,14 +72,14 @@ namespace AdventOfCode.Solutions
                 var then = DateTime.Now;
                 var result = SolverFunction();
                 var now = DateTime.Now;
-                return string.IsNullOrEmpty(result) ? null : new SolutionResult { Answer = result, Time = now - then };
+                return string.IsNullOrEmpty(result) ? new SolutionResult() : new SolutionResult { Answer = result, Time = now - then };
             }
             catch (Exception)
             {
                 if (Debugger.IsAttached)
                 {
                     Debugger.Break();
-                    return null;
+                    return new SolutionResult();
                 }
                 else
                 {
