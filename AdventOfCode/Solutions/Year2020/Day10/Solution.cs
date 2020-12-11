@@ -9,10 +9,7 @@ namespace AdventOfCode.Solutions.Year2020
     class Day10 : ASolution
     {
 
-        public Day10() : base(10, 2020, "Adapter Array")
-        {
-
-        }
+        public Day10() : base(10, 2020, "Adapter Array") { }
 
         protected override string SolvePartOne()
         {
@@ -30,8 +27,24 @@ namespace AdventOfCode.Solutions.Year2020
         }
 
         protected override string SolvePartTwo()
-        {
-            return null;
-        }
+            => null;
+        //     => GetCombinations(Input.ToIntArray("\n").OrderBy(n => n).ToArray(), new Dictionary<long, long>()).ToString();
+
+        // long GetCombinations(int[] adapters, Dictionary<long, long> memo)
+        // {
+        //     if (memo.ContainsKey(adapters[0])) return memo[adapters[0]];
+
+        //     long count = 0;
+        //     for (int i = 1; i < adapters.Length; i++)
+        //     {
+        //         if (adapters[i] - adapters[0] > 3) break;
+        //         count += GetCombinations(adapters[i..], memo);
+        //     }
+
+        //     if (count == 0) count = 1;
+
+        //     memo.Add(adapters[0], count);
+        //     return count;
+        // }
     }
 }
