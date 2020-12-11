@@ -40,7 +40,7 @@ namespace AdventOfCode.Solutions.Year2020
                 
                 if (sum == targetSum)
                 {
-                    var subSequence = sequence.Subarray(start, end - start);
+                    var subSequence = sequence[start..end];
                     return subSequence.Max() + subSequence.Min();
                 }
             }
