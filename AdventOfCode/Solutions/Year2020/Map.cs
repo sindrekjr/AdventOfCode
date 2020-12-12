@@ -67,7 +67,7 @@ namespace AdventOfCode.Solutions.Year2020
         IEnumerable<T> PeekSW((int x, int y) start)
         {
             var (x, y) = start;
-            while (TryGetValue((--x, --y), out T next)) yield return next;
+            while (TryGetValue((++x, --y), out T next)) yield return next;
         }
 
         IEnumerable<T> PeekW((int x, int y) start)
