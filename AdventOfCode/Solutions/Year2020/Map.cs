@@ -20,66 +20,30 @@ namespace AdventOfCode.Solutions.Year2020
             }
         }
 
-        public IEnumerable<T>[] PeekAround((int x, int y) position, int radius = -1)
+        public IEnumerable<IEnumerable<T>> PeekAround((int x, int y) position, int radius = -1, bool diagonal = true)
         {
-            var directions = new IEnumerable<T>[8];
-            directions[0] = radius == -1 ? PeekN(position) : PeekN(position).Take(radius);
-            directions[1] = radius == -1 ? PeekNE(position) : PeekNE(position).Take(radius);
-            directions[2] = radius == -1 ? PeekE(position) : PeekE(position).Take(radius);
-            directions[3] = radius == -1 ? PeekSE(position) : PeekSE(position).Take(radius);
-            directions[4] = radius == -1 ? PeekS(position) : PeekS(position).Take(radius);
-            directions[5] = radius == -1 ? PeekSW(position) : PeekSW(position).Take(radius);
-            directions[6] = radius == -1 ? PeekW(position) : PeekW(position).Take(radius);
-            directions[7] = radius == -1 ? PeekNW(position) : PeekNW(position).Take(radius);
-            return directions;
+            yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, 0)) : RelativelyIncrementalPeek(position, (-1, 0)).Take(radius);
+            yield return radius == -1 ? RelativelyIncrementalPeek(position, (0, 1)) : RelativelyIncrementalPeek(position, (0, 1)).Take(radius);
+            yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, 0)) : RelativelyIncrementalPeek(position, (1, 0)).Take(radius);
+            yield return radius == -1 ? RelativelyIncrementalPeek(position, (0, -1)) : RelativelyIncrementalPeek(position, (0, -1)).Take(radius);
+            
+            if (diagonal)
+            {
+                yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, 1)) : RelativelyIncrementalPeek(position, (1, 1)).Take(radius);
+                yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, -1)) : RelativelyIncrementalPeek(position, (1, -1)).Take(radius);
+                yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, 1)) : RelativelyIncrementalPeek(position, (-1, 1)).Take(radius);
+                yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, -1)) : RelativelyIncrementalPeek(position, (-1, -1)).Take(radius);
+            }
         }
 
-        IEnumerable<T> PeekN((int x, int y) start)
+        IEnumerable<T> RelativelyIncrementalPeek((int x, int y) start, (int x, int y) increment)
         {
-            var (x, y) = start;
-            while (TryGetValue((--x, y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekNE((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((--x, ++y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekE((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((x, ++y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekSE((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((++x, ++y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekS((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((++x, y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekSW((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((++x, --y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekW((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((x, --y), out T next)) yield return next;
-        }
-
-        IEnumerable<T> PeekNW((int x, int y) start)
-        {
-            var (x, y) = start;
-            while (TryGetValue((--x, --y), out T next)) yield return next;
+            var pos = start.Add(increment);
+            while (TryGetValue(pos, out T next)) 
+            {
+                pos = pos.Add(increment);
+                yield return next;
+            }
         }
     }
 }
