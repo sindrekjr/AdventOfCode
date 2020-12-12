@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions.Year2020
             int occupied = 0;
             while (!stable)
             {
-                (seating, occupied, stable) = ProcessSeatingRound(seating);
+                (seating, occupied, stable) = ProcessSeatingRound(seating, 4);
             }
 
             return occupied.ToString();
@@ -32,7 +32,7 @@ namespace AdventOfCode.Solutions.Year2020
         Tile[][] GetSeatingArrangement()
             => Input.SplitByNewline().Select(row => row.Select(c => new Tile { Seat = c == 'L' }).ToArray()).ToArray();
 
-        (Tile[][] tiles, int occupied, bool stable) ProcessSeatingRound(Tile[][] tiles)
+        (Tile[][] tiles, int occupied, bool stable) ProcessSeatingRound(Tile[][] tiles, int preference)
         {
             var original = tiles.Select(r => r.Select(t => (Tile)t.Clone()).ToArray()).ToArray();
 
@@ -49,7 +49,7 @@ namespace AdventOfCode.Solutions.Year2020
 
                     if (seat.Occupied)
                     {
-                        if (seat.AdjacentOccupied < 4)
+                        if (seat.AdjacentOccupied < preference)
                         {
                             occupied++;
                             continue;
