@@ -5,6 +5,7 @@ namespace AdventOfCode.Solutions.Year2020
     public class Ship
     {
         public (int x, int y) Position;
+        public (int x, int y) Waypoint;
         public Direction Facing;
 
         public Ship((int, int) position, Direction facing = Direction.E)
@@ -13,27 +14,31 @@ namespace AdventOfCode.Solutions.Year2020
             Facing = facing;
         }
 
-        public void ParseAction(string action)
+        public Ship((int, int) position, (int, int) waypoint)
         {
-            var (instruction, stramnt, _) = action.SplitAtIndex(1);
-            var amount = int.Parse(stramnt);
-            
+            Position = position;
+            Waypoint = waypoint;
+        }
+
+        public Ship DoActionByErroneousAssumptions(string action)
+        {
+            var (instruction, amount) = ParseAction(action);
             switch (instruction)
             {
                 case "N":
-                    MoveNorth(amount);
+                    Move(Direction.N, amount, ref Position);
                     break;
 
                 case "S":
-                    MoveSouth(amount);
+                    Move(Direction.S, amount, ref Position);
                     break;
 
                 case "E":
-                    MoveEast(amount);
+                    Move(Direction.E, amount, ref Position);
                     break;
 
                 case "W":
-                    MoveWest(amount);
+                    Move(Direction.W, amount, ref Position);
                     break;
 
                 case "L":
@@ -45,39 +50,79 @@ namespace AdventOfCode.Solutions.Year2020
                     break;
                 
                 case "F":
-                    Move(Facing, amount);
+                    Move(Facing, amount, ref Position);
                     break;
             }
+            
+            return this;
         }
 
-        void Move(Direction facing, int distance)
+        public Ship DoAction(string action)
+        {
+            var (instruction, amount) = ParseAction(action);
+            switch (instruction)
+            {
+                case "N":
+                    Move(Direction.N, amount, ref Waypoint);
+                    break;
+
+                case "S":
+                    Move(Direction.S, amount, ref Waypoint);
+                    break;
+
+                case "E":
+                    Move(Direction.E, amount, ref Waypoint);
+                    break;
+
+                case "W":
+                    Move(Direction.W, amount, ref Waypoint);
+                    break;
+
+                case "L":
+                    RotateWaypoint(amount, false);
+                    break;
+
+                case "R":
+                    RotateWaypoint(amount, true);
+                    break;
+                
+                case "F":
+                    Position.x += Waypoint.x * amount;
+                    Position.y += Waypoint.y * amount;
+                    break;
+            }
+
+            return this;
+        }
+
+        (string instruction, int amount) ParseAction(string action)
+        {
+            var (instruction, amount, _) = action.SplitAtIndex(1);
+            return (instruction, int.Parse(amount));
+        }
+
+        void Move(Direction facing, int distance, ref (int x, int y) coordinates)
         {
             switch(facing)
             {
                 case Direction.N:
-                    MoveNorth(distance);
+                    coordinates.x -= distance;
                     break;
                 case Direction.S:
-                    MoveSouth(distance);
+                    coordinates.x += distance;
                     break;
                 case Direction.E:
-                    MoveEast(distance);
+                    coordinates.y += distance;
                     break;
                 case Direction.W:
-                    MoveWest(distance);
+                    coordinates.y -= distance;
                     break;
             }
         }
 
-        void MoveNorth(int distance) => Position.y += distance;
-        void MoveSouth(int distance) => Position.y -= distance;
-        void MoveEast(int distance) => Position.x += distance;
-        void MoveWest(int distance) => Position.x -= distance;
-
         void TurnLeft(int degrees) 
         {
-            var turns = degrees / 90;
-            for (int i = 0; i < turns; i++)
+            for (int i = 0; i < degrees / 90; i++)
             {
                 if (Facing == Direction.N)
                 {
@@ -92,8 +137,7 @@ namespace AdventOfCode.Solutions.Year2020
 
         void TurnRight(int degrees)
         {
-            var turns = degrees / 90;
-            for (int i = 0; i < turns; i++)
+            for (int i = 0; i < degrees / 90; i++)
             {
                 if (Facing == Direction.W)
                 {
@@ -103,6 +147,16 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     Facing++;
                 }
+            }
+        }
+
+        void RotateWaypoint(int degrees, bool right)
+        {
+            for (int i = 0; i < degrees / 90; i++)
+            {
+                var (x, y) = Waypoint;
+                Waypoint.x = right ? y : y * -1;
+                Waypoint.y = right ? x * -1 : x;
             }
         }
     }
