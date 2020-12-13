@@ -27,24 +27,20 @@ namespace AdventOfCode.Solutions.Year2020
         }
 
         protected override string SolvePartTwo()
-            => null;
-        //     => GetCombinations(Input.ToIntArray("\n").OrderBy(n => n).ToArray(), new Dictionary<long, long>()).ToString();
+            => GetCombinations(Input.ToIntArray("\n").OrderBy(n => n).Prepend(0).ToArray(), new Dictionary<int, long>()).ToString();
 
-        // long GetCombinations(int[] adapters, Dictionary<long, long> memo)
-        // {
-        //     if (memo.ContainsKey(adapters[0])) return memo[adapters[0]];
+        long GetCombinations(int[] adapters, Dictionary<int, long> memo)
+        {
+            if (memo.ContainsKey(adapters[0])) return memo[adapters[0]];
 
-        //     long count = 0;
-        //     for (int i = 1; i < adapters.Length; i++)
-        //     {
-        //         if (adapters[i] - adapters[0] > 3) break;
-        //         count += GetCombinations(adapters[i..], memo);
-        //     }
+            long count = 0;
+            for (int i = 1; i < adapters.Length && adapters[i] - adapters[0] <= 3; i++)
+            {
+                count += GetCombinations(adapters[i..], memo);
+            }
 
-        //     if (count == 0) count = 1;
-
-        //     memo.Add(adapters[0], count);
-        //     return count;
-        // }
+            memo.Add(adapters[0], count == 0 ? 1 : count);
+            return count == 0 ? 1 : count;
+        }
     }
 }
