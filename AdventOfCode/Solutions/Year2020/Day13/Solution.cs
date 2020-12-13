@@ -17,12 +17,12 @@ namespace AdventOfCode.Solutions.Year2020
         protected override string SolvePartOne()
         {
             var (arrival, buses) = ParseInput();
-            (int offset, int bus) = buses.Aggregate<string, (int offset, int bus)>((-1, 0), (best, bus) => 
+            (int offset, int bus) = buses.Aggregate<int, (int offset, int bus)>((-1, 0), (best, bus) => 
             {
-                if (bus != "x")
+                if (bus != -1)
                 {
                     var depart = 0;
-                    var busId = int.Parse(bus);
+                    var busId = bus;
                     while (depart < arrival) depart += busId;
                     var offset = depart - arrival;
                     
@@ -36,32 +36,31 @@ namespace AdventOfCode.Solutions.Year2020
             });
 
             return (offset * bus).ToString();
-
-            // foreach (var bus in buses)
-            // {
-            //     if (bus != "x")
-            //     {
-            //         var depart = 0;
-            //         while (depart < arrival) depart += int.Parse(bus);
-            //         var offset = depart - arrival;
-            //         if (offset < best.offset || best.offset == -1)
-            //         {
-            //             best = (offset, bus);
-            //         }
-            //     }
-            // }
-            // return (int.Parse(best.bus) * best.offset).ToString();
         }
 
         protected override string SolvePartTwo()
         {
             return null;
+            // var (_, buses) = ParseInput();
+            // for (long i = buses[0];; i += buses[0])
+            // {
+            //     var found = true;
+            //     for (int j = 1; j < buses.Length; j++)
+            //     {
+            //         if (buses[j] != -1 || buses[j] / i + j != 0)
+            //         {
+            //             found = false;
+            //             break;
+            //         }
+            //     }
+            //     if (found) return i.ToString();
+            // }
         }
 
-        (int arrival, string[] buses) ParseInput()
+        (int arrival, int[] buses) ParseInput()
         {
             var (arrivalEstimate, buses, _) = Input.SplitByNewline();
-            return (int.Parse(arrivalEstimate), buses.Split(","));
+            return (int.Parse(arrivalEstimate), buses.Split(",").Select(bus => bus == "x" ? -1 : int.Parse(bus)).ToArray());
         }
     }
 }
