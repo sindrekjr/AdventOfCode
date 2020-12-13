@@ -14,7 +14,10 @@ namespace AdventOfCode
             foreach (ASolution solution in Solutions)
             {
                 Console.WriteLine();
-                Console.WriteLine(FormatHelper.FunctionFormat(solution));
+                foreach (var line in FormatHelper.FunctionFormat(solution))
+                {
+                    Console.WriteLine(line);
+                }
             }
         }
     }
