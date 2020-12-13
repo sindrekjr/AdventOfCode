@@ -22,17 +22,10 @@ namespace AdventOfCode.Solutions.Year2020
 
         public IEnumerable<IEnumerable<T>> PeekAround((int x, int y) position, int radius = -1, bool diagonal = true)
         {
-            yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, 0)) : RelativelyIncrementalPeek(position, (-1, 0)).Take(radius);
-            yield return radius == -1 ? RelativelyIncrementalPeek(position, (0, 1)) : RelativelyIncrementalPeek(position, (0, 1)).Take(radius);
-            yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, 0)) : RelativelyIncrementalPeek(position, (1, 0)).Take(radius);
-            yield return radius == -1 ? RelativelyIncrementalPeek(position, (0, -1)) : RelativelyIncrementalPeek(position, (0, -1)).Take(radius);
-            
-            if (diagonal)
+            for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++)
             {
-                yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, 1)) : RelativelyIncrementalPeek(position, (1, 1)).Take(radius);
-                yield return radius == -1 ? RelativelyIncrementalPeek(position, (1, -1)) : RelativelyIncrementalPeek(position, (1, -1)).Take(radius);
-                yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, 1)) : RelativelyIncrementalPeek(position, (-1, 1)).Take(radius);
-                yield return radius == -1 ? RelativelyIncrementalPeek(position, (-1, -1)) : RelativelyIncrementalPeek(position, (-1, -1)).Take(radius);
+                if ((x == 0 && y == 0) || (!diagonal && x == y)) continue;
+                yield return radius == -1 ? RelativelyIncrementalPeek(position, (x, y)) : RelativelyIncrementalPeek(position, (x, y)).Take(radius);
             }
         }
 
