@@ -10,7 +10,7 @@ namespace AdventOfCode.Solutions.Year2020
     class Day14 : ASolution
     {
 
-        public Day14() : base(14, 2020, "") { }
+        public Day14() : base(14, 2020, "Docking Data") { }
 
         protected override string SolvePartOne()
         {
@@ -26,11 +26,18 @@ namespace AdventOfCode.Solutions.Year2020
                 else
                 {
                     var address = int.Parse(cmd.Substring(4, cmd.Length - 5));
-                    var b = new BitArray(new int[] { int.Parse(val) });
-                    for (int i = b.Length - 1, j = bitmask.Length - 1; i >= 0; i--, j--)
+                    var b = new BitArray(bitmask.Length);
+                    var bitval = new BitArray( new int[] { int.Parse(val) });
+                    for (int i = 0; i < b.Length; i++)
                     {
-                        if (bitmask[j] == 'X') continue;
-                        b[i] = bitmask[j] == '1';
+                        if (bitmask[bitmask.Length - i - 1] == 'X')
+                        {
+                            b[i] = (i < bitval.Length) ? bitval[i] : false;
+                        }
+                        else
+                        {
+                            b[i] = bitmask[bitmask.Length - i - 1] == '1';
+                        }
                     }
                     memory[address] = b.ToLong();
                 }
