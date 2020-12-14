@@ -25,14 +25,14 @@ namespace AdventOfCode.Solutions.Year2020
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++)
             {
                 if ((x == 0 && y == 0) || (!diagonal && x == y)) continue;
-                yield return radius == -1 ? RelativelyIncrementalPeek(position, (x, y)) : RelativelyIncrementalPeek(position, (x, y)).Take(radius);
+                yield return RelativelyIncrementalPeek(position, (x, y), radius);
             }
         }
 
-        IEnumerable<T> RelativelyIncrementalPeek((int x, int y) start, (int x, int y) increment)
+        IEnumerable<T> RelativelyIncrementalPeek((int x, int y) start, (int x, int y) increment, int count)
         {
             var pos = start.Add(increment);
-            while (TryGetValue(pos, out T next)) 
+            while ((count == -1 || count-- > 0) && TryGetValue(pos, out T next)) 
             {
                 pos = pos.Add(increment);
                 yield return next;

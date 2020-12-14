@@ -9,15 +9,12 @@ namespace AdventOfCode.Solutions.Year2020
     class Day13 : ASolution
     {
 
-        public Day13() : base(13, 2020, "Shuttle Search")
-        {
-
-        }
+        public Day13() : base(13, 2020, "Shuttle Search") { }
 
         protected override string SolvePartOne()
         {
             var (arrival, buses) = ParseInput();
-            (int offset, int bus) = buses.Aggregate<int, (int offset, int bus)>((-1, 0), (best, bus) => 
+            (int offset, int bus) = buses.Aggregate<int, (int offset, int bus)>((-1, 0), (best, bus) =>
             {
                 if (bus != -1)
                 {
@@ -25,7 +22,7 @@ namespace AdventOfCode.Solutions.Year2020
                     var busId = bus;
                     while (depart < arrival) depart += busId;
                     var offset = depart - arrival;
-                    
+
                     if (offset < best.offset || best.bus == 0)
                     {
                         return (offset, busId);
@@ -42,17 +39,18 @@ namespace AdventOfCode.Solutions.Year2020
         {
             return null;
             // var (_, buses) = ParseInput();
-            // for (long i = buses[0];; i += buses[0])
+            // for (long i = buses[0]; ; i += buses[0])
             // {
             //     var found = true;
             //     for (int j = 1; j < buses.Length; j++)
             //     {
-            //         if (buses[j] != -1 || buses[j] / i + j != 0)
+            //         if (buses[j] != -1 && (i + j) % buses[j] != 0)
             //         {
             //             found = false;
             //             break;
             //         }
             //     }
+
             //     if (found) return i.ToString();
             // }
         }
