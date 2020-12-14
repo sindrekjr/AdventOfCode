@@ -37,28 +37,22 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartTwo()
         {
-            return null;
-            // var (_, buses) = ParseInput();
-            // for (long i = buses[0]; ; i += buses[0])
-            // {
-            //     var found = true;
-            //     for (int j = 1; j < buses.Length; j++)
-            //     {
-            //         if (buses[j] != -1 && (i + j) % buses[j] != 0)
-            //         {
-            //             found = false;
-            //             break;
-            //         }
-            //     }
-
-            //     if (found) return i.ToString();
-            // }
+            var (_, buses) = ParseInput();
+            for (long i = buses[0], j = 1, mod = i;; i += mod)
+            {
+                while (buses[j] == -1) j++;
+                if ((i + j) % buses[j] == 0)
+                {
+                    mod = (long) Utilities.FindLCM(mod, buses[j]);
+                    if (++j == buses.Length) return i.ToString();
+                }
+            }
         }
 
-        (int arrival, int[] buses) ParseInput()
+        (int arrival, int[] buses) ParseInput(int timeTableIndex = 0)
         {
-            var (arrivalEstimate, buses, _) = Input.SplitByNewline();
-            return (int.Parse(arrivalEstimate), buses.Split(",").Select(bus => bus == "x" ? -1 : int.Parse(bus)).ToArray());
+            var (arrivalEstimate, buses) = Input.SplitByNewline();
+            return (int.Parse(arrivalEstimate), buses[timeTableIndex].Split(",").Select(bus => bus == "x" ? -1 : int.Parse(bus)).ToArray());
         }
     }
 }
