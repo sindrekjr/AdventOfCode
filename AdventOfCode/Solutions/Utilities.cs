@@ -256,5 +256,18 @@ namespace AdventOfCode.Solutions
 
             return value;
         }
+
+        public static long ToLong(this BitArray bitArray)
+        {
+            long value = 0;
+
+            for (int i = 0; i < bitArray.Count; i++)
+            {
+                if (bitArray[i])
+                    value += Convert.ToInt64(Math.Pow(2, i));
+            }
+
+            return value;
+        }
     }
 }
