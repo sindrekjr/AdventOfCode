@@ -43,7 +43,7 @@ namespace AdventOfCode.Solutions.Year2020
                 while (buses[j] == -1) j++;
                 if ((i + j) % buses[j] == 0)
                 {
-                    mod = (long) Utilities.FindLCM(mod, buses[j]);
+                    mod *= buses[j];
                     if (++j == buses.Length) return i.ToString();
                 }
             }
