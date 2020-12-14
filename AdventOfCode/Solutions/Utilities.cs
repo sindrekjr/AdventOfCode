@@ -4,6 +4,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -241,6 +242,19 @@ namespace AdventOfCode.Solutions
                 if (index == -1) break;
                 yield return index;
             }
+        }
+
+        public static int ToInt(this BitArray bitArray)
+        {
+            int value = 0;
+
+            for (int i = 0; i < bitArray.Count; i++)
+            {
+                if (bitArray[i])
+                    value += Convert.ToInt32(Math.Pow(2, i));
+            }
+
+            return value;
         }
     }
 }
