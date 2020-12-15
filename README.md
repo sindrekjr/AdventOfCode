@@ -17,5 +17,5 @@ Solutions in C#.
 | [12: The N-Body Problem](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day12/Solution.cs) | [12: Rain Risk](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day12/Solution.cs) |
 | [13: Care Package](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day13/Solution.cs) | [13: Shuttle Search](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day13/Solution.cs) |
 | [14: Space Stoichiometry](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day14/Solution.cs) | |
-| [~~15~~](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day15/Solution.cs) |  |
+| [~~15~~](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day15/Solution.cs) | [15: Rambunctious Recitation](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day15/Solution.cs) |
 | [16: Flawed Frequency Transmission](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day16/Solution.cs) | |
