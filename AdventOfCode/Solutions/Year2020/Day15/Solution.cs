@@ -12,31 +12,21 @@ namespace AdventOfCode.Solutions.Year2020
         public Day15() : base(15, 2020, "Rambunctious Recitation") { }
 
         protected override string SolvePartOne()
-        {
-            var start = GetStartingNumbers();
-            var (memory, previous) = InitializeMemory(start, 2020);
-            for (int i = start.Length; i < 2020; i++)
-            {
-                var current = memory[previous] == 0 ? 0 : i - memory[previous];
-                memory[previous] = i;
-                previous = current;
-            }
-
-            return previous.ToString();
-        }
+            => PredictSpokenNumber(GetStartingNumbers(), 2020).ToString();
 
         protected override string SolvePartTwo()
+            => PredictSpokenNumber(GetStartingNumbers(), 30000000).ToString();
+
+        int PredictSpokenNumber(int[] startingNumbers, int n)
         {
-            var start = GetStartingNumbers();
-            var (memory, previous) = InitializeMemory(start);
-            for (int i = start.Length; i < 30000000; i++)
+            var (memory, previous) = InitializeMemory(startingNumbers);
+            for (int i = startingNumbers.Length; i < n; i++)
             {
                 var current = memory[previous] == 0 ? 0 : i - memory[previous];
                 memory[previous] = i;
                 previous = current;
             }
-
-            return previous.ToString();
+            return previous;
         }
 
         int[] GetStartingNumbers(int debugIndex = -1)
