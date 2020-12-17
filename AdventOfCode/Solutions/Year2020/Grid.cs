@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AdventOfCode.Solutions.Year2020
 {
-    public class Grid<T> : SortedDictionary<(int x, int y, int z), T>
+    public class Grid<T> : Dictionary<(int x, int y, int z), T>
     {
         public Grid<T> InfiniteChildren { get; private set; }
 
