@@ -8,59 +8,46 @@ namespace AdventOfCode.Solutions.Year2020
 {
     class Day18 : ASolution
     {
-        public Day18() : base(18, 2020, "Operation Order") { }
+        public Day18() : base(18, 2020, "Operation Order", true) { }
 
         protected override string SolvePartOne()
             => Input.Replace(" ", "").SplitByNewline().Aggregate(default(long), (acc, exp) => acc + Resolve(exp)).ToString();
 
         protected override string SolvePartTwo()
-        {
-            return null;
-        }
+            => Input.Replace(" ", "").Replace("*", ")*(").SplitByNewline().Take(1).Aggregate(default(long), (acc, exp) => acc + Resolve($"({exp})")).ToString();
 
-        long Resolve(string math)
+        long Resolve(string expression)
         {
             long sum = 0;
             char operand = default;
-            for (int i = 0; i < math.Length; i++)
+            for (int i = 0; i < expression.Length; i++)
             {
-                if (math[i] == '(')
+                var c = expression[i];
+                if (c == '(')
                 {
-                    var end = FindClose(math, i);
-                    var n = Resolve(math[(i + 1)..(end - 1)]);
-                    i = end - 1;
+                    var end = IndexOfClosingParenthesis(expression, i) - 1;
+                    var n = Resolve(expression[(i + 1)..(end)]);
+                    i = end;
                     
-                    if (operand == default)
-                    {
-                        sum = n;
-                    }
-                    else
-                    {
-                        sum = operand == '+' ? sum + n : sum * n;
-                    }
+                    sum = operand == default
+                        ? n
+                        : operand == '+' ? sum + n : sum * n;
                 }
-                else if (int.TryParse(math[i].ToString(), out int n))
+                else if (int.TryParse(c.ToString(), out int n))
                 {
-                    if (operand == default)
-                    {
-                        sum = n;
-                    }
-                    else
-                    {
-                        sum = operand == '+' ? sum + n : sum * n;
-                    }
+                    sum = operand == default
+                        ? n
+                        : operand == '+' ? sum + n : sum * n;
                 }
                 else
                 {
-                    operand = math[i];
+                    operand = c;
                 }
-
             }
-
             return sum;
         }
 
-        int FindClose(string expression, int i)
+        int IndexOfClosingParenthesis(string expression, int i)
         {
             int parens = 0;
             do
