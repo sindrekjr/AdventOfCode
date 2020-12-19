@@ -110,6 +110,15 @@ namespace AdventOfCode.Solutions
                 .ToArray();
         }
 
+        public static string[] SplitByParagraph(this string input, bool shouldTrim = false)
+        {
+            return input
+                .Split(new[] { "\r\r", "\n\n", "\r\n\r\n" }, StringSplitOptions.None)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Select(s => shouldTrim ? s.Trim() : s)
+                .ToArray();
+        }
+
         public static string Reverse(this string str)
         {
             char[] arr = str.ToCharArray();
@@ -268,6 +277,18 @@ namespace AdventOfCode.Solutions
             }
 
             return value;
+        }
+
+        public static int IndexOfClosingParenthesis(string expression, int index)
+        {
+            int parens = 0;
+            do
+            {
+                var c = expression[index++];
+                if (c == '(') parens++;
+                if (c == ')') parens--;
+            } while (parens > 0);
+            return index;
         }
     }
 }
