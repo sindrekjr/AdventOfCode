@@ -96,10 +96,8 @@ namespace AdventOfCode.Solutions
             }
         }
 
-        public static string JoinAsStrings<T>(this IEnumerable<T> items)
-        {
-            return string.Join("", items);
-        }
+        public static string JoinAsStrings<T>(this IEnumerable<T> items, string delimiter = "")
+            => string.Join(delimiter, items);
 
         public static string[] SplitByNewline(this string input, bool shouldTrim = false)
         {
