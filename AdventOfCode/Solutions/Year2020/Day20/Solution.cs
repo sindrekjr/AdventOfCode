@@ -9,61 +9,60 @@ namespace AdventOfCode.Solutions.Year2020
 
     class Day20 : ASolution
     {
-        Dictionary<int, (string Top, string Right, string Bottom, string Left)> TileSides;
+        Dictionary<int, ImageTile> Tiles;
 
         public Day20() : base(20, 2020, "Jurassic Jigsaw", true) { }
 
         protected override string SolvePartOne()
         {
-            TileSides = new Dictionary<int, (string, string, string, string)>();
+            Tiles = new Dictionary<int, ImageTile>();
             foreach (var (id, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
             {
-                TileSides.Add(int.Parse(id.Substring(5, 4)), GetSides(tile));
+                Tiles.Add(int.Parse(id.Substring(5, 4)), GetSides(tile));
                 // Console.WriteLine(GetSides(tile).left);
                 // PrintTile(tile);
             }
 
-            foreach (var (id, sides) in TileSides)
+            foreach (var (id, tile) in Tiles)
             {
                 var matchingSides = 0;
-                var (top, right, bottom, left) = sides;
-                var otherTiles = TileSides.Where(tile => tile.Key != id);
+                var otherTiles = Tiles.Where(tile => tile.Key != id);
 
-                var topMatch = FindMatch(otherTiles, top);
+                var topMatch = FindMatch(otherTiles, tile.Top);
                 if (topMatch != -1)
                 {
                     matchingSides++;
-                    Console.WriteLine(top + " matches: " + topMatch);
+                    Console.WriteLine(tile.Top + " matches: " + topMatch);
                 }
                 // if (topMatch == -1) continue;
                 // if (topMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != topMatch);
                 // else continue;
 
-                var rightMatch = FindMatch(otherTiles, right);
+                var rightMatch = FindMatch(otherTiles, tile.Right);
                 if (rightMatch != -1)
                 {
                     matchingSides++;
-                    Console.WriteLine(right + " matches: " + rightMatch);
+                    Console.WriteLine(tile.Right + " matches: " + rightMatch);
                 }
                 // if (rightMatch == -1) continue;
                 // if (rightMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != rightMatch);
                 // else continue;
 
-                var bottomMatch = FindMatch(otherTiles, bottom);
+                var bottomMatch = FindMatch(otherTiles, tile.Bottom);
                 if (bottomMatch != -1)
                 {
                     matchingSides++;
-                    Console.WriteLine(bottom + " matches: " + bottomMatch);
+                    Console.WriteLine(tile.Bottom + " matches: " + bottomMatch);
                 }
                 // if (bottomMatch == -1) continue;
                 // if (bottomMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != bottomMatch);
                 // else continue;
 
-                var leftMatch = FindMatch(otherTiles, left);
+                var leftMatch = FindMatch(otherTiles, tile.Left);
                 if (leftMatch != -1)
                 {
                     matchingSides++;
-                    Console.WriteLine(left + " matches: " + leftMatch);
+                    Console.WriteLine(tile.Left + " matches: " + leftMatch);
                 }
                 // if (leftMatch == -1) continue;
                 // if (leftMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != leftMatch);
@@ -80,27 +79,39 @@ namespace AdventOfCode.Solutions.Year2020
             return null;
         }
 
-        (string Top, string Right, string Bottom, string Left) GetSides(IEnumerable<string> tile)
-            =>
-            (
-                tile.First(),
-                tile.Aggregate("", (side, line) => side + line.Last()),
-                tile.Last().Reverse(),
-                tile.Aggregate("", (side, line) => line.First() + side)                
-            );
+        ImageTile GetSides(IEnumerable<string> tile)
+            => new ImageTile
+            {
+                Data = tile.ToArray(),
+                Top = tile.First(),
+                Bottom = tile.Last().Reverse(),
+                Right = tile.Aggregate("", (side, line) => side + line.Last()),
+                Left = tile.Aggregate("", (side, line) => line.First() + side)
+            };
 
-        int FindMatch(IEnumerable<KeyValuePair<int, (string Top, string Right, string Bottom, string Left)>> tiles, string side)
+        int FindMatch(IEnumerable<KeyValuePair<int, ImageTile>> tiles, string side)
         {
             var found = tiles.FirstOrDefault(kv => 
             {
                 var (id, tile) = kv;
-                var (t, r, b, l) = tile;
-                return side == t.Reverse() || side == r.Reverse() || side == b.Reverse() || side == l.Reverse();
+                return side == tile.Top.Reverse()
+                    || side == tile.Right.Reverse()
+                    || side == tile.Bottom.Reverse()
+                    || side == tile.Left.Reverse();
             });
 
             return found.Key == default ? -1 : found.Key;
         }
 
         void PrintTile(IEnumerable<string> tile) => Console.WriteLine(tile.Select(s => s + "\n").JoinAsStrings());
+    }
+
+    internal class ImageTile
+    {
+        public string[] Data { get; set; }
+        public string Top { get; set; }
+        public string Right { get; set; }
+        public string Bottom { get; set; }
+        public string Left { get; set; }
     }
 }
