@@ -19,3 +19,12 @@ Solutions in C#.
 | [14: Space Stoichiometry](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day14/Solution.cs) | |
 | [~~15~~](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day15/Solution.cs) | [15: Rambunctious Recitation](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day15/Solution.cs) |
 | [16: Flawed Frequency Transmission](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day16/Solution.cs) | |
+| | |
+| | [18: Operation Order](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day18/Solution.cs) |
+| | |
+| | |
+| | [21: Allergen Assessment](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day21/Solution.cs) |
+| | |
+| | |
+| | |
+| | |
