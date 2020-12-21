@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Solutions.Year2020
 {
@@ -9,7 +10,7 @@ namespace AdventOfCode.Solutions.Year2020
     {
         Dictionary<int, string[]> Rules;
 
-        public Day19() : base(19, 2020, "Monster Messages", true) { }
+        public Day19() : base(19, 2020, "Monster Messages") { }
 
         protected override string SolvePartOne()
         {
@@ -23,11 +24,7 @@ namespace AdventOfCode.Solutions.Year2020
                     : new string[] { value.Trim('"') });
             }
 
-            var rule0 = ParseRule(0);
-            // Console.WriteLine(rule0);
-            // return messages.SplitByNewline().Count(m => MatchStringRule(m, rule0)).ToString();
-
-            return null;
+            return messages.SplitByNewline().Count(m => Regex.IsMatch(m, $"^{ParseRule(0)}$")).ToString();
         }
 
         protected override string SolvePartTwo()
@@ -50,38 +47,5 @@ namespace AdventOfCode.Solutions.Year2020
             }
         }
 
-        // bool MatchStringRule(string match, string rule)
-        // {
-        //     for (int i = 0, r = 0, parens = 0; i < match.Length; r++)
-        //     {
-        //         if (rule[r] == '|') continue;
-        //         while (rule[r++] == '(') parens++;
-        //         while (rule[r++] == ')') parens--;
-
-        //         var c = rule[r];
-
-        //         if (c == match[i]) 
-        //         {
-        //             i++;
-        //         }
-        //     }
-
-        //     // int i = 0;
-        //     // for (int j = 0; j < rule.Length; j++)
-        //     // {
-        //     //     var c = rule[j];
-        //     //     if (c == '(')
-        //     //     {
-        //     //         if (rule[j + 1] == '(') continue;
-
-        //     //         var end = Utilities.IndexOfClosingParenthesis(match, j);
-        //     //         if (!MatchStringRule(match[i..], rule[(j + 1)..end])) return false;
-
-        //     //         j = end - 1;
-        //     //     }
-        //     // }
-
-        //     // return i == match.Length - 1;
-        // }
     }
 }
