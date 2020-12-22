@@ -14,9 +14,15 @@ namespace AdventOfCode.Solutions.Year2020
             => Input.Replace(" ", "").SplitByNewline().Aggregate(default(long), (acc, exp) => acc + Resolve(exp)).ToString();
 
         protected override string SolvePartTwo()
-            => null;
-            // => Input.Replace(" ", "").Replace("*", ")*(").SplitByNewline().Take(1).Aggregate(default(long), (acc, exp) => acc + Resolve($"({exp})")).ToString();
+        {
+            var input = Input.Replace(" ", "");
+            input = Regex.Replace(input, "([0-9+]+)[+]([0-9+]+)", "($1+$2)");
+            input = Regex.Replace(input, "[*]([0-9][+].*?[)])", "*($1)");
 
+            Console.WriteLine(input);
+
+            return input.SplitByNewline().Take(1).Aggregate(default(long), (acc, exp) => acc + Resolve(exp)).ToString();
+        }
         long Resolve(string expression)
         {
             long sum = 0;
