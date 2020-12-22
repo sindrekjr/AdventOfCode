@@ -6,72 +6,24 @@ using System.Text;
 
 namespace AdventOfCode.Solutions.Year2020
 {
-
     class Day20 : ASolution
     {
         Dictionary<int, ImageTile> Tiles;
 
-        public Day20() : base(20, 2020, "Jurassic Jigsaw", true) { }
+        public Day20() : base(20, 2020, "Jurassic Jigsaw") { }
 
         protected override string SolvePartOne()
         {
             Tiles = new Dictionary<int, ImageTile>();
-            foreach (var (id, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
+            foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
             {
-                Tiles.Add(int.Parse(id.Substring(5, 4)), GetSides(tile));
-                // Console.WriteLine(GetSides(tile).left);
-                // PrintTile(tile);
+                var id = int.Parse(title.Substring(5, 4));
+                Tiles.Add(id, ParseTile(id, tile));
             }
 
-            foreach (var (id, tile) in Tiles)
-            {
-                var matchingSides = 0;
-                var otherTiles = Tiles.Where(tile => tile.Key != id);
+            foreach (var tile in Tiles.Values) FindMatches(tile);
 
-                var topMatch = FindMatch(otherTiles, tile.Top);
-                if (topMatch != -1)
-                {
-                    matchingSides++;
-                    Console.WriteLine(tile.Top + " matches: " + topMatch);
-                }
-                // if (topMatch == -1) continue;
-                // if (topMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != topMatch);
-                // else continue;
-
-                var rightMatch = FindMatch(otherTiles, tile.Right);
-                if (rightMatch != -1)
-                {
-                    matchingSides++;
-                    Console.WriteLine(tile.Right + " matches: " + rightMatch);
-                }
-                // if (rightMatch == -1) continue;
-                // if (rightMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != rightMatch);
-                // else continue;
-
-                var bottomMatch = FindMatch(otherTiles, tile.Bottom);
-                if (bottomMatch != -1)
-                {
-                    matchingSides++;
-                    Console.WriteLine(tile.Bottom + " matches: " + bottomMatch);
-                }
-                // if (bottomMatch == -1) continue;
-                // if (bottomMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != bottomMatch);
-                // else continue;
-
-                var leftMatch = FindMatch(otherTiles, tile.Left);
-                if (leftMatch != -1)
-                {
-                    matchingSides++;
-                    Console.WriteLine(tile.Left + " matches: " + leftMatch);
-                }
-                // if (leftMatch == -1) continue;
-                // if (leftMatch != -1) otherTiles = otherTiles.Where(tile => tile.Key != leftMatch);
-                // else continue;
-
-                if (matchingSides == 2) Console.WriteLine(id);
-            }
-
-            return null;
+            return Tiles.Values.Where(t => t.CountMatchingSides() == 2).Aggregate(default(long) + 1, (product, t) => product * t.Id).ToString();
         }
 
         protected override string SolvePartTwo()
@@ -79,39 +31,62 @@ namespace AdventOfCode.Solutions.Year2020
             return null;
         }
 
-        ImageTile GetSides(IEnumerable<string> tile)
+        ImageTile ParseTile(int id, IEnumerable<string> tile)
             => new ImageTile
             {
+                Id = id,
                 Data = tile.ToArray(),
                 Top = tile.First(),
-                Bottom = tile.Last().Reverse(),
+                Bottom = tile.Last(),
                 Right = tile.Aggregate("", (side, line) => side + line.Last()),
-                Left = tile.Aggregate("", (side, line) => line.First() + side)
+                Left = tile.Aggregate("", (side, line) => side + line.First())
             };
 
-        int FindMatch(IEnumerable<KeyValuePair<int, ImageTile>> tiles, string side)
+        void FindMatches(ImageTile tile)
         {
-            var found = tiles.FirstOrDefault(kv => 
+            foreach (var t in Tiles.Values.Where(t => t.Id != tile.Id))
             {
-                var (id, tile) = kv;
-                return side == tile.Top.Reverse()
-                    || side == tile.Right.Reverse()
-                    || side == tile.Bottom.Reverse()
-                    || side == tile.Left.Reverse();
-            });
-
-            return found.Key == default ? -1 : found.Key;
+                if (IsMatch(tile.Top, t)) tile.TopMatches.Add(t);
+                if (IsMatch(tile.Right, t)) tile.RightMatches.Add(t);
+                if (IsMatch(tile.Bottom, t)) tile.BottomMatches.Add(t);
+                if (IsMatch(tile.Left, t)) tile.LeftMatches.Add(t);
+            }
         }
+
+        bool IsMatch(string side, ImageTile tile)
+            => new string[]
+            {
+                tile.Top, tile.Top.Reverse(),
+                tile.Right, tile.Right.Reverse(),
+                tile.Bottom, tile.Bottom.Reverse(),
+                tile.Left, tile.Left.Reverse(),
+            }.Contains(side);
 
         void PrintTile(IEnumerable<string> tile) => Console.WriteLine(tile.Select(s => s + "\n").JoinAsStrings());
     }
 
     internal class ImageTile
     {
+        public int Id { get; set; }
         public string[] Data { get; set; }
         public string Top { get; set; }
         public string Right { get; set; }
         public string Bottom { get; set; }
         public string Left { get; set; }
+
+        public List<ImageTile> TopMatches { get; set; } = new List<ImageTile>();
+        public List<ImageTile> RightMatches { get; set; } = new List<ImageTile>();
+        public List<ImageTile> BottomMatches { get; set; } = new List<ImageTile>();
+        public List<ImageTile> LeftMatches { get; set; } = new List<ImageTile>();
+
+        public int CountMatchingSides()
+        {
+            int count = 0;
+            if (TopMatches.Any()) count++;
+            if (RightMatches.Any()) count++;
+            if (BottomMatches.Any()) count++;
+            if (LeftMatches.Any()) count++;
+            return count;
+        }
     }
 }
