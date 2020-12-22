@@ -9,7 +9,7 @@ namespace AdventOfCode.Solutions.Year2020
 {
     class Day16 : ASolution
     {
-        SortedDictionary<string, int[]> Rules;
+        Dictionary<string, int[]> Rules;
 
         public Day16() : base(16, 2020, "Ticket Translation") { }
 
@@ -33,11 +33,10 @@ namespace AdventOfCode.Solutions.Year2020
                 eliminate[i] = candidates.Select(c => c[i]).IntersectAll();
             }
 
-            foreach (var candidate in candidates)
+            while (eliminate.Any(e => e.Count() > 1))
             {
-                for (int i = 0; i < candidate.Length; i++)
+                for (int i = 0; i < eliminate.Length; i++)
                 {
-                    eliminate[i] = eliminate[i].Intersect(candidate[i]);
                     if (eliminate[i].Count() == 1)
                     {
                         var e = eliminate[i].First();
@@ -48,17 +47,15 @@ namespace AdventOfCode.Solutions.Year2020
                         }
                     }
                 }
-
-                if (!eliminate.Any(e => e.Count() > 1)) break;
             }
 
-            long value = 1;
+            long product = 1;
             for (int i = 0; i < eliminate.Length; i++)
             {
-                if (eliminate[i].First().Contains("departure")) value *= tickets[0][i];
+                if (eliminate[i].First().Contains("departure")) product *= tickets[0][i];
             }
 
-            return value.ToString();
+            return product.ToString();
         }
 
         IEnumerable<string> GetCandidates(int n)
@@ -72,8 +69,8 @@ namespace AdventOfCode.Solutions.Year2020
 
         int[][] ParseInput()
         {
-            Rules = new SortedDictionary<string, int[]>();
-            var parts = Regex.Split(Input, "(\n\n[a-z ]+:\n)");
+            Rules = new Dictionary<string, int[]>();
+            var parts = Input.SplitByParagraph();
 
             foreach (var line in Regex.Replace(parts[0], @"(-)|( or )", ",").SplitByNewline())
             {
@@ -81,13 +78,13 @@ namespace AdventOfCode.Solutions.Year2020
                 Rules.Add(key, rawValue.ToIntArray(","));
             }
 
-            return ParseTickets(parts[2], parts[4]).ToArray();
+            return ParseTickets(parts[1], parts[2]).ToArray();
         }
 
         IEnumerable<int[]> ParseTickets(string myTicket, string nearbyTickets)
         {
-            yield return myTicket.ToIntArray(",");
-            foreach (var ticket in nearbyTickets.SplitByNewline())
+            yield return myTicket.SplitByNewline()[1].ToIntArray(",");
+            foreach (var ticket in nearbyTickets.SplitByNewline().Skip(1))
             {
                 yield return ticket.ToIntArray(",");
             }
