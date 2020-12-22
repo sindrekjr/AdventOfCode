@@ -18,13 +18,13 @@ Solutions in C#.
 | [13: Care Package](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day13/Solution.cs) | [13: Shuttle Search](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day13/Solution.cs) |
 | [14: Space Stoichiometry](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day14/Solution.cs) | |
 | [~~15~~](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day15/Solution.cs) | [15: Rambunctious Recitation](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day15/Solution.cs) |
-| [16: Flawed Frequency Transmission](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day16/Solution.cs) | |
-| | |
+| [16: Flawed Frequency Transmission](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day16/Solution.cs) | [16: Ticket Translation](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day16/Solution.cs) |
+| | [17: Conway Cubes, Pt. 1](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day17/Solution.cs) |
 | | [18: Operation Order](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day18/Solution.cs) |
-| | |
-| | |
+| | [19: Monster Messages, Pt. 1](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day19/Solution.cs) |
+| | [20: Jurassic Jigsaw, Pt. 1](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day20/Solution.cs) |
 | | [21: Allergen Assessment](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day21/Solution.cs) |
-| | |
+| | [22: Crab Combat](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day22/Solution.cs) |
 | | |
 | | |
 | | |

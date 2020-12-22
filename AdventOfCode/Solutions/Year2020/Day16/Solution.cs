@@ -25,39 +25,40 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartTwo()
         {
-            // var tickets = ParseInput().Where(IsValid).ToArray();
-            // var candidates = tickets.Select(t => t.Select(GetCandidates).ToArray());
-            // var eliminate = new IEnumerable<string>[tickets[0].Length];
-            // for (int i = 0; i < eliminate.Length; i++) 
-            // {
-            //     eliminate[i] = candidates.Select(c => c[i]).IntersectAll();
-            // }
+            var tickets = ParseInput().Where(IsValid).ToArray();
+            var candidates = tickets.Select(t => t.Select(GetCandidates).ToArray());
+            var eliminate = new IEnumerable<string>[tickets[0].Length];
+            for (int i = 0; i < eliminate.Length; i++) 
+            {
+                eliminate[i] = candidates.Select(c => c[i]).IntersectAll();
+            }
 
-            // foreach (var candidate in candidates)
-            // {
-            //     for (int i = 0; i < candidate.Length; i++)
-            //     {
-            //         candidate[i] = eliminate[i].Intersect(candidate[i]);
-            //         foreach (var rule in Rules.Keys)
-            //         {
-            //             if (candidate[i].Contains(rule) && candidate.Count(c => c.Contains(rule)) == 1)
-            //             {
-            //                 candidate[i] = new string[] { rule };
-            //                 break;
-            //             }
-            //         }
-            //         Console.WriteLine(i + ": " + string.Join(", ", candidate[i]));
-            //         eliminate[i] = candidate[i];
-            //     }
-            // }
+            foreach (var candidate in candidates)
+            {
+                for (int i = 0; i < candidate.Length; i++)
+                {
+                    eliminate[i] = eliminate[i].Intersect(candidate[i]);
+                    if (eliminate[i].Count() == 1)
+                    {
+                        var e = eliminate[i].First();
+                        for (int j = 0; j < eliminate.Length; j++)
+                        {
+                            if (i == j) continue;
+                            eliminate[j] = eliminate[j].Where(c => c != e);
+                        }
+                    }
+                }
 
-            // long value = 1;
-            // foreach (var e in eliminate)
-            // {
-            //     Console.WriteLine(string.Join(", ", e));
-            // }
+                if (!eliminate.Any(e => e.Count() > 1)) break;
+            }
 
-            return null;
+            long value = 1;
+            for (int i = 0; i < eliminate.Length; i++)
+            {
+                if (eliminate[i].First().Contains("departure")) value *= tickets[0][i];
+            }
+
+            return value.ToString();
         }
 
         IEnumerable<string> GetCandidates(int n)
