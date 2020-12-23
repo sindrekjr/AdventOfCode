@@ -12,20 +12,15 @@ namespace AdventOfCode.Solutions.Year2020
         protected override string SolvePartOne()
         {
             var grid = GetPocketDimensionInitialState();
-
-            for (int i = 0; i < 6; i++)
-            {
-                grid = SimulateCycle(grid);
-            }
-
-            // foreach (var (key, val) in grid) Console.WriteLine($"{key}: {val}");
-
+            for (int i = 0; i < 6; i++) grid = SimulateCycle(grid);
             return grid.Count(c => c.Value).ToString();
         }
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var dimension = GetActualPocketDimensionInitialState();
+            for (int i = 0; i < 6; i++) dimension = SimulateCycle(dimension);
+            return dimension.Count(c => c.Value).ToString();
         }
 
         Grid<bool> GetPocketDimensionInitialState()
@@ -33,6 +28,13 @@ namespace AdventOfCode.Solutions.Year2020
                 Input
                     .SplitByNewline()
                     .Select(x => x.Select(y => new bool[] { y == '#' }).ToArray())
+                    .ToArray());
+
+        PocketDimension<bool> GetActualPocketDimensionInitialState()
+            => new PocketDimension<bool>(
+                Input
+                    .SplitByNewline()
+                    .Select(x => x.Select(y => new bool[][] { new bool[] { y == '#'} }).ToArray())
                     .ToArray());
 
         Grid<bool> SimulateCycle(Grid<bool> original)
@@ -52,6 +54,25 @@ namespace AdventOfCode.Solutions.Year2020
             }
 
             return grid;
+        }
+
+        PocketDimension<bool> SimulateCycle(PocketDimension<bool> original)
+        {
+            var dimension = new PocketDimension<bool>();
+
+            foreach (var (key, cube) in original)
+            {
+                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            }
+
+            foreach (var (key, cube) in new PocketDimension<bool>(original.InfiniteChildren))
+            {
+                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            }
+
+            return dimension;
         }
 
         void PrintLayerZ(Grid<bool> grid, int z = 0)
