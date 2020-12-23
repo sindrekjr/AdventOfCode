@@ -11,6 +11,8 @@ namespace AdventOfCode.Solutions.Year2020
 
         public Grid() : base() {}
 
+        public Grid(Grid<T> grid) : base(grid) {}
+
         public Grid(T[][][] positions) : base()
         {
             for (int x = 0; x < positions.Length; x++)
@@ -27,7 +29,7 @@ namespace AdventOfCode.Solutions.Year2020
 
         public IEnumerable<IEnumerable<T>> PeekAround((int x, int y, int z) position, int radius = 1)
         {
-            InfiniteChildren = new Grid<T>();
+            if (InfiniteChildren == null) InfiniteChildren = new Grid<T>();
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++) for (int z = -1; z <= 1; z++)
             {
                 if (x == 0 && y == 0 && z == 0) continue;
