@@ -7,7 +7,7 @@ namespace AdventOfCode.Solutions.Year2020
 {
     class Day17 : ASolution
     {
-        public Day17() : base(17, 2020, "Conway Cubes", true) { }
+        public Day17() : base(17, 2020, "Conway Cubes") { }
 
         protected override string SolvePartOne()
         {
@@ -16,7 +16,6 @@ namespace AdventOfCode.Solutions.Year2020
             for (int i = 0; i < 6; i++)
             {
                 grid = SimulateCycle(grid);
-                // Console.WriteLine(grid.Count(c => c.Value));
             }
 
             // foreach (var (key, val) in grid) Console.WriteLine($"{key}: {val}");
@@ -46,7 +45,7 @@ namespace AdventOfCode.Solutions.Year2020
                 grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
             }
 
-            foreach (var (key, cube) in original.InfiniteChildren)
+            foreach (var (key, cube) in new Grid<bool>(original.InfiniteChildren))
             {
                 var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
                 grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
