@@ -11,38 +11,56 @@ namespace AdventOfCode.Solutions.Year2020
         public Day24() : base(24, 2020, "Lobby Layout") { }
 
         protected override string SolvePartOne()
-        {
-            var reference = (0, 0, 0);
-            var tiles = new Grid<bool>();
-            foreach (var line in Input.SplitByNewline().Select(l => Regex.Split(l, "(nw|ne|e|w|sw|se)")))
-            {
-                var tile = line.Aggregate(reference, (t, inst) => t.Add(inst switch 
-                {
-                    "nw" => (-1, 0, 1),
-                    "ne" => (0, -1, 1),
-                    "w" => (-1, 1, 0),
-                    "e" => (1, -1, 0),
-                    "sw" => (0, 1, -1),
-                    "se" => (1, 0, -1),
-                    _ => (0, 0, 0),
-                }));
-
-                if (tiles.ContainsKey(tile))
-                {
-                    tiles[tile] = !tiles[tile];
-                }
-                else
-                {
-                    tiles.Add(tile, true);
-                }
-            }
-
-            return tiles.Values.Count(t => t).ToString();
-        }
+            => GetFloorGrid().Values.Count(t => t).ToString();
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var floor = GetFloorGrid();
+            for (int i = 0; i < 100; i++) floor = SimulateDay(floor);
+            return floor.Values.Count(t => t).ToString();
         }
+
+        Grid<bool> SimulateDay(Grid<bool> original)
+        {
+            var grid = new Grid<bool>();
+
+            foreach (var (key, tile) in original)
+            {
+                var adjacent = original.PeekAround(key, 1, false).Count(t => t.First());
+                grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
+            }
+
+            foreach (var (key, tile) in new Grid<bool>(original.InfiniteChildren))
+            {
+                var adjacent = original.PeekAround(key, 1, false).Count(t => t.First());
+                grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
+            }
+
+            return grid;
+        }
+
+        Grid<bool> GetFloorGrid()
+            => ParseInstructions().Aggregate(new Grid<bool>(), (grid, inst) =>
+            {
+                var tile = FindTileCoordinates(inst);
+                if (!grid.ContainsKey(tile)) grid.Add(tile, false);
+                grid[tile] = !grid[tile];
+                return grid;
+            });
+
+        (int, int, int) FindTileCoordinates(string[] directions)
+            => directions.Aggregate((0, 0, 0), (t, d) => t.Add(d switch 
+            {
+                "nw" => (-1, 0, 1),
+                "ne" => (0, -1, 1),
+                "w" => (-1, 1, 0),
+                "e" => (1, -1, 0),
+                "sw" => (0, 1, -1),
+                "se" => (1, 0, -1),
+                _ => (0, 0, 0),
+            }));
+
+        IEnumerable<string[]> ParseInstructions()
+            => Input.SplitByNewline().Select(l => Regex.Split(l, "(nw|ne|e|w|sw|se)"));
     }
 }
