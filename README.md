@@ -25,6 +25,6 @@ Solutions in C#.
 | | [20: Jurassic Jigsaw, Pt. 1](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day20/Solution.cs) |
 | | [21: Allergen Assessment](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day21/Solution.cs) |
 | | [22: Crab Combat](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day22/Solution.cs) |
-| | |
-| | |
+| | [23: Crab Cups, Pt. 1](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day23/Solution.cs) |
+| | [24: Lobby Layout](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day24/Solution.cs) |
 | | |

@@ -8,7 +8,6 @@ namespace AdventOfCode.Solutions.Year2020
 {
     class Day20 : ASolution
     {
-        int Aspect;
         Map<ImageTile> Puzzle;
         Dictionary<int, ImageTile> Tiles;
 
@@ -30,24 +29,25 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartTwo()
         {
-            Tiles = new Dictionary<int, ImageTile>();
-            foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
-            {
-                var id = int.Parse(title.Substring(5, 4));
-                Tiles.Add(id, ParseTile(id, tile.Take(tile.Count - 1).Skip(1).Select(s => s.Substring(1, s.Length - 2))));
-            }
-            Aspect = (int) Math.Sqrt(Tiles.Count);
+            // Tiles = new Dictionary<int, ImageTile>();
+            // foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
+            // {
+            //     var id = int.Parse(title.Substring(5, 4));
+            //     Tiles.Add(id, ParseTile(id, tile.Take(tile.Count - 1).Skip(1).Select(s => s.Substring(1, s.Length - 2))));
+            // }
 
-            foreach (var tile in Tiles.Values) FindMatches(tile);
+            // foreach (var tile in Tiles.Values) FindMatches(tile);
 
-            CreatePuzzle();
-            return Puzzle.Count.ToString();
+            // CreatePuzzle();
+            // return Puzzle.Count.ToString();
+            return null;
         }
 
         void CreatePuzzle()
         {
             Puzzle = new Map<ImageTile>();
-            var placedTile = Tiles.Values.Where(IsCornerTile).First(t => PlaceCornerTile(t, Aspect));
+            var sqrt = (int) Math.Sqrt(Tiles.Count);
+            var placedTile = Tiles.Values.Where(IsCornerTile).First(t => PlaceCornerTile(t, sqrt));
             var position = Puzzle.Keys.First();
 
             while (Tiles.Count > 0) position = PlaceNextTile(position);
