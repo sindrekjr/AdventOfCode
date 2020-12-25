@@ -4,23 +4,41 @@ using System.Text;
 
 namespace AdventOfCode.Solutions.Year2020
 {
-
     class Day25 : ASolution
     {
+        int SubjectNumber = 7;
 
-        public Day25() : base(25, 2020, "")
-        {
-
-        }
+        public Day25() : base(25, 2020, "Combo Breaker") { }
 
         protected override string SolvePartOne()
         {
-            return null;
+            var (cardkey, doorkey, _) = Input.ToIntArray("\n");
+            return Transform(doorkey, FindLoopSize(cardkey)).ToString();
         }
 
         protected override string SolvePartTwo()
         {
             return null;
+        }
+
+        int FindLoopSize(int key)
+        {
+            for (int i = 1, val = SubjectNumber;; i++)
+            {
+                if (val == key) return i;
+                val *= SubjectNumber;
+                val %= 20201227;
+            }
+        }
+
+        long Transform(long number, int loop)
+        {
+            for (long i = 1, subject = number; i < loop; i++)
+            {
+                number *= subject;
+                number %= 20201227;
+            }
+            return number;
         }
     }
 }
