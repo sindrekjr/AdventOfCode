@@ -8,7 +8,7 @@ namespace AdventOfCode.Solutions.Year2020
 {
     class Day18 : ASolution
     {
-        public Day18() : base(18, 2020, "Operation Order", true) { }
+        public Day18() : base(18, 2020, "Operation Order") { }
 
         protected override string SolvePartOne()
             => Input.Replace(" ", "").SplitByNewline().Aggregate(default(long), (acc, exp) => acc + Resolve(exp)).ToString();
@@ -18,62 +18,45 @@ namespace AdventOfCode.Solutions.Year2020
 
         long Resolve(string expression, char precedence = default)
         {
-            long sum = 0;
-            char operand = default;
-            List<long> storage = new List<long>();
+            var values = new Stack<long>();
+            var operands = new Stack<char>();
 
-            for (int i = 0; i < expression.Length; i++)
+            operands.Push('(');
+
+            foreach (var c in expression)
             {
-                var c = expression[i];
-                if (c == '(')
+                if (c == '(') operands.Push(c);
+                else if (c == ')')
                 {
-                    var end = Utilities.IndexOfClosingParenthesis(expression, i) - 1;
-                    var n = Resolve(expression[(i + 1)..(end)], precedence);
-                    i = end;
-
-                    if (operand == default)
+                    while (operands.Peek() != '(')
                     {
-                        sum = n;
+                        values.Push(operands.Pop() == '+'
+                            ? values.Pop() + values.Pop()
+                            : values.Pop() * values.Pop());
                     }
-                    else if (precedence != default && operand != precedence)
-                    {
-                        storage.Add(n);
-                    }
-                    else
-                    {
-                        sum = operand == '+' ? sum + n : sum * n;
-                    }
+                    operands.Pop();
                 }
-                else if (int.TryParse(c.ToString(), out int n))
-                {
-                    if (operand == default)
-                    {
-                        sum = n;
-                    }
-                    else if (precedence != default && operand != precedence)
-                    {
-                        expression = expression.Substring(0, i) + '(' + expression.Substring(i);
-                        var end = expression.IndexOf(')', i);
-                        expression = end == -1
-                            ? expression + ')'
-                            : expression.Substring(0, end) + ')' + expression.Substring(end);
-
-                        i--;
-                    }
-                    else
-                    {
-                        sum = operand == '+' ? sum + n : sum * n;
-                    }
-                }
+                else if (long.TryParse(c.ToString(), out long n)) values.Push(n);
                 else
                 {
-                    operand = c;
+                    while (operands.Peek() != '(' && (precedence == default || operands.Peek() == precedence))
+                    {
+                        values.Push(operands.Pop() == '+'
+                            ? values.Pop() + values.Pop()
+                            : values.Pop() * values.Pop());
+                    }
+                    operands.Push(c);
                 }
             }
 
-            return precedence == default
-                ? sum
-                : storage.Aggregate(sum, (acc, n) => precedence == '+' ? acc * n : acc + n);
+            while (operands.Peek() != '(')
+            {
+                values.Push(operands.Pop() == '+'
+                    ? values.Pop() + values.Pop()
+                    : values.Pop() * values.Pop());
+            }
+
+            return values.Single();
         }
     }
 }
