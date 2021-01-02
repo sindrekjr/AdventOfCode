@@ -30,7 +30,7 @@ namespace AdventOfCode.Solutions.Year2020
             }
         }
 
-        public IEnumerable<IEnumerable<T>> PeekAround((int x, int y, int z, int w) position, int radius = 1)
+        public IEnumerable<IEnumerable<T>> PokeAround((int x, int y, int z, int w) position, int radius = 1)
         {
             if (InfiniteChildren == null) InfiniteChildren = new PocketDimension<T>();
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++) for (int z = -1; z <= 1; z++) for (int w = -1; w <= 1; w++)

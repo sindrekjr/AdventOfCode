@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace AdventOfCode.Solutions.Year2020
         List<int> ProcessMoves(List<int> cups, int amount)
         {
             var current = 0;
-            var history = new Dictionary<(int, string), int>();
+            // var history = new Dictionary<(int, string), int>();
             for (int c = 0, currentCup = cups[current]; c < amount; c++, currentCup = cups[current])
             {
                 // Console.WriteLine("-- move " + (c + 1) + " --");
@@ -51,16 +52,16 @@ namespace AdventOfCode.Solutions.Year2020
 
                 for (int i = 2, dest = cups.IndexOf(destination) + 1; i >= 0; i--) cups.Insert(dest, picked[i]);
                 
-                var sequence = cups.JoinAsStrings();
-                if (history.ContainsKey((current, sequence)))
-                {
-                    var diff = c - history[(current, sequence)];
-                    c += diff * (int) Math.Floor((double) (amount - c) / diff);
-                }
-                else
-                {
-                    history.Add((current, sequence), c);
-                }
+                // var sequence = cups.JoinAsStrings();
+                // if (history.ContainsKey((current, sequence)))
+                // {
+                //     var diff = c - history[(current, sequence)];
+                //     c += diff * (int) Math.Floor((double) (amount - c) / diff);
+                // }
+                // else
+                // {
+                //     history.Add((current, sequence), c);
+                // }
                 
                 current = cups.IndexOf(currentCup) + 1;
                 if (current >= cups.Count) current = 0;
@@ -79,4 +80,111 @@ namespace AdventOfCode.Solutions.Year2020
             return next;
         }
     }
+
+    // class LinkedList<T> : IList<T>
+    // {
+    //     T Head { get; set; }
+    //     LinkedList<T> Tail { get; set; }
+    //     int Size { get; set; } = 0;
+
+    //     public int Count => Size;
+
+    //     public bool IsReadOnly => false;
+
+    //     public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+    //     public LinkedList() { }
+
+    //     public LinkedList(T head) : this(head, null) { }
+
+    //     public LinkedList(IEnumerable<T> elements) : this(elements.First(), new LinkedList<T>(elements.Skip(1))) { }
+
+    //     LinkedList(T head, LinkedList<T> rest)
+    //     {
+    //         Add(head);
+    //         Tail = rest;
+
+    //         if (Tail != null) Size += Tail.Size;
+    //     }
+
+    //     public int IndexOf(T item) => Head.Equals(item) ? 0 : Tail.IndexOf(item) + 1;
+
+    //     public void Insert(int index, T item)
+    //     {
+    //         if (index == 0) 
+    //         {
+    //             Tail = new LinkedList<T>(Head, Tail);
+    //             Head = item;
+    //         }
+    //         else
+    //         {
+    //             if (Tail == null) Tail = new LinkedList<T>();
+    //             Tail.Insert(index - 1, item);
+    //         }
+
+    //         Size++;
+    //     }
+
+    //     public void RemoveAt(int index)
+    //     {
+    //         if (index == 0)
+    //         {
+    //             Head = Tail != default ? Tail.Head : default;
+    //             Tail = Tail != default ? Tail.Tail : default;
+    //         }
+    //         else
+    //         {
+    //             Tail.RemoveAt(index - 1);
+    //         }
+
+    //         Size--;
+    //     }
+
+    //     public void Add(T item)
+    //     {
+    //         if (Head == null)
+    //         {
+    //             Head = item;
+    //         }
+    //         else if (Tail == null)
+    //         {
+    //             Tail = new LinkedList<T>(item);
+    //         }
+    //         else
+    //         {
+    //             Tail.Add(item);
+    //         }
+            
+    //         Size++;
+    //     }
+
+    //     public void Clear()
+    //     {
+    //         Head = default;
+    //         Tail = default;
+    //         Size = default;
+    //     }
+
+    //     public bool Contains(T item) => Head.Equals(item) || Tail != null && Tail.Contains(item);
+
+    //     public void CopyTo(T[] array, int arrayIndex)
+    //     {
+    //         throw new NotImplementedException();
+    //     }
+
+    //     public bool Remove(T item)
+    //     {
+    //         throw new NotImplementedException();
+    //     }
+
+    //     public IEnumerator<T> GetEnumerator()
+    //     {
+    //         throw new NotImplementedException();
+    //     }
+
+    //     IEnumerator IEnumerable.GetEnumerator()
+    //     {
+    //         throw new NotImplementedException();
+    //     }
+    // }
 }

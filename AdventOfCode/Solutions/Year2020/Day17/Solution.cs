@@ -43,13 +43,13 @@ namespace AdventOfCode.Solutions.Year2020
 
             foreach (var (key, cube) in original)
             {
-                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
                 grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
             }
 
             foreach (var (key, cube) in new Grid<bool>(original.InfiniteChildren))
             {
-                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
                 grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
             }
 
@@ -62,13 +62,13 @@ namespace AdventOfCode.Solutions.Year2020
 
             foreach (var (key, cube) in original)
             {
-                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
                 dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
             }
 
             foreach (var (key, cube) in new PocketDimension<bool>(original.InfiniteChildren))
             {
-                var adjacent = original.PeekAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
                 dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
             }
 

@@ -52,7 +52,7 @@ namespace AdventOfCode.Solutions.Year2020
                 map.Add(key, tile);
                 if(tile == Tile.Empty) continue;
 
-                var adjacents = original.PeekAround(key, sight ? -1 : 1).Aggregate(0, (acc, direction) => 
+                var adjacents = original.PokeAround(key, sight ? -1 : 1).Aggregate(0, (acc, direction) => 
                 {
                     foreach (var t in direction)
                     {
