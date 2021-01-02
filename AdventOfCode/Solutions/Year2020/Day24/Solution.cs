@@ -26,13 +26,13 @@ namespace AdventOfCode.Solutions.Year2020
 
             foreach (var (key, tile) in original)
             {
-                var adjacent = original.PeekAround(key, 1, false).Count(t => t.First());
+                var adjacent = original.PokeAround(key, 1, false).Count(t => t.First());
                 grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
             }
 
             foreach (var (key, tile) in new Grid<bool>(original.InfiniteChildren))
             {
-                var adjacent = original.PeekAround(key, 1, false).Count(t => t.First());
+                var adjacent = original.PokeAround(key, 1, false).Count(t => t.First());
                 grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
             }
 

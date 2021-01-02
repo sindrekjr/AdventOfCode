@@ -27,17 +27,17 @@ namespace AdventOfCode.Solutions.Year2020
             }
         }
 
-        public IEnumerable<IEnumerable<T>> PeekAround((int x, int y, int z) position, int radius = 1, bool diagonal = true)
+        public IEnumerable<IEnumerable<T>> PokeAround((int x, int y, int z) position, int radius = 1, bool diagonal = true)
         {
             if (InfiniteChildren == null) InfiniteChildren = new Grid<T>();
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++) for (int z = -1; z <= 1; z++)
             {
                 if ((x == 0 && y == 0 && z == 0) || (!diagonal && (x == y || y == z || x == z))) continue;
-                yield return RelativelyIncrementalPeek(position, (x, y, z), radius);
+                yield return RelativelyIncrementalPoke(position, (x, y, z), radius);
             }
         }
 
-        IEnumerable<T> RelativelyIncrementalPeek((int x, int y, int z) start, (int x, int y, int z) increment, int count)
+        IEnumerable<T> RelativelyIncrementalPoke((int x, int y, int z) start, (int x, int y, int z) increment, int count)
         {
             while (count-- > 0)
             {
