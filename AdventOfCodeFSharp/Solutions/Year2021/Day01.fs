@@ -11,3 +11,8 @@ module FSharpDay01 =
                 else (CountIncreases xs acc)
             | [] -> acc
         | [] -> acc
+
+    let SumGroupsOfThree measurements =
+        measurements
+        |> List.windowed 3
+        |> List.map (List.reduce (+))
