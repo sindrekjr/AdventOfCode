@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.FSharp.Collections;
 
 namespace AdventOfCode.Solutions.Year2021
 {
@@ -10,18 +11,9 @@ namespace AdventOfCode.Solutions.Year2021
         public Day01() : base(01, 2021, "Sonar Sweep") { }
 
         protected override string SolvePartOne()
-        {
-            var measurements = Input.ToIntArray("\n");
-
-            var increases = 0;
-            for (int i = 0; i < measurements.Length; i++) {
-                if (i == 0) continue;
-
-                if (measurements[i] > measurements[i - 1]) increases++;
-            }
-
-            return increases.ToString();
-        }
+            => FSharpDay01
+                .CountIncreases(ListModule.OfSeq(Input.ToIntArray("\n")), 0)
+                .ToString();
 
         protected override string SolvePartTwo()
         {
