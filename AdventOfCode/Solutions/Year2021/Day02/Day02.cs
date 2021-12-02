@@ -19,17 +19,52 @@ namespace AdventOfCode.Solutions.Year2021
             foreach (var instruction in Input.SplitByNewline())
             {
                 var (cmd, amt, _) = instruction.Split(" ");
+                var units = int.Parse(amt);
 
-                if (cmd == "forward") x += int.Parse(amt);
-                if (cmd == "up") y -= int.Parse(amt);
-                if (cmd == "down") y += int.Parse(amt);
+                switch (cmd)
+                {
+                    case "forward":
+                        x += units;
+                        break;
+                    case "up":
+                        y -= units;
+                        break;
+                    case "down":
+                        y += units;
+                        break;
+                }
             }
+
             return (x * y).ToString();
         }
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var a = 0;
+            var x = 0;
+            var y = 0;
+
+            foreach (var instruction in Input.SplitByNewline())
+            {
+                var (cmd, amt, _) = instruction.Split(" ");
+                var units = int.Parse(amt);
+
+                switch (cmd)
+                {
+                    case "up":
+                        a -= units;
+                        break;
+                    case "down":
+                        a += units;
+                        break;
+                    case "forward":
+                        x += units;
+                        y += units * a;
+                        break;
+                }
+            }
+
+            return (x * y).ToString();
         }
     }
 }
