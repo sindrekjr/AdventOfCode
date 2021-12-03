@@ -6,6 +6,7 @@ Solutions in C#.
 |-|-|-|
 | [1: Sonar Sweep](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day01/Day01.cs) | C# + F# | |
 | [2: Dive!](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day02/Day02.cs) | C# | |
+| [3: Binary Diagnostic](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day03/Day03.cs) | C# | |
 
 ### [Year 2020](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020)
 | Day | Language | Comment | 
