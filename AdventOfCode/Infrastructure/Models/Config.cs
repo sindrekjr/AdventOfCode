@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -54,7 +52,7 @@ namespace AdventOfCode.Infrastructure.Models
             }
         }
 
-        void setDefaults()
+        void SetDefaults()
         {
             //Make sure we're looking at EST, or it might break for most of the US
             DateTime CURRENT_EST = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Utc).AddHours(-5);
@@ -75,12 +73,12 @@ namespace AdventOfCode.Infrastructure.Models
             if (File.Exists(path))
             {
                 config = JsonSerializer.Deserialize<Config>(File.ReadAllText(path), options);
-                config.setDefaults();
+                config.SetDefaults();
             }
             else
             {
                 config = new Config();
-                config.setDefaults();
+                config.SetDefaults();
                 File.WriteAllText(path, JsonSerializer.Serialize<Config>(config, options));
             }
 

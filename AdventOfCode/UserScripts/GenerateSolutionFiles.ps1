@@ -3,16 +3,10 @@
 )
 
 $template = @"
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AdventOfCode.Solutions.Year<YEAR>
 {
-
     class Day<DAY> : ASolution
     {
-
         public Day<DAY>() : base(<DAY>, <YEAR>, `"`")
         {
 
