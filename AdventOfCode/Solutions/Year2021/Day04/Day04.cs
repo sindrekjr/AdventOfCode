@@ -7,7 +7,6 @@ namespace AdventOfCode.Solutions.Year2021
 {
     class Day04 : ASolution
     {
-
         public Day04() : base(04, 2021, "Giant Squid") { }
 
         protected override string SolvePartOne()
@@ -22,26 +21,25 @@ namespace AdventOfCode.Solutions.Year2021
                     var (x, y, _) = board[num];
                     board[num] = (x, y, true);
 
-                    var markedX = 0;
-                    var markedY = 0;
+                    var (xAxis, yAxis) = board.Values
+                        .Aggregate<(int x, int y, bool marked), (int x, int y)>((0, 0), (acc, current) =>
+                        {
+                            if (current.marked)
+                            {
+                                if (current.x == x) acc.x++;
+                                if (current.y == y) acc.y++;
+                            }
 
-                    foreach (var values in board.Values)
-                    {
-                        if (!values.marked) continue;
-                        
-                        if (values.x == x) markedX++;
-                        if (values.y == y) markedY++;
-                        if (markedX == 5 || markedY == 5) break;
-                    }
+                            return acc;
+                        });
 
-                    if (markedX == 5 || markedY == 5)
-                    {
-                        var sum = board
-                            .Where(field => !field.Value.marked)
-                            .Aggregate(0, (acc, field) => field.Key + acc);
+                    if (xAxis != 5 && yAxis != 5) continue;
+                    
+                    var sum = board
+                        .Where(field => !field.Value.marked)
+                        .Aggregate(0, (acc, field) => field.Key + acc);
 
-                        return (num * sum).ToString();
-                    }
+                    return (num * sum).ToString();
                 }
             }
 
@@ -62,31 +60,30 @@ namespace AdventOfCode.Solutions.Year2021
                     var (x, y, _) = board[num];
                     board[num] = (x, y, true);
 
-                    var markedX = 0;
-                    var markedY = 0;
-
-                    foreach (var values in board.Values)
-                    {
-                        if (!values.marked) continue;
-                        
-                        if (values.x == x) markedX++;
-                        if (values.y == y) markedY++;
-                        if (markedX == 5 || markedY == 5) break;
-                    }
-
-                    if (markedX == 5 || markedY == 5)
-                    {
-                        if (boards.Count == 1)
+                    var (xAxis, yAxis) = board.Values
+                        .Aggregate<(int x, int y, bool marked), (int x, int y)>((0, 0), (acc, current) =>
                         {
-                            var sum = board
-                                .Where(field => !field.Value.marked)
-                                .Aggregate(0, (acc, field) => field.Key + acc);
+                            if (current.marked)
+                            {
+                                if (current.x == x) acc.x++;
+                                if (current.y == y) acc.y++;
+                            }
 
-                            return (num * sum).ToString();
-                        }
-                        
-                        nextBoards.Remove(board);
+                            return acc;
+                        });
+
+                    if (xAxis != 5 && yAxis != 5) continue;
+                    
+                    if (boards.Count == 1)
+                    {
+                        var sum = board
+                            .Where(field => !field.Value.marked)
+                            .Aggregate(0, (acc, field) => field.Key + acc);
+
+                        return (num * sum).ToString();
                     }
+                    
+                    nextBoards.Remove(board);
                 }
 
                 boards = nextBoards;
