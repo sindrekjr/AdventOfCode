@@ -1,66 +1,44 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2021
 {
     class Day06 : ASolution
     {
-        public Day06() : base(06, 2021, "Lanternfish", true) { }
+        public Day06() : base(06, 2021, "Lanternfish") { }
 
         protected override string SolvePartOne() =>
-            CountFishForDays(Input.ToIntArray(",").ToList(), 80).Count.ToString();
+            SimulateFishForDays(Input.ToIntArray(","), 80).ToString();
 
-        protected override string SolvePartTwo()
-        {
-            return SimulateFishForDays(Input.ToIntArray(",").ToList(), 256).ToString();
-        }
+        protected override string SolvePartTwo() =>
+            SimulateFishForDays(Input.ToIntArray(","), 256).ToString();
 
-        IList<int> CountFishForDays(List<int> fish, int days)
+        long SimulateFishForDays(IEnumerable<int> fish, int days)
         {
+            var dict = fish.Aggregate(new Dictionary<int, long>(), (dict, age) =>
+            {
+                if (!dict.ContainsKey(age)) dict.Add(age, 0);
+                dict[age]++;
+                return dict;
+            });
+
             for (var day = 1; day <= days; day++)
             {
-                var newFish = new List<int>();
+                var newDict = new Dictionary<int, long>();
 
-                for (var i = 0; i < fish.Count; i++)
+                for (var i = 0; i < 6; i++)
                 {
-                    var f = fish[i];
-
-                    if (--f == -1) {
-                        newFish.Add(8);
-                        f = 6;
-                    }
-
-                    fish[i] = f;
+                    newDict.Add(i, dict.GetValueOrDefault(i + 1));
                 }
                 
-                fish.AddRange(newFish);
+                newDict.Add(6, dict.GetValueOrDefault(7) + dict.GetValueOrDefault(0));
+                newDict.Add(7, dict.GetValueOrDefault(8));
+                newDict.Add(8, dict.GetValueOrDefault(0));
+
+                dict = newDict;
             }
 
-            return fish;
-        }
-
-        int SimulateFishForDays(IList<int> fish, int days)
-        {
-            var count = 0;
-            
-            for (var i = 0; i <= fish.Count; i += 8)
-            {
-                var f = fish[i];
-                count = FishLife(days - f);
-            }
-
-            return count;
-        }
-
-        int FishLife(int days)
-        {
-            var fishCount = 1;
-
-            for (var reproduction = days - 2; reproduction >= 0; reproduction -= 6)
-            {
-                fishCount += FishLife(reproduction);
-            }
-
-            return fishCount;
+            return dict.Values.Sum();
         }
     }
 }
