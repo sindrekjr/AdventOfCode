@@ -1,5 +1,7 @@
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using AdventOfCode.Infrastructure.Models;
 
 namespace AdventOfCode.Infrastructure.Helpers
@@ -8,7 +10,7 @@ namespace AdventOfCode.Infrastructure.Helpers
     {
         readonly static string cookie = Config.Get("config.json").Cookie;
 
-        public static string LoadInput(int day, int year)
+        public static async Task<string> LoadInput(int day, int year)
         {
             string INPUT_FILEPATH = GetDayPath(day, year) + "/input";
             string INPUT_URL = GetAocInputUrl(day, year);
@@ -25,10 +27,10 @@ namespace AdventOfCode.Infrastructure.Helpers
                     DateTime CURRENT_EST = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Utc).AddHours(-5);
                     if (CURRENT_EST < new DateTime(year, 12, day)) throw new InvalidOperationException();
 
-                    using (var client = new WebClient())
+                    using (var client = new HttpClient())
                     {
-                        client.Headers.Add(HttpRequestHeader.Cookie, cookie);
-                        input = client.DownloadString(INPUT_URL).Trim();
+                        client.DefaultRequestHeaders.Add("Cookie", cookie);
+                        input = await (await client.GetAsync(INPUT_URL)).Content.ReadAsStringAsync();
                         File.WriteAllText(INPUT_FILEPATH, input);
                     }
                 }

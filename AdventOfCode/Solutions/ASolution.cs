@@ -28,7 +28,7 @@ namespace AdventOfCode.Solutions
             Year = year;
             Title = title;
             Debug = useDebugInput;
-            _input = new Lazy<string>(() => InputHelper.LoadInput(Day, Year));
+            _input = new Lazy<string>(() => InputHelper.LoadInput(Day, Year).Result);
             _debugInput = new Lazy<string>(() => InputHelper.LoadDebugInput(Day, Year));
             _part1 = new Lazy<SolutionResult>(() => SolveSafely(SolvePartOne));
             _part2 = new Lazy<SolutionResult>(() => SolveSafely(SolvePartTwo));
