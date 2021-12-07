@@ -17,7 +17,21 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var positions = Input.ToIntArray(",");
+
+            var minimum = 0;
+            foreach (var target in Enumerable.Range(0, positions.Max()))
+            {
+                var fuel = positions.Aggregate(0, (acc, p) =>
+                {
+                    var cost = Math.Abs(p - target) * (Math.Abs(p - target) + 1) / 2;
+                    return cost + acc;
+                });
+
+                if (minimum == 0 || minimum > fuel) minimum = fuel;
+            }
+
+            return minimum.ToString();
         }
     }
 }
