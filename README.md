@@ -1,16 +1,16 @@
 # Advent of Code
 Solutions in C#.
 
-| Day | 2019 | 2020 | 2021 |
-|-----|------|------|------|
+| Day | 2019 | 2020 | 2021                                                                                                       |
+|-----|------|------|------------------------------------------------------------------------------------------------------------|
 | 1  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day01/Day01.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day01/Day01.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day01/Day01.cs)
 | 2  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day02/Day02.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day02/Day02.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day02/Day02.cs)
 | 3  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day03/Day03.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day03/Day03.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day03/Day03.cs)
 | 4  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day04/Day04.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day04/Day04.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day04/Day04.cs)
 | 5  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day05/Day05.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day05/Day05.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day05/Day05.cs)
 | 6  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day06/Day06.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day06/Day06.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day06/Day06.cs)
-| 7  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day07/Day07.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day07/Day07.cs) |
-| 8  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day08/Day08.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day08/Day08.cs) |
+| 7  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day07/Day07.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day07/Day07.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day07/Day07.cs)
+| 8  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day08/Day08.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day08/Day08.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day08/Day08.cs)
 | 9  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day09/Day09.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day09/Day09.cs) |
 | 10 | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day10/Day10.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day10/Day10.cs) |
 | 11 | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day11/Day11.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day11/Day11.cs) |
