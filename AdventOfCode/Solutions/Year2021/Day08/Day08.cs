@@ -4,16 +4,13 @@ namespace AdventOfCode.Solutions.Year2021
     {
         public Day08() : base(08, 2021, "Seven Segment Search") { }
 
-        protected override string SolvePartOne() => Input.SplitByNewline() 
-            .Aggregate(0, (acc, entry) => entry
-                .Split(" | ")[1]
+        protected override string SolvePartOne() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
+        {
+            var (_, output, _) = entry.Split(" | ");
+            return output
                 .Split(" ")
-                .Aggregate(acc, (a, output) =>
-                {
-                    var len = output.Length;
-                    if (len is 2 or 4 or 3 or 7) return a + 1;
-                    return a;
-                })).ToString();
+                .Aggregate(total, (acc, value) => value.Length is 2 or 4 or 3 or 7 ? acc + 1 : acc);
+        }).ToString();
 
         protected override string SolvePartTwo() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
         {
