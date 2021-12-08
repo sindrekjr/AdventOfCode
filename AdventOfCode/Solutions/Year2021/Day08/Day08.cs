@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace AdventOfCode.Solutions.Year2021
 {
     class Day08 : ASolution
