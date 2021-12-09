@@ -11,12 +11,21 @@ namespace AdventOfCode.Solutions.Year2021
         protected override string SolvePartOne()
         {
             var map = new Map<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
-            return FindSinks(map).Aggregate(0, (sum, kv) => sum + kv.Value + 1).ToString();
+            return FindSinks(map)
+                .Aggregate(0, (sum, kv) => sum + kv.Value + 1)
+                .ToString();
         }
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var map = new Map<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
+            return FindSinks(map)
+                .ToArray()
+                .Select(kv => CalculateBasinSize(map, kv.Key))
+                .OrderByDescending(size => size)
+                .Take(3)
+                .Aggregate(1, (f, c) => f * c)
+                .ToString();
         }
 
         IEnumerable<KeyValuePair<(int x, int y), int>> FindSinks(Map<int> map)
@@ -33,6 +42,35 @@ namespace AdventOfCode.Solutions.Year2021
 
                 yield return kv;
             }
+        }
+
+        int CalculateBasinSize(Map<int> map, (int x, int y) sink)
+        {
+            var (x, y) = sink;
+            var size = 1;
+
+            map.Remove(sink);
+            if (map.TryGetValue((x - 1, y), out var adjL) && adjL < 9)
+            {
+                size += CalculateBasinSize(map, (x - 1, y));
+            }
+
+            if (map.TryGetValue((x + 1, y), out var adjR) && adjR < 9)
+            {
+                size += CalculateBasinSize(map, (x + 1, y));
+            }
+
+            if (map.TryGetValue((x, y - 1), out var adjD) && adjD < 9)
+            {
+                size += CalculateBasinSize(map, (x, y - 1));
+            }
+
+            if (map.TryGetValue((x, y + 1), out var adjU) && adjU < 9)
+            {
+                size += CalculateBasinSize(map, (x, y + 1));
+            }
+
+            return size;
         }
     }
 }
