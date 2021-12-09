@@ -11,10 +11,19 @@ namespace AdventOfCode.Solutions.Year2021
         protected override string SolvePartOne()
         {
             var map = new Map<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
+            return FindSinks(map).Aggregate(0, (sum, kv) => sum + kv.Value + 1).ToString();
+        }
 
-            var sum = 0;
-            foreach (var (position, value) in map)
+        protected override string SolvePartTwo()
+        {
+            return null;
+        }
+
+        IEnumerable<KeyValuePair<(int x, int y), int>> FindSinks(Map<int> map)
+        {
+            foreach (var kv in map)
             {
+                var (position, value) = kv;
                 var (x, y) = position;
 
                 if (map.TryGetValue((x - 1, y), out var adjL) && adjL <= value) continue;
@@ -22,15 +31,8 @@ namespace AdventOfCode.Solutions.Year2021
                 if (map.TryGetValue((x, y - 1), out var adjD) && adjD <= value) continue;
                 if (map.TryGetValue((x, y + 1), out var adjU) && adjU <= value) continue;
 
-                sum += value + 1;
+                yield return kv;
             }
-
-            return sum.ToString();
-        }
-
-        protected override string SolvePartTwo()
-        {
-            return null;
         }
     }
 }
