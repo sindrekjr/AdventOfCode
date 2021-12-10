@@ -6,6 +6,28 @@ namespace AdventOfCode.Solutions.Year2021
 {
     class Day10 : ASolution
     {
+        Dictionary<char, char> Endings = new Dictionary<char, char>()
+        {
+            ['('] = ')',
+            ['['] = ']',
+            ['{'] = '}',
+            ['<'] = '>',
+        };
+        Dictionary<char, int> PointsForIllegals = new Dictionary<char, int>()
+        {
+            [')'] = 3,
+            [']'] = 57,
+            ['}'] = 1197,
+            ['>'] = 25137,
+        };
+        Dictionary<char, int> PointsForCompletions = new Dictionary<char, int>()
+        {
+            ['('] = 1,
+            ['['] = 2,
+            ['{'] = 3,
+            ['<'] = 4,
+        };
+
         public Day10() : base(10, 2021, "Syntax Scoring")
         {
 
@@ -24,21 +46,28 @@ namespace AdventOfCode.Solutions.Year2021
         protected override string SolvePartTwo()
         {
             var incomplete = Input.SplitByNewline().Where(l => IsCorrupted(l) == 0);
-            return null;
+
+            var scores = new List<long>();
+            foreach (var line in incomplete)
+            {
+                var (stack, _) = StackLine(line);
+                scores.Add(stack.Aggregate(0L, (acc, ch) => acc * 5 + PointsForCompletions[ch]));
+            }
+
+            return scores.OrderByDescending(s => s).ToArray()[scores.Count / 2].ToString();
         }        
 
         int IsCorrupted(string line)
         {
-            var stack = new Stack<char>();
-            var illegalChars = new Dictionary<char, int>()
-            {
-                [')'] = 3,
-                [']'] = 57,
-                ['}'] = 1197,
-                ['>'] = 25137,
-            };
+            var (_, illegal) = StackLine(line);
+            return illegal == null ? 0 : PointsForIllegals[illegal.Value];
+        }
 
-            foreach (char c in line)
+        (Stack<char> stack, char? illegal) StackLine(string line)
+        {
+            var stack = new Stack<char>();
+
+            foreach (var c in line)
             {
                 if (c is '(' or '[' or '{' or '<')
                 {
@@ -46,32 +75,16 @@ namespace AdventOfCode.Solutions.Year2021
                     continue;
                 }
 
-                var opener = stack.Pop();
+                if (Endings[stack.Peek()] == c)
+                {
+                    stack.Pop();
+                    continue;
+                }
 
-                if (c == ')' && opener == '(') continue;
-                if (c == ']' && opener == '[') continue;
-                if (c == '}' && opener == '{') continue;
-                if (c == '>' && opener == '<') continue;
-
-                return illegalChars[c];
+                return (stack, c);
             }
 
-            return 0;
-        }
-
-        bool IsIncomplete(string line)
-        {
-            var openers = 0;
-            var closers = 0;
-            foreach (var c in line)
-            {
-                if (c is '(' or '[' or '{' or '<') openers++;
-                if (c is ')' or ']' or '}' or '>') closers++;
-            }
-
-            Console.WriteLine($"o: {openers}; c: {closers}");
-
-            return openers != closers;
+            return (stack, null);
         }
     }
 }
