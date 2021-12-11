@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace AdventOfCode.Solutions.Year2020
 {
     public class Map<T> : SortedDictionary<(int x, int y), T>
