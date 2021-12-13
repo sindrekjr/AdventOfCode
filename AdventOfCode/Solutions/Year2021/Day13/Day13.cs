@@ -10,22 +10,20 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartOne()
         {
-            var (dots, instructions, _) = Input.SplitByParagraph().Select(p => p.SplitByNewline()).ToArray();
-            var (iAxis, iParam, _) = instructions.First().Split("along ").ToArray()[1].Split("=");
-            var param = int.Parse(iParam);
-
+            var (dots, instructions) = ParseInput();
+            var (axis, param) = instructions.First();
             var paper = dots.Select(dot =>
             {
                 var (x, y, _) = dot.Split(",").Select(int.Parse).ToArray();
                 return (x, y);
             }).ToHashSet();
 
-            return Fold(paper, iAxis, param).Count.ToString();
+            return Fold(paper, axis, param).Count.ToString();
         }
 
         protected override string SolvePartTwo()
         {
-            var (dots, instructions, _) = Input.SplitByParagraph().Select(p => p.SplitByNewline()).ToArray();
+            var (dots, instructions) = ParseInput();
 
             var paper = dots.Select(dot =>
             {
@@ -35,13 +33,21 @@ namespace AdventOfCode.Solutions.Year2021
 
             foreach (var instr in instructions)
             {
-                var (axis, param, _) = instr.Split("along ").ToArray()[1].Split("=");
-                paper = Fold(paper, axis, int.Parse(param));
+                var (axis, param) = instr;
+                paper = Fold(paper, axis, param);
             }
 
-            PaintPaper(paper, paper.Select(dot => dot.x).Max(), paper.Select(dot => dot.y).Max());
+            return PaintPaper(paper);
+        }
 
-            return "Solved";
+        (string[], (string, int)[]) ParseInput()
+        {
+            var (dots, instructions, _) = Input.SplitByParagraph().Select(p => p.SplitByNewline()).ToArray();
+            return (dots, instructions.Select(instr =>
+            {
+                var (axis, strVal, _) = instr.Split("along ").ToArray()[1].Split("=");
+                return (axis, int.Parse(strVal));
+            }).ToArray());
         }
 
         HashSet<(int x, int y)> Fold(HashSet<(int x, int y)> dots, string axis, int value) => dots.Select(dot =>
@@ -52,17 +58,18 @@ namespace AdventOfCode.Solutions.Year2021
             return (x, y);
         }).ToHashSet();
 
-        void PaintPaper(HashSet<(int x, int y)> paper, int xEdge = 10, int yEdge = 14)
+        string PaintPaper(HashSet<(int x, int y)> paper)
         {
-            Console.WriteLine();
-            for (int y = 0; y <= yEdge; y++)
+            var str = "\n";
+            for (int y = 0; y <= paper.Max(dot => dot.y); y++)
             {
-                for (int x = 0; x <= xEdge; x++)
+                for (int x = 0; x <= paper.Max(dot => dot.x); x++)
                 {
-                    Console.Write(paper.Contains((x, y)) ? "#" : ".");
+                    str += paper.Contains((x, y)) ? "#" : " ";
                 }
-                Console.WriteLine();
+                str += "\n";
             }
+            return str;
         }
     }
 }
