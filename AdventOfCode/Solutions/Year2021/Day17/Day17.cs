@@ -21,7 +21,7 @@ namespace AdventOfCode.Solutions.Year2021
             var actuallyHighest = 0;
             for (int y = 5; y < 2000; y++)
             {
-                var (success, highest) = DryRun((0, 0), (0, y));
+                var (success, highest) = DryRun((0, 0), (0, y), true);
                 if (success) actuallyHighest = highest;
             }
 
@@ -30,19 +30,29 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var successes = 0;
+            for (int y = -1000; y < 2000; y++) for (int x = 1; x < 2000; x++)
+            {
+                if (DryRun((0, 0), (x, y)).success) successes++;
+            }
+
+            return successes.ToString();
         }
 
-        (bool success, int maxHeight) DryRun((int x, int y) pos, (int x, int y) vel)
+        (bool success, int maxHeight) DryRun((int x, int y) pos, (int x, int y) vel, bool yTest = false)
         {
             var highest = 0;
-            while (pos.y >= MinY)
+            while (pos.x <= MaxX && pos.y >= MinY)
             {
                 (pos, vel) = Step(pos, vel);
 
                 if (pos.y > highest) highest = pos.y;
 
-                if (pos.y >= MinY && pos.y <= MaxY) return (true, highest);
+                if (pos.y >= MinY && pos.y <= MaxY)
+                {
+                    if (!yTest && !(pos.x >= MinX && pos.x <= MaxX)) continue;
+                    return (true, highest);
+                }
             }
 
             return (false, highest);
