@@ -1,4 +1,3 @@
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace AdventOfCode.Solutions.Year2021
@@ -12,51 +11,51 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var sums = new List<string>();
+            var lines = Input.SplitByNewline();
+            for (int i = 0; i < lines.Length; i++) for (int j = i + 1; j < lines.Length; j++)
+            {
+                sums.Add(Add(lines[i], lines[j]));
+                sums.Add(Add(lines[j], lines[i]));
+            }
+
+            return sums.Max(sum => CalculateMagnitude(sum)).ToString();
         }
 
-        int CalculateMagnitude(IEnumerable<char> sum)
+        long CalculateMagnitude(string sum)
         {
-            if (!sum.Contains('[') && !sum.Contains(']'))
+            if (!sum.Contains('[') && !sum.Contains(']') && sum.Any())
             {
-                var nums = sum.JoinAsStrings().Split(",").Select(int.Parse).ToArray();
+                var nums = sum.Split(",").Select(int.Parse).ToArray();
                 if (nums.Length == 1) return nums[0];
                 return 3 * nums[0] + 2 * nums[1];
             }
 
             var depth = 0;
-            var first = sum.TakeWhile(ch =>
+            var first = "";
+            for (int i = 0; i < sum.Length; i++)
             {
+                var ch = sum[i];
+                first += ch;
                 if (ch == '[') depth++;
-                if (ch == ']') return depth-- > 0;
-                return depth > 0;
-            }).JoinAsStrings();
+                if (ch == ']') depth--;
+                if (depth <= 0) break;
+            }
 
-
-            if (first.Length == sum.Count()) return CalculateMagnitude(first.Skip(1).SkipLast(1));
+            if (first.Length == sum.Count()) return CalculateMagnitude(first.Skip(1).SkipLast(1).JoinAsStrings());
 
             depth = 0;
-            var second = sum.Skip(first.Length + 1).TakeWhile(ch =>
+            var second = "";
+            for (int i = first.Length + 1; i < sum.Length; i++)
             {
+                var ch = sum[i];
+                second += ch;
                 if (ch == '[') depth++;
-                if (ch == ']') return depth-- > 0;
-                return depth > 0;
-            }).JoinAsStrings();
+                if (ch == ']') depth--;
+                if (depth <= 0) break;
+            }
 
             return 3 * CalculateMagnitude(first) + 2 * CalculateMagnitude(second);
-        }
-
-        IEnumerable<char> RemoveOuterBrackets(IEnumerable<char> line)
-        {
-            var depth = 0;
-            var check = line.TakeWhile(ch =>
-            {
-                if (ch == '[') depth++;
-                if (ch == ']') return depth-- > 0;
-                return depth > 0;
-            }).JoinAsStrings();
-
-            return check.Length == line.Count() ? line.Skip(1).SkipLast(1) : line;
         }
 
         string Add(string first, string second) => ReduceLine($"[{first},{second}]");
