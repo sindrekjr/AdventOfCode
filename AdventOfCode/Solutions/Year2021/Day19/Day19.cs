@@ -6,83 +6,15 @@ namespace AdventOfCode.Solutions.Year2021
     {
         public Day19() : base(19, 2021, "Beacon Scanner") { }
 
-        protected override string SolvePartOne()
-        {
-            var scanners = Input.SplitByParagraph().Select(ParseParagraph).ToDictionary(s => s.Id, s => s);
-
-            var first = scanners[0];
-            scanners.Remove(first.Id);
-
-            var aligned = new Dictionary<int, Scanner>() { [first.Id] = first };
-            var checklist = new Queue<int>();
-            checklist.Enqueue(first.Id);
-
-            while (checklist.Count > 0 && scanners.Count > 0)
-            {
-                var id = checklist.Dequeue();
-                var matchlist = new List<Scanner>();
-                foreach (var scanner in scanners.Values)
-                {
-                    for (int o = 0; o < scanner.BeaconSets.Count; o++)
-                    {
-                        scanner.Orientation = o;
-                        if (AreAligned(aligned[id], scanner))
-                        {
-                            matchlist.Add(scanner);
-                            break;
-                        }
-                    }
-                }
-
-                foreach(var match in matchlist)
-                {
-                    aligned[match.Id] = match;
-                    checklist.Enqueue(match.Id);
-                    scanners.Remove(match.Id);
-                }
-            }
-
-            return aligned.Values.SelectMany(a => a.AbsBeacons).ToHashSet().Count.ToString();
-        }
+        protected override string SolvePartOne() => GetScannersAligned()
+            .SelectMany(a => a.AbsBeacons)
+            .ToHashSet().Count
+            .ToString();
 
         protected override string SolvePartTwo()
         {
-            var scanners = Input.SplitByParagraph().Select(ParseParagraph).ToDictionary(s => s.Id, s => s);
-
-            var first = scanners[0];
-            scanners.Remove(first.Id);
-
-            var aligned = new Dictionary<int, Scanner>() { [first.Id] = first };
-            var checklist = new Queue<int>();
-            checklist.Enqueue(first.Id);
-
-            while (checklist.Count > 0 && scanners.Count > 0)
-            {
-                var id = checklist.Dequeue();
-                var matchlist = new List<Scanner>();
-                foreach (var scanner in scanners.Values)
-                {
-                    for (int o = 0; o < scanner.BeaconSets.Count; o++)
-                    {
-                        scanner.Orientation = o;
-                        if (AreAligned(aligned[id], scanner))
-                        {
-                            matchlist.Add(scanner);
-                            break;
-                        }
-                    }
-                }
-
-                foreach(var match in matchlist)
-                {
-                    aligned[match.Id] = match;
-                    checklist.Enqueue(match.Id);
-                    scanners.Remove(match.Id);
-                }
-            }
-
             var largestDistance = 0F;
-            var positions = aligned.Values.Select(a => a.Position).ToArray();
+            var positions = GetScannersAligned().Select(a => a.Position).ToArray();
             for (int i = 0; i < positions.Length; i++) for (int j = i + 1; j < positions.Length; j++)
             {
                 var distance = positions[i].Distance(positions[j]);
@@ -92,7 +24,44 @@ namespace AdventOfCode.Solutions.Year2021
             return largestDistance.ToString();
         }
 
-        Scanner ParseParagraph(string paragraph) => new Scanner(paragraph);
+        IEnumerable<Scanner> GetScannersAligned()
+        {
+            var scanners = Input.SplitByParagraph().Select(p => new Scanner(p)).ToDictionary(s => s.Id, s => s);
+
+            var first = scanners[0];
+            scanners.Remove(first.Id);
+
+            var aligned = new Dictionary<int, Scanner>() { [first.Id] = first };
+            var checklist = new Queue<int>();
+            checklist.Enqueue(first.Id);
+
+            while (checklist.Count > 0 && scanners.Count > 0)
+            {
+                var id = checklist.Dequeue();
+                var matchlist = new List<Scanner>();
+                foreach (var scanner in scanners.Values)
+                {
+                    for (int o = 0; o < scanner.BeaconSets.Count; o++)
+                    {
+                        scanner.Orientation = o;
+                        if (AreAligned(aligned[id], scanner))
+                        {
+                            matchlist.Add(scanner);
+                            break;
+                        }
+                    }
+                }
+
+                foreach(var match in matchlist)
+                {
+                    aligned[match.Id] = match;
+                    checklist.Enqueue(match.Id);
+                    scanners.Remove(match.Id);
+                }
+            }
+
+            return aligned.Values;
+        }
 
         bool AreAligned(Scanner a, Scanner b)
         {

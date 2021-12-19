@@ -21,7 +21,7 @@ Solutions in C#.
 | 16 | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2019/Day16/Day16.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day16/Day16.cs) |
 | 17 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day17/Day17.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day17/Day17.cs)
 | 18 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day18/Day18.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day18/Day18.cs)
-| 19 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day19/Day19.cs) |
+| 19 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day19/Day19.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2021/Day19/Day19.cs)
 | 20 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day20/Day20.cs) |
 | 21 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day21/Day21.cs) |
 | 22 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode/Solutions/Year2020/Day22/Day22.cs) |
