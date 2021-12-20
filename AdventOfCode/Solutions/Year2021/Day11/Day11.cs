@@ -9,17 +9,17 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartOne()
         {
-            var octopuses = new Map<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
+            var octopuses = new SquareMap<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
             return Enumerable.Range(0, 100).Aggregate(0, (flashes, _) => flashes + FlashStep(octopuses)).ToString();
         }
 
         protected override string SolvePartTwo()
         {
-            var octopuses = new Map<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
+            var octopuses = new SquareMap<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
             for (int i = 1;; i++) if (FlashStep(octopuses) == octopuses.Count) return i.ToString();
         }
 
-        int FlashStep(Map<int> octopuses)
+        int FlashStep(SquareMap<int> octopuses)
         {
             var primed = new HashSet<(int, int)>();
             var positions = octopuses.Keys.ToArray();
@@ -45,7 +45,7 @@ namespace AdventOfCode.Solutions.Year2021
             });
         }
 
-        IEnumerable<(int x, int y)> FindAdjacentOctopuses(Map<int> octopuses, (int x, int y) position)
+        IEnumerable<(int x, int y)> FindAdjacentOctopuses(SquareMap<int> octopuses, (int x, int y) position)
         {
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++)
             {

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2020
 {
-    internal class SquarePuzzle : Map<SquareTile>
+    internal class SquarePuzzle : SquareMap<SquareTile>
     {
         public int Bounds { get; set; }
         public Queue<(int x, int y)> Frontier { get; set; } = new Queue<(int x, int y)>();
@@ -85,7 +85,7 @@ namespace AdventOfCode.Solutions.Year2020
         }
     }
 
-    internal class SquareTile : Map<char>
+    internal class SquareTile : SquareMap<char>
     {
         public int Id { get; set; }
         public int Orientation { get; set; } = 0;

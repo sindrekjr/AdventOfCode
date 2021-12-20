@@ -1,10 +1,10 @@
 namespace AdventOfCode.Solutions.Year2020
 {
-    public class Map<T> : SortedDictionary<(int x, int y), T>
+    public class SquareMap<T> : SortedDictionary<(int x, int y), T>
     {
-        public Map() : base() {}
+        public SquareMap() : base() {}
 
-        public Map(T[][] positions) : base()
+        public SquareMap(T[][] positions) : base()
         {
             for (int x = 0; x < positions.Length; x++)
             {
@@ -15,12 +15,16 @@ namespace AdventOfCode.Solutions.Year2020
             }
         }
 
-        public IEnumerable<IEnumerable<T>> PokeAround((int x, int y) position, int radius = -1, bool diagonal = true)
+        public IEnumerable<T> PokeAround((int x, int y) position, bool diagonal = true) =>
+            LookAround(position, 1, diagonal).Where(d => d.Any()).Select(d => d.First());
+
+        public IEnumerable<IEnumerable<T>> LookAround((int x, int y) position, int radius = -1, bool diagonal = true)
         {
             for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++)
             {
                 if ((x == 0 && y == 0) || (!diagonal && (x != 0 && y != 0))) continue;
-                yield return RelativelyIncrementalPoke(position, (x, y), radius);
+                var direction = RelativelyIncrementalPoke(position, (x, y), radius).ToArray();
+                yield return direction;
             }
         }
 

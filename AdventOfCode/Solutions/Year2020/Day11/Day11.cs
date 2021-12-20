@@ -35,14 +35,14 @@ namespace AdventOfCode.Solutions.Year2020
             return occupied.ToString();
         }
 
-        Map<Tile> GetSeatingArrangement()
-            => new Map<Tile>(
+        SquareMap<Tile> GetSeatingArrangement()
+            => new SquareMap<Tile>(
                 Input.SplitByNewline()
                     .Select(row => row.Select(c => c == 'L' ? Tile.Seat : Tile.Empty).ToArray()).ToArray());
 
-        (Map<Tile>, int occupied, bool stable) ProcessSeatingRound(Map<Tile> original, int preference, bool sight = true)
+        (SquareMap<Tile>, int occupied, bool stable) ProcessSeatingRound(SquareMap<Tile> original, int preference, bool sight = true)
         {
-            var map = new Map<Tile>();
+            var map = new SquareMap<Tile>();
 
             int occupied = 0;
             bool stable = true;
@@ -52,7 +52,7 @@ namespace AdventOfCode.Solutions.Year2020
                 map.Add(key, tile);
                 if(tile == Tile.Empty) continue;
 
-                var adjacents = original.PokeAround(key, sight ? -1 : 1).Aggregate(0, (acc, direction) => 
+                var adjacents = original.LookAround(key, sight ? -1 : 1).Aggregate(0, (acc, direction) => 
                 {
                     foreach (var t in direction)
                     {

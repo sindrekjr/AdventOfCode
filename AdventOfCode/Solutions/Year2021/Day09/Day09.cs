@@ -10,7 +10,7 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartOne()
         {
-            var map = new Map<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
+            var map = new SquareMap<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
             return FindSinks(map)
                 .Aggregate(0, (sum, kv) => sum + kv.Value + 1)
                 .ToString();
@@ -18,7 +18,7 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            var map = new Map<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
+            var map = new SquareMap<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
             return FindSinks(map)
                 .ToArray()
                 .Select(kv => CalculateBasinSize(map, kv.Key))
@@ -28,7 +28,7 @@ namespace AdventOfCode.Solutions.Year2021
                 .ToString();
         }
 
-        IEnumerable<KeyValuePair<(int x, int y), int>> FindSinks(Map<int> map)
+        IEnumerable<KeyValuePair<(int x, int y), int>> FindSinks(SquareMap<int> map)
         {
             foreach (var kv in map)
             {
@@ -44,7 +44,7 @@ namespace AdventOfCode.Solutions.Year2021
             }
         }
 
-        int CalculateBasinSize(Map<int> map, (int x, int y) sink)
+        int CalculateBasinSize(SquareMap<int> map, (int x, int y) sink)
         {
             var (x, y) = sink;
             var size = 1;
