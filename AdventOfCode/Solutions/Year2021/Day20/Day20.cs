@@ -15,7 +15,8 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var (alg, pixels) = ParseInput();
+            return EnhanceImage(pixels, alg, 50).Values.Count(v => v).ToString();
         }
 
         Dictionary<(int x, int y), bool> EnhanceImage(Dictionary<(int x, int y), bool> pixels, string alg, int n) =>
