@@ -4,7 +4,7 @@ namespace AdventOfCode.Solutions.Year2021
     {
         Dictionary<GameState, (long a, long b)> Memo = new Dictionary<GameState, (long, long)>();
 
-        public Day21() : base(21, 2021, "Dirac Dice", true) { }
+        public Day21() : base(21, 2021, "Dirac Dice") { }
 
         protected override string SolvePartOne()
         {

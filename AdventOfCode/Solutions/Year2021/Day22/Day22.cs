@@ -4,10 +4,7 @@ namespace AdventOfCode.Solutions.Year2021
 {
     class Day22 : ASolution
     {
-        public Day22() : base(22, 2021, "Reactor Reboot")
-        {
-
-        }
+        public Day22() : base(22, 2021, "Reactor Reboot") { }
 
         protected override string SolvePartOne()
         {
@@ -35,11 +32,18 @@ namespace AdventOfCode.Solutions.Year2021
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var cubes = Input.SplitByNewline().Select(ParseInputLineAsCubeRange);
+            return cubes.First().Count().ToString();
         }
 
         bool IsInitialization(params int[] values) =>
             !values.Any(val => val > 50 || val < -50);
+
+        Cuboid ParseInputLineAsCubeRange(string line)
+        {
+            var (trigger, (x, y, z)) = ParseInputLine(line);
+            return null;
+        }
 
         (bool trigger, (int[] x, int[] y, int[] z) steps) ParseInputLine(string line)
         {
@@ -51,6 +55,25 @@ namespace AdventOfCode.Solutions.Year2021
             var z = sections[2].Split("..").Select(int.Parse).ToArray();
             
             return (trigger == "on", (x, y, z));
+        }
+    }
+
+    internal record Cuboid(int[] X, int[] Y, int[] Z, bool on)
+    {
+        public int Count()
+        {
+            var count = 0;
+            for (int x = X.Min(); x <= X.Max(); x++)
+            {
+                for (int y = Y.Min(); y <= Y.Max(); y++)
+                {
+                    for (int z = Z.Min(); z <= Z.Max(); z++)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
     }
 }
