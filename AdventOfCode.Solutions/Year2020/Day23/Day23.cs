@@ -20,7 +20,7 @@ class Solution : SolutionBase
         // cups = ProcessMoves(cups, 10000000);
         // var target = cups.IndexOf(1);
         // return cups.Skip(target).Take(2).Aggregate(1, (product, i) => product * i).ToString();
-        return null;
+        return "";
     }
 
     List<int> ProcessMoves(List<int> cups, int amount)

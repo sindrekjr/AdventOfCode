@@ -25,7 +25,7 @@ class Solution : SolutionBase
         Console.WriteLine(results.a);
         Console.WriteLine(results.b);
 
-        return null;
+        return "";
     }
 
     (int rolls, int[] scores) PlayDeterministic(int aPos, int bPos)

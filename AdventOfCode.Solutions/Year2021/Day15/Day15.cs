@@ -14,11 +14,11 @@ class Solution : SolutionBase
 
     protected override string SolvePartOne()
     {
-        return null;
+        return "";
     }
 
     protected override string SolvePartTwo()
     {
-        return null;
+        return "";
     }
 }

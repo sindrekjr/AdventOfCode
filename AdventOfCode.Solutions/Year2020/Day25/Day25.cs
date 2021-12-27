@@ -18,7 +18,7 @@ class Solution : SolutionBase
 
     protected override string SolvePartTwo()
     {
-        return null;
+        return "";
     }
 
     int FindLoopSize(int key)

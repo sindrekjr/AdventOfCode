@@ -40,7 +40,7 @@ class Solution : SolutionBase
             }
         }
 
-        return null;
+        return "";
     }
 
     protected override string SolvePartTwo()
@@ -86,7 +86,7 @@ class Solution : SolutionBase
             boards = nextBoards;
         }
         
-        return null;
+        return "";
     }
 
     (int[], IList<Dictionary<int, (int x, int y, bool marked)>>) ParseInput()

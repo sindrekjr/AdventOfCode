@@ -15,6 +15,6 @@ class Solution : SolutionBase
     protected override string SolvePartTwo()
     {
         //var Map = Robot.Initialize().Run(1); 
-        return null;
+        return "";
     }
 }
