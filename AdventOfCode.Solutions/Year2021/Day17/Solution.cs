@@ -9,7 +9,7 @@ class Solution : SolutionBase
 
     public Solution() : base(17, 2021, "Trick Shot")
     {
-        var (x, y, _) = Input.Split(": ")[1].Split(", ").Select(coor => coor.Substring(2).Split("..").ToIntArray()).ToArray();
+        var (x, y, _) = Input.Split(": ")[1].Split(", ").Select(coor => coor.Substring(2).Split("..").Select(int.Parse)).ToArray();
         MinX = x.Min();
         MaxX = x.Max();
         MinY = y.Min();

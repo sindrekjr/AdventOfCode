@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using static AdventOfCode.Solutions.Utilities;
-
 namespace AdventOfCode.Solutions.Year2019.Day03;
 
 class Solution : SolutionBase
@@ -65,37 +61,42 @@ class Solution : SolutionBase
             switch(i[0])
             {
                 case 'R':
-                    new Action(() =>
+                    Repeat(new Action(() =>
                     {
                         pos.x++;
                         path.Add(pos);
-                    }).Repeat(int.Parse(i.Substring(1)));
+                    }), int.Parse(i.Substring(1)));
                     break;
                 case 'L':
-                    new Action(() =>
+                    Repeat(new Action(() =>
                     {
                         pos.x--;
                         path.Add(pos);
-                    }).Repeat(int.Parse(i.Substring(1)));
+                    }), int.Parse(i.Substring(1)));
                     break;
                 case 'U':
-                    new Action(() =>
+                    Repeat(new Action(() =>
                     {
                         pos.y++;
                         path.Add(pos);
-                    }).Repeat(int.Parse(i.Substring(1)));
+                    }), int.Parse(i.Substring(1)));
                     break;
                 case 'D':
-                    new Action(() =>
+                    Repeat(new Action(() =>
                     {
                         pos.y--;
                         path.Add(pos);
-                    }).Repeat(int.Parse(i.Substring(1)));
+                    }), int.Parse(i.Substring(1)));
                     break;
                 default:
                     break;
             }
         }
         return path;
+    }
+
+    public void Repeat(Action action, int count)
+    {
+        for (int i = 0; i < count; i++) action();
     }
 }

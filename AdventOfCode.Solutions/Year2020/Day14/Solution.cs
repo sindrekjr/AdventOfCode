@@ -1,9 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace AdventOfCode.Solutions.Year2020.Day14;
 
 class Solution : SolutionBase
@@ -34,7 +28,7 @@ class Solution : SolutionBase
                     : correspondingMaskValue == '1';
             }
 
-            memory[int.Parse(cmd.Substring(4, cmd.Length - 5))] = b.ToLong();
+            memory[int.Parse(cmd.Substring(4, cmd.Length - 5))] = ToLong(b);
         }
         
         return memory.Sum().ToString();
@@ -106,5 +100,18 @@ class Solution : SolutionBase
                 yield return a;
             }
         }
+    }
+
+    public long ToLong(BitArray bitArray)
+    {
+        long value = 0;
+
+        for (int i = 0; i < bitArray.Count; i++)
+        {
+            if (bitArray[i])
+                value += Convert.ToInt64(Math.Pow(2, i));
+        }
+
+        return value;
     }
 }

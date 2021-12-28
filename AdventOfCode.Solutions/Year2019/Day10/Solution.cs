@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using static AdventOfCode.Solutions.Utilities;
-
 namespace AdventOfCode.Solutions.Year2019.Day10;
 
 class Solution : SolutionBase

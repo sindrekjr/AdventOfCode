@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Numerics;
-using static AdventOfCode.Solutions.Utilities;
 
 namespace AdventOfCode.Solutions.Year2019.Day12;
 

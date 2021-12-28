@@ -3,6 +3,9 @@ global using System.Collections;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Text;
+global using static AdventOfCode.Solutions.Utils.CalculationUtils;
+global using static AdventOfCode.Solutions.Utils.CollectionUtils;
+global using static AdventOfCode.Solutions.Utils.StringUtils;
 
 using System.Diagnostics;
 using System.Net;
