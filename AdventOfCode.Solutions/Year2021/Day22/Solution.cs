@@ -42,7 +42,7 @@ class Solution : SolutionBase
     Cuboid ParseInputLineAsCubeRange(string line)
     {
         var (trigger, (x, y, z)) = ParseInputLine(line);
-        return null;
+        throw new NotImplementedException();
     }
 
     (bool trigger, (int[] x, int[] y, int[] z) steps) ParseInputLine(string line)

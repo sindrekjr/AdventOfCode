@@ -42,10 +42,10 @@ internal class SquarePuzzle : SquareMap<SquareTile>
 
     public (string top, string right, string bottom, string left) GetNeighbouringSides((int x, int y) pos)
         => (
-            pos.x > 0 && TryGetValue(pos.Add((-1, 0)), out SquareTile top) ? top.Bottom : null,
-            pos.y <= Bounds && TryGetValue(pos.Add((0, 1)), out SquareTile right) ? right.Left : null,
-            pos.x <= Bounds && TryGetValue(pos.Add((1, 0)), out SquareTile bottom) ? bottom.Top : null,
-            pos.y > 0 && TryGetValue(pos.Add((0, -1)), out SquareTile left) ? left.Right : null
+            pos.x > 0 && TryGetValue(pos.Add((-1, 0)), out var top) ? top.Bottom : "",
+            pos.y <= Bounds && TryGetValue(pos.Add((0, 1)), out var right) ? right.Left : "",
+            pos.x <= Bounds && TryGetValue(pos.Add((1, 0)), out var bottom) ? bottom.Top : "",
+            pos.y > 0 && TryGetValue(pos.Add((0, -1)), out var left) ? left.Right : ""
         );
 
     public override string ToString()
@@ -57,7 +57,7 @@ internal class SquarePuzzle : SquareMap<SquareTile>
             {
                 for (int k = 0; k <= Bounds; k++)
                 {
-                    if (TryGetValue((i, k), out SquareTile tile))
+                    if (TryGetValue((i, k), out var tile))
                     {
                         for (int l = 0; l <= this.FirstOrDefault().Value.Bounds; l++) str += tile[j, l];
                     }

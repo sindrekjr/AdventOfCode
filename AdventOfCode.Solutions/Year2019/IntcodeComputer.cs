@@ -21,9 +21,9 @@ class IntcodeComputer<T> where T : IComparable<T>
 
     public bool Debug { get; set; }
     public bool Paused { get; private set; }
-    public BigInteger[] Memory { get; private set; }
-    public Queue<BigInteger> Input { get; private set; }
-    public Queue<BigInteger> Output { get; private set; }
+    public BigInteger[] Memory { get; private set; } = new BigInteger[0];
+    public Queue<BigInteger> Input { get; private set; } = new();
+    public Queue<BigInteger> Output { get; private set; } = new();
 
     // Constructor
     public IntcodeComputer(T[] input)

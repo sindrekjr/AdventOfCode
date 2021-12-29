@@ -31,7 +31,7 @@ public class SquareMap<T> : SortedDictionary<(int x, int y), T>
     IEnumerable<T> RelativelyIncrementalPoke((int x, int y) start, (int x, int y) increment, int count)
     {
         var pos = start.Add(increment);
-        while ((count == -1 || count-- > 0) && TryGetValue(pos, out T next)) 
+        while ((count == -1 || count-- > 0) && TryGetValue(pos, out T? next)) 
         {
             pos = pos.Add(increment);
             yield return next;

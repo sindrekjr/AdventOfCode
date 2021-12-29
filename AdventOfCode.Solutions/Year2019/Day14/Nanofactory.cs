@@ -7,7 +7,7 @@ class Nanofactory
 {
 
     long Ore;
-    Dictionary<string, int> Surplus;
+    Dictionary<string, int> Surplus = new();
 
     public Dictionary<string, Reaction> Reactions;
 
@@ -60,8 +60,8 @@ class Nanofactory
 class Reaction
 {
 
-    public Dictionary<string, int> Input { get; private set; }
-    public string Output { get; private set; }
+    public Dictionary<string, int> Input { get; private set; } = new();
+    public string Output { get; private set; } = "";
     public int Amount { get; private set; }
 
     public Reaction(string text)

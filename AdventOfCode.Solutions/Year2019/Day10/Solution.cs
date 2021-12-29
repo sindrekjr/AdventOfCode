@@ -6,7 +6,7 @@ class Solution : SolutionBase
     int size;
     bool[,] Map;
     (int x, int y) Station;
-    SortedDictionary<double, (int x, int y)> Asteroids;
+    SortedDictionary<double, (int x, int y)> Asteroids = new();
 
     public Solution() : base(10, 2019, "Monitoring Station")
     {
@@ -110,12 +110,15 @@ class Solution : SolutionBase
                 FindVisibleAsteroids(Station);
             }
 
-            var keys = new List<double>(Asteroids.Keys);
-            foreach(double i in keys)
+            if (Asteroids != null)
             {
-                if(i >= 0)
+                var keys = Asteroids.Keys.ToList();
+                foreach(double i in keys)
                 {
-                    return Asteroids[keys[keys.Count - (n - keys.IndexOf(i)) + 1]];
+                    if(i >= 0)
+                    {
+                        return Asteroids[keys[keys.Count - (n - keys.IndexOf(i)) + 1]];
+                    }
                 }
             }
         }

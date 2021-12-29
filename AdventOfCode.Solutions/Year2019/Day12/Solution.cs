@@ -5,13 +5,10 @@ namespace AdventOfCode.Solutions.Year2019.Day12;
 class Solution : SolutionBase
 {
 
-    List<Moon> Moons;
-    HashSet<(Moon, Moon)> Pairs;
+    List<Moon> Moons = new();
+    HashSet<(Moon, Moon)> Pairs = new();
 
-    public Solution() : base(12, 2019, "The N-Body Problem")
-    {
-        Initialize();
-    }
+    public Solution() : base(12, 2019, "The N-Body Problem") => Initialize();
 
     void Initialize()
     {

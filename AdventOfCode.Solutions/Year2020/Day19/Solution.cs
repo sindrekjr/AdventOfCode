@@ -8,7 +8,7 @@ namespace AdventOfCode.Solutions.Year2020.Day19;
 
 class Solution : SolutionBase
 {
-    Dictionary<int, string[]> Rules;
+    Dictionary<int, string[]> Rules = new();
 
     public Solution() : base(19, 2020, "Monster Messages") { }
 

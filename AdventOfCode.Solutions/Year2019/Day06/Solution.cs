@@ -6,16 +6,12 @@ namespace AdventOfCode.Solutions.Year2019.Day06;
 class Solution : SolutionBase
 {
 
-    Dictionary<string, (string direct, List<string> indirect)> orbits;
+    Dictionary<string, (string direct, List<string> indirect)> orbits = new();
 
-    public Solution() : base(6, 2019, "Universal Orbit Map")
-    {
-
-    }
+    public Solution() : base(6, 2019, "Universal Orbit Map") { }
 
     void InitializeCollection()
     {
-        if(orbits != null) return;
         orbits = new Dictionary<string, (string direct, List<string> indirect)>();
         foreach(string s in Input.SplitByNewline())
         {

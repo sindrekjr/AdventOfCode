@@ -89,13 +89,12 @@ internal record Scanner
         var (header, beacons) = paragraph.SplitByNewline();
 
         Id = int.Parse(header.Remove(header.Length - 4).Substring(12));
+        BeaconSets = new Dictionary<int, HashSet<Vector3>>();
         ParseBeaconsInOrientations(beacons);
     }
 
     void ParseBeaconsInOrientations(IEnumerable<string> beacons)
     {
-        BeaconSets = new Dictionary<int, HashSet<Vector3>>();
-
         foreach (var beacon in beacons)
         {
             var permutations = beacon.ToVector3().Orientations().ToArray();

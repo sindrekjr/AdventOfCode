@@ -9,7 +9,7 @@ namespace AdventOfCode.Solutions.Year2020.Day16;
 
 class Solution : SolutionBase
 {
-    Dictionary<string, int[]> Rules;
+    Dictionary<string, int[]> Rules = new();
 
     public Solution() : base(16, 2020, "Ticket Translation") { }
 

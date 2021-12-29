@@ -7,8 +7,8 @@ namespace AdventOfCode.Solutions.Year2020.Day21;
 
 class Solution : SolutionBase
 {
-    Dictionary<string, int> Ingredients;
-    Dictionary<string, HashSet<string>> ImplicatedIngredients;
+    Dictionary<string, int> Ingredients = new();
+    Dictionary<string, HashSet<string>> ImplicatedIngredients = new();
 
     public Solution() : base(21, 2020, "Allergen Assessment") { }
 

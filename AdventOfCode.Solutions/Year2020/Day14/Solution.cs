@@ -2,7 +2,7 @@ namespace AdventOfCode.Solutions.Year2020.Day14;
 
 class Solution : SolutionBase
 {
-    string Bitmask;
+    string Bitmask = "";
 
     public Solution() : base(14, 2020, "Docking Data") { }
 

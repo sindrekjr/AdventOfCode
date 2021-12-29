@@ -36,7 +36,6 @@ class Solution : SolutionBase
         {
             Version = version,
             TypeId = typeId,
-            SubPackets = new List<IPacket>(),
         };
 
         if (bits.Dequeue() == 0)
@@ -99,6 +98,8 @@ internal class Packet : IPacket
         7 => SubPackets.First().Value == SubPackets.Last().Value ? 1 : 0,
         _ => throw new Exception("Something went bad."),
     };
+
+    public Packet() => SubPackets = new List<IPacket>();
 }
 
 internal class LiteralValue : IPacket

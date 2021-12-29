@@ -7,7 +7,7 @@ namespace AdventOfCode.Solutions.Year2020;
 
 public class PocketDimension<T> : Dictionary<(int x, int y, int z, int w), T>
 {
-    public PocketDimension<T> InfiniteChildren { get; private set; }
+    public PocketDimension<T>? InfiniteChildren { get; private set; }
 
     public PocketDimension() : base() {}
 
@@ -46,27 +46,28 @@ public class PocketDimension<T> : Dictionary<(int x, int y, int z, int w), T>
         {
             start = (start.x + increment.x, start.y + increment.y, start.z + increment.z, start.w + increment.w);
 
-            if (PokePosition(start, out T found)) 
+            if (PokePosition(start, out T? found) && found != null) 
             {
                 yield return found;
             }
-            else
+            else if (found != null)
             {
+                if (InfiniteChildren == null) InfiniteChildren = new();
                 InfiniteChildren.Add(start, found);
                 yield return found;
             }
         }
     }
 
-    public bool PokePosition((int x, int y, int z, int w) key, out T value)
+    public bool PokePosition((int x, int y, int z, int w) key, out T? value)
     {
-        if (InfiniteChildren != null && InfiniteChildren.TryGetValue(key, out T foundChild))
+        if (InfiniteChildren != null && InfiniteChildren.TryGetValue(key, out T? foundChild))
         {
             value = foundChild;
             return true;
         }
         
-        if (TryGetValue(key, out T found))
+        if (TryGetValue(key, out T? found))
         {
             value = found;
             return true;

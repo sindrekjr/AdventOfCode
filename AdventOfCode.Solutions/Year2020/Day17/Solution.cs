@@ -47,10 +47,13 @@ class Solution : SolutionBase
             grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
         }
 
-        foreach (var (key, cube) in new Grid<bool>(original.InfiniteChildren))
+        if (original.InfiniteChildren != null)
         {
-            var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
-            grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            foreach (var (key, cube) in new Grid<bool>(original.InfiniteChildren))
+            {
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                grid.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            }
         }
 
         return grid;
@@ -66,10 +69,13 @@ class Solution : SolutionBase
             dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
         }
 
-        foreach (var (key, cube) in new PocketDimension<bool>(original.InfiniteChildren))
+        if (original.InfiniteChildren != null)
         {
-            var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
-            dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            foreach (var (key, cube) in new PocketDimension<bool>(original.InfiniteChildren))
+            {
+                var adjacent = original.PokeAround(key).Aggregate(0, (acc, adj) => adj.Aggregate(acc, (acc, a) => a ? acc + 1 : acc));
+                dimension.Add(key, adjacent == 3 || (cube && adjacent == 2));
+            }
         }
 
         return dimension;

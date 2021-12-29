@@ -31,10 +31,13 @@ class Solution : SolutionBase
             grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
         }
 
-        foreach (var (key, tile) in new Grid<bool>(original.InfiniteChildren))
+        if (original.InfiniteChildren != null)
         {
-            var adjacent = original.PokeAround(key, 1, false).Count(t => t.First());
-            grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
+            foreach (var (key, tile) in new Grid<bool>(original.InfiniteChildren))
+            {
+                var adjacent = original.PokeAround(key, 1, false).Count(t => t.First());
+                grid.Add(key, adjacent == 2 || (tile && adjacent == 1));
+            }
         }
 
         return grid;

@@ -9,8 +9,8 @@ namespace AdventOfCode.Solutions.Year2020.Day20;
 
 class Solution : SolutionBase
 {
-    SquarePuzzle Puzzle;
-    Dictionary<int, SquareTile> Tiles;
+    SquarePuzzle Puzzle = new(0);
+    Dictionary<int, SquareTile> Tiles = new();
 
     public Solution() : base(20, 2020, "Jurassic Jigsaw", true) { }
 

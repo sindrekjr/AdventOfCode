@@ -9,12 +9,9 @@ class Arcade
     IntcodeComputer Computer;
 
     public int Score { get; private set; }
-    public Dictionary<(int x, int y), int> Grid { get; private set; }
+    public Dictionary<(int x, int y), int> Grid { get; private set; } = new();
 
-    public Arcade(IntcodeComputer comp)
-    {
-        Computer = comp;
-    }
+    public Arcade(IntcodeComputer comp) => Computer = comp;
 
     public Arcade Initialize()
     {
