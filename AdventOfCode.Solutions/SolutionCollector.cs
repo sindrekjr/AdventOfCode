@@ -1,5 +1,3 @@
-using AdventOfCode.Services;
-
 namespace AdventOfCode.Solutions;
 
 public static class SolutionCollector
