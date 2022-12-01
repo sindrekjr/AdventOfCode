@@ -18,4 +18,8 @@
     <ProjectReference Include="..\AdventOfCode.Solutions.FSharp\AdventOfCode.Solutions.FSharp.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AdventOfCode.Solutions.Rust\AdventOfCode.Solutions.Rust.csproj" />
+  </ItemGroup>  
+
 </Project>
