@@ -1,3 +1,4 @@
-pub extern fn lib_test() {
+#[no_mangle]
+pub extern fn solve() {
     println!("Hello world");
 }

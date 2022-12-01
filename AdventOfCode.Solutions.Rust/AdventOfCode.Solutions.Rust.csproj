@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <Target Name="PreCompileRustSolutions" BeforeTargets="Build">
-    <Exec command="cargo build --lib --quiet --release" />
+    <Exec Command="rm -f ./target/debug/libsolutions2021.dll" />
+    <Exec Command="cargo build --lib --quiet" />
+    <Exec Command="mv ./target/debug/libsolutions2021.so ./target/debug/libsolutions2021.dll"/>
   </Target>
+
+  <ItemGroup>
+    <Content Include="target/debug/*.dll">
+      <Link>%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
 </Project>
