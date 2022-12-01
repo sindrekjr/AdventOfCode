@@ -6,11 +6,13 @@ class Solution : SolutionBase
 
     protected override string SolvePartOne()
     {
-        return "";
+        var input = Input.SplitByParagraph().Select(p => p.SplitByNewline().Select(int.Parse).Sum());
+        return input.Max().ToString();
     }
 
     protected override string SolvePartTwo()
     {
-        return "";
+        var input = Input.SplitByParagraph().Select(p => p.SplitByNewline().Select(int.Parse).Sum());
+        return input.OrderByDescending(elf => elf).Take(3).Sum().ToString();
     }
 }
