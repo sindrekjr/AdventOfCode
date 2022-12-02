@@ -4,77 +4,60 @@ class Solution : SolutionBase
 {
     public Solution() : base(02, 2022, "Rock Paper Scissors") { }
 
-    protected override string SolvePartOne()
-    {
-        var input = Input.SplitByNewline();
-        var rounds = input.Select(round =>
+    protected override string SolvePartOne() => Input
+        .SplitByNewline()
+        .Aggregate(0, (score, round) => score + round[2] switch
         {
-            var (a, b, _) = round.Split(" ");
-            var points = b switch
+            'X' => 1 + round[0] switch
             {
-                "X" => 1,
-                "Y" => 2,
-                "Z" => 3
-            };
+                'C' => 6,
+                'A' => 3,
+                _ => 0
+            },
+            'Y' => 2 + round[0] switch
+            {
+                'A' => 6,
+                'B' => 3,
+                _ => 0
+            },
+            'Z' => 3 + round[0] switch
+            {
+                'B' => 6,
+                'C' => 3,
+                _ => 0
+            },
+            _ => throw new InvalidGameException()
+        })
+        .ToString();
 
-            if (a == "A" && b == "Y") points += 6;
-            if (a == "B" && b == "Z") points += 6;
-            if (a == "C" && b == "X") points += 6;
-            if (a == "A" && b == "X") points += 3;
-            if (a == "B" && b == "Y") points += 3;
-            if (a == "C" && b == "Z") points += 3;
-
-            return points;
-        });
-        return rounds.Sum().ToString();
-    }
-
-    protected override string SolvePartTwo()
-    {
-        var input = Input.SplitByNewline();
-        var rounds = input.Select(round =>
+    protected override string SolvePartTwo() => Input
+        .SplitByNewline()
+        .Aggregate(0, (score, round) => score + round[2] switch
         {
-            var (a, b, _) = round.Split(" ");
-
-            var points = b switch
+            'X' => 0 + round[0] switch
             {
-                "X" => 0,
-                "Y" => 3,
-                "Z" => 6
-            };
-
-            if (b == "X")
+                'A' => 3,
+                'B' => 1,
+                'C' => 2,
+                _ => throw new InvalidGameException()
+            },
+            'Y' => 3 + round[0] switch
             {
-                points += a switch
-                {
-                    "A" => 3,
-                    "B" => 1,
-                    "C" => 2
-                };
-            }
-
-            if (b == "Y")
+                'A' => 1,
+                'B' => 2,
+                'C' => 3,
+                _ => throw new InvalidGameException()
+            },
+            'Z' => 6 + round[0] switch
             {
-                points += a switch
-                {
-                    "A" => 1,
-                    "B" => 2,
-                    "C" => 3
-                };
-            }
-
-            if (b == "Z")
-            {
-                points += a switch
-                {
-                    "A" => 2,
-                    "B" => 3,
-                    "C" => 1
-                };
-            }
-
-            return points;
-        });
-        return rounds.Sum().ToString();
-    }
+                'A' => 2,
+                'B' => 3,
+                'C' => 1,
+                _ => throw new InvalidGameException()
+            },
+            _ => throw new InvalidGameException()
+        })
+        .ToString();
 }
+
+class InvalidGameException : Exception { }
