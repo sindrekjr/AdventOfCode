@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <Target Name="PreCompileRustSolutions" BeforeTargets="Build">
-    <Exec Command="rm -f ./target/debug/libsolutions2021.dll" />
+    <Exec Command="rm -f ./target/debug/libsolutions.dll" />
     <Exec Command="cargo build --lib --quiet" />
-    <Exec Command="mv ./target/debug/libsolutions2021.so ./target/debug/libsolutions2021.dll"/>
+    <Exec Command="mv ./target/debug/libsolutions.so ./target/debug/libsolutions.dll"/>
   </Target>
 
   <ItemGroup>

@@ -28,3 +28,7 @@ Solutions in C#.
 | 23 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day23/Solution.cs) |
 | 24 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day24/Solution.cs) |
 | 25 | | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day25/Solution.cs) |
+
+## Docs
+
+- [Calling Rust from C#](https://dev.to/living_syn/calling-rust-from-c-6hk)

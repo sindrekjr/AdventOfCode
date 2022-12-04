@@ -1,4 +1,5 @@
-﻿global using System;
+﻿global using AdventOfCode.Solutions.Rust;
+global using System;
 global using System.Collections;
 global using System.Collections.Generic;
 global using System.Linq;
@@ -141,7 +142,7 @@ public abstract class SolutionBase
         + $"{ResultToString(2, Part2)}";
 
     string ResultToString(int part, SolutionResult result) =>
-        $"  - Part{part} => " + (string.IsNullOrEmpty(result.Answer) 
+        $"  - Part{part} => " + (string.IsNullOrEmpty(result.Answer)
             ? "Unsolved"
             : $"{result.Answer} ({result.Time.TotalMilliseconds}ms)");
 
