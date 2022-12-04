@@ -4,17 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(01, 2022, "Calorie Counting") { }
 
-    protected override string SolvePartOne() => Input
-        .SplitByParagraph()
-        .Select(elf => elf.SplitByNewline().Select(int.Parse).Sum())
-        .Max()
-        .ToString();
+    protected override string SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
 
-    protected override string SolvePartTwo() => Input
-        .SplitByParagraph()
-        .Select(p => p.SplitByNewline().Select(int.Parse).Sum())
-        .OrderByDescending(elf => elf)
-        .Take(3)
-        .Sum()
-        .ToString();
+    protected override string SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
 }

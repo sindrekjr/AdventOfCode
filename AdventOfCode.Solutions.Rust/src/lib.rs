@@ -1,19 +1,16 @@
+mod y2022;
+
 use std::ffi::CString;
 use std::os::raw::c_char;
 
 #[no_mangle]
 pub extern fn solve(year: i32, day: i32, part: i32, ptr: *mut c_char) -> *mut c_char {
-    let input = unwrap_input(ptr);
+    let solution = match year {
+        2022 => y2022::get_solution(day, part, unwrap_input(ptr)),
+        _ => String::new()
+    };
 
-    println!(
-        "{}",
-        format!(
-            "Hello from Rust! Solving AoC{} Day {} Part {}.\nInput: {}",
-            year, day, part, input
-        )
-    );
-
-    return CString::new(input).unwrap().into_raw();
+    return CString::new(solution).unwrap().into_raw();
 }
 
 fn unwrap_input(ptr: *mut c_char) -> String {
