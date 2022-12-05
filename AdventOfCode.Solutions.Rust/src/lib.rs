@@ -1,10 +1,17 @@
+mod core;
 mod y2022;
 
 use std::ffi::CString;
 use std::os::raw::c_char;
 
 #[no_mangle]
-pub extern fn solve(year: i32, day: i32, part: i32, ptr: *mut c_char) -> *mut c_char {
+pub extern fn solve(year: u16, day: u8, part: u8, ptr: *mut c_char) -> *mut c_char {
+    let part = match part {
+        1 => core::Part::P1,
+        2 => core::Part::P2,
+        _ => core::Part::P1,
+    };
+
     let solution = match year {
         2022 => y2022::get_solution(day, part, unwrap_input(ptr)),
         _ => String::new()

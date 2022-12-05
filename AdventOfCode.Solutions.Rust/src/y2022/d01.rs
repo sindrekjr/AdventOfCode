@@ -1,26 +1,30 @@
-pub fn solve(part: i32, input: String) -> String {
+// use super::Day;
+
+use crate::core::Solution;
+
+use super::Part;
+
+pub fn solve(part: Part, input: String) -> String {
     match part {
-        1 => solve_part_one(input),
-        2 => solve_part_two(input),
-        _ => String::new(),
+        Part::P1 => Day01::solve_part_one(input),
+        Part::P2 => Day01::solve_part_two(input),
     }
 }
 
-pub fn solve_part_one(input: String) -> String {
-    parse_calorie_totals(&input)
-        .max()
-        .unwrap()
-        .to_string()
-}
+pub struct Day01 {}
 
-pub fn solve_part_two(input: String) -> String {
-    let mut elves = parse_calorie_totals(&input)
-        .collect::<Vec<u32>>();
-    
-    elves.sort();
-    elves.reverse();
+impl Solution for Day01 {
+    fn solve_part_one(input: String) -> String {
+        parse_calorie_totals(&input).max().unwrap().to_string()
+    }
 
-    elves.into_iter().take(3).sum::<u32>().to_string()
+    fn solve_part_two(input: String) -> String {
+        let mut elves = parse_calorie_totals(&input).collect::<Vec<u32>>();
+
+        elves.sort();
+        elves.reverse();
+        elves.into_iter().take(3).sum::<u32>().to_string()
+    }
 }
 
 fn parse_calorie_totals<'a>(input: &'a str) -> impl Iterator<Item = u32> + 'a {
