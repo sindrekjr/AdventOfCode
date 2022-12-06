@@ -1,4 +1,5 @@
 mod core;
+mod utils;
 mod y2022;
 
 use crate::core::{Day, Part};

@@ -1,6 +1,9 @@
 // use super::Day;
 
-use crate::core::{Part, Solution};
+use crate::{
+    core::{Part, Solution},
+    utils::string::StrUtils,
+};
 
 pub fn solve(part: Part, input: String) -> String {
     match part {
@@ -26,6 +29,6 @@ impl Solution for Day01 {
 
 fn parse_calorie_totals<'a>(input: &'a str) -> impl Iterator<Item = u32> + 'a {
     input
-        .split("\n\n")
+        .paragraphs()
         .map(|elf| elf.lines().filter_map(|c| c.parse::<u32>().ok()).sum())
 }

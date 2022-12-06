@@ -1,4 +1,7 @@
-use crate::core::{Part, Solution};
+use crate::{
+    core::{Part, Solution},
+    utils::string::StrUtils,
+};
 
 pub fn solve(part: Part, input: String) -> String {
     match part {
@@ -10,7 +13,7 @@ pub fn solve(part: Part, input: String) -> String {
 pub struct Day05;
 impl Solution for Day05 {
     fn solve_part_one(input: String) -> String {
-        let paragraphs = input.split("\n\n").collect::<Vec<_>>();
+        let paragraphs = input.paragraphs().collect::<Vec<_>>();
         let mut stacks = parse_stacks(paragraphs[0]);
 
         for instruction in paragraphs[1].lines() {
@@ -25,7 +28,7 @@ impl Solution for Day05 {
     }
 
     fn solve_part_two(input: String) -> String {
-        let paragraphs = input.split("\n\n").collect::<Vec<_>>();
+        let paragraphs = input.paragraphs().collect::<Vec<_>>();
         let mut stacks = parse_stacks(paragraphs[0]);
 
         for instruction in paragraphs[1].lines() {
