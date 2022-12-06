@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use crate::core::{Solution, Part};
+use crate::core::{Part, Solution};
 
 pub fn solve(part: Part, input: String) -> String {
     match part {
@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-pub struct Day06 {}
+pub struct Day06;
 impl Solution for Day06 {
     fn solve_part_one(input: String) -> String {
         let mut marker: Vec<char> = Vec::new();

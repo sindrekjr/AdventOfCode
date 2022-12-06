@@ -7,7 +7,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-pub struct Day05 {}
+pub struct Day05;
 impl Solution for Day05 {
     fn solve_part_one(input: String) -> String {
         let paragraphs = input.split("\n\n").collect::<Vec<_>>();
@@ -86,16 +86,15 @@ fn stack_crates(stack: &mut Vec<char>, crates: Vec<char>, model: u32) -> &mut Ve
             for item in crates.iter().rev() {
                 stack.push(item.to_owned());
             }
-            stack
         }
         9001 => {
             for item in crates {
                 stack.push(item);
             }
-            stack
-        },
-        _ => stack
+        }
+        _ => (),
     }
+    stack
 }
 
 fn peek_top_crates(stacks: &Vec<Vec<char>>) -> String {

@@ -1,8 +1,6 @@
 // use super::Day;
 
-use crate::core::Solution;
-
-use super::Part;
+use crate::core::{Part, Solution};
 
 pub fn solve(part: Part, input: String) -> String {
     match part {
@@ -11,8 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-pub struct Day01 {}
-
+pub struct Day01;
 impl Solution for Day01 {
     fn solve_part_one(input: String) -> String {
         parse_calorie_totals(&input).max().unwrap().to_string()
