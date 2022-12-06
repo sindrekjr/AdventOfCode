@@ -1,6 +1,4 @@
-use crate::core::Solution;
-
-use super::Part;
+use crate::core::{Part, Solution};
 
 pub fn solve(part: Part, input: String) -> String {
     match part {

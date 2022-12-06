@@ -4,13 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(06, 2022, "") { }
 
-    protected override string SolvePartOne()
-    {
-        return "";
-    }
+    protected override string SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
 
-    protected override string SolvePartTwo()
-    {
-        return "";
-    }
+    protected override string SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
 }
