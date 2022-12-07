@@ -12,40 +12,26 @@ pub fn solve(part: Part, input: String) -> String {
 pub struct Day06;
 impl Solution for Day06 {
     fn solve_part_one(input: String) -> String {
-        let mut marker: Vec<char> = Vec::new();
-
-        for (i, c) in input.char_indices() {
-            marker.insert(0, c);
-            if marker.len() == 5 {
-                marker.pop();
-            }
-
-            let set: HashSet<char> = marker.clone().into_iter().collect();
-
-            if set.len() == 4 {
-                return (i + 1).to_string();
-            }
-        }
-
-        String::new()
+        find_distinct_window(&input, 4).to_string()
     }
 
     fn solve_part_two(input: String) -> String {
-        let mut marker: Vec<char> = Vec::new();
-
-        for (i, c) in input.char_indices() {
-            marker.insert(0, c);
-            if marker.len() == 15 {
-                marker.pop();
-            }
-
-            let set: HashSet<char> = marker.clone().into_iter().collect();
-
-            if set.len() == 14 {
-                return (i + 1).to_string();
-            }
-        }
-
-        String::new()
+        find_distinct_window(&input, 14).to_string()
     }
+}
+
+fn find_distinct_window(input: &str, size: usize) -> usize {
+    size + input
+        .char_indices()
+        .map(move |(from, _)| {
+            input.char_indices()
+                .skip(size - 1)
+                .next()
+                .map(|(to, c)| &input[from..from + to + c.len_utf8()])
+                .unwrap()
+                .chars()
+                .collect::<HashSet<char>>()
+        })
+        .position(|set| set.len() == size)
+        .unwrap()
 }
