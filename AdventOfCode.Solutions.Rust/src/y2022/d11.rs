@@ -9,18 +9,18 @@ pub fn solve(part: Part, input: String) -> String {
 
 #[derive(Debug)]
 enum Operation {
-    Add(i32),
+    Add(u64),
     AddSelf,
-    Multiply(i32),
+    Multiply(u64),
     MultiplySelf,
 }
 
 #[derive(Debug)]
 struct Monkey {
-    inspections: i32,
-    items: Vec<i32>,
+    inspections: u64,
+    items: Vec<u64>,
     op: Operation,
-    divisible_by: i32,
+    divisible_by: u64,
     t: usize,
     f: usize,
 }
@@ -30,15 +30,15 @@ impl Monkey {
         let (_, pieces) = input.split_once("old").unwrap();
         match pieces.trim().split_once(' ').unwrap() {
             ("+", "old") => Operation::AddSelf,
-            ("+", val) => Operation::Add(val.parse::<i32>().unwrap()),
+            ("+", val) => Operation::Add(val.parse::<u64>().unwrap()),
             ("*", "old") => Operation::MultiplySelf,
-            ("*", val) => Operation::Multiply(val.parse::<i32>().unwrap()),
+            ("*", val) => Operation::Multiply(val.parse::<u64>().unwrap()),
             _ => panic!()
         }
     }
 
-    // fn parse_decision(input: Vec<&str>) -> impl Fn(i32) -> i32 {
-    //     let values: Vec<i32> = input.into_iter().map(|v| v.split_whitespace().last().unwrap().parse::<i32>().unwrap()).collect();
+    // fn parse_decision(input: Vec<&str>) -> impl Fn(u64) -> u64 {
+    //     let values: Vec<u64> = input.into_iter().map(|v| v.split_whitespace().last().unwrap().parse::<u64>().unwrap()).collect();
 
     //     move |item| {
     //         if item % values[0] == 0 {
@@ -60,12 +60,12 @@ impl Solution for Day11 {
             });
 
             let items = monkey.next().unwrap().split(',').map(|val| {
-                val.trim().parse::<i32>().unwrap()
+                val.trim().parse::<u64>().unwrap()
             }).collect();
 
             let op = Monkey::parse_operation(monkey.next().unwrap());
             
-            let divisible_by = monkey.next().unwrap().split(' ').last().unwrap().parse::<i32>().unwrap();
+            let divisible_by = monkey.next().unwrap().split(' ').last().unwrap().parse::<u64>().unwrap();
 
             let mut decision_values = monkey.into_iter().map(|v| {
                 v.split_whitespace().last().unwrap().parse::<usize>().unwrap()
@@ -88,7 +88,7 @@ impl Solution for Day11 {
             for i in 0..monkeys.len() {
                 let monkey = &mut monkeys[i];
 
-                let mut items: Vec<(usize, i32)> = vec![];
+                let mut items: Vec<(usize, u64)> = vec![];
                 while let Some(item) = monkey.items.pop() {
                     monkey.inspections += 1;
                     let inspected_item = match monkey.op {
@@ -113,13 +113,78 @@ impl Solution for Day11 {
             }
         }
 
-        let mut inspections = monkeys.into_iter().map(|monkey| monkey.inspections).collect::<Vec<i32>>();
+        let mut inspections = monkeys.into_iter().map(|monkey| monkey.inspections).collect::<Vec<u64>>();
         inspections.sort();
 
-        inspections.iter().rev().take(2).fold(1, |acc, item| acc * item).to_string()
+        inspections.iter().rev().take(2).product::<u64>().to_string()
     }
 
-    fn solve_part_two(_input: String) -> String {
-        String::new()
+    fn solve_part_two(input: String) -> String {
+        let mut monkeys: Vec<Monkey> = input.paragraphs().map(|paragraph| {
+            let mut monkey = paragraph.lines().skip(1).map(|line| {
+                let (_, val) = line.split_once(':').unwrap();
+                val
+            });
+
+            let items = monkey.next().unwrap().split(',').map(|val| {
+                val.trim().parse::<u64>().unwrap()
+            }).collect();
+
+            let op = Monkey::parse_operation(monkey.next().unwrap());
+            
+            let divisible_by = monkey.next().unwrap().split(' ').last().unwrap().parse::<u64>().unwrap();
+
+            let mut decision_values = monkey.into_iter().map(|v| {
+                v.split_whitespace().last().unwrap().parse::<usize>().unwrap()
+            });
+
+            let t = decision_values.next().unwrap();
+            let f = decision_values.next().unwrap();
+
+            Monkey {
+                inspections: 0,
+                items,
+                op,
+                divisible_by,
+                t,
+                f,
+            }
+        }).collect();
+
+        let common = monkeys.iter().map(|monkey| monkey.divisible_by).product::<u64>();
+
+        for _ in 0..10_000 {
+            for i in 0..monkeys.len() {
+                let monkey = &mut monkeys[i];
+
+                let mut items: Vec<(usize, u64)> = vec![];
+                while let Some(item) = monkey.items.pop() {
+                    monkey.inspections += 1;
+                    let inspected_item = match monkey.op {
+                        Operation::Add(x) => item + x,
+                        Operation::AddSelf => item + item,
+                        Operation::Multiply(x) => item * x,
+                        Operation::MultiplySelf => item * item,
+                    };
+
+                    let bored_item = inspected_item % common;
+
+                    if bored_item % monkey.divisible_by == 0 {
+                        items.push((monkey.t, bored_item));
+                    } else {
+                        items.push((monkey.f, bored_item));
+                    }
+                }
+
+                for (receiver, item) in items {
+                    monkeys[receiver].items.push(item);
+                }
+            }
+        }
+
+        let mut inspections = monkeys.into_iter().map(|monkey| monkey.inspections).collect::<Vec<u64>>();
+        inspections.sort();
+
+        inspections.iter().rev().take(2).product::<u64>().to_string()
     }
 }
