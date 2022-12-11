@@ -54,7 +54,7 @@ impl Solution for Day07 {
                     if let Ok(file_size) = first.parse::<i32>() {
                         size += file_size;
                     } else {
-                        dirs.push(format!("{cwd}{second}"));
+                        dirs.push(format!("{}{}", cwd, second));
                     }
                 }
 
@@ -96,7 +96,7 @@ impl Solution for Day07 {
                     if let Ok(file_size) = first.parse::<i32>() {
                         size += file_size;
                     } else {
-                        dirs.push(format!("{cwd}{second}"));
+                        dirs.push(format!("{}{}", cwd, second));
                     }
                 }
 
