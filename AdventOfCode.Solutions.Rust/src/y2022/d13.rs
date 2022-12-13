@@ -12,6 +12,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
+#[derive(Clone, PartialEq)]
 enum Value<T> {
     Actual(T),
     List(Vec<Value<T>>),
@@ -118,7 +119,29 @@ impl Solution for Day13 {
             .to_string()
     }
 
-    fn solve_part_two(_input: String) -> String {
-        String::new()
+    fn solve_part_two(input: String) -> String {
+        let dividers = vec![Value::new("[[2]]"), Value::new("[[6]]")];
+        let mut packets: Vec<Value<i32>> = input
+            .lines()
+            .filter(|line| !line.is_empty())
+            .map(Value::new)
+            .collect();
+
+        packets.push(dividers[0].clone());
+        packets.push(dividers[1].clone());
+        packets.sort_by(|a, b| a.cmp(b));
+
+        packets
+            .iter()
+            .enumerate()
+            .filter_map(|(i, packet)| {
+                if dividers.contains(packet) {
+                    Some(i + 1)
+                } else {
+                    None
+                }
+            })
+            .product::<usize>()
+            .to_string()
     }
 }
