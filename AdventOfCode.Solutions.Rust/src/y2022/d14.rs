@@ -36,7 +36,9 @@ impl Position {
                 other.y..self.y + 1
             };
 
-            iter::once(self.clone()).chain(range.map(|y| Position { x, y })).collect::<HashSet<Position>>()
+            iter::once(self.clone())
+                .chain(range.map(|y| Position { x, y }))
+                .collect::<HashSet<Position>>()
         } else {
             let y = self.y;
 
@@ -46,7 +48,9 @@ impl Position {
                 other.x..self.x + 1
             };
 
-            iter::once(self.clone()).chain(range.map(|x| Position { x, y })).collect::<HashSet<Position>>()
+            iter::once(self.clone())
+                .chain(range.map(|x| Position { x, y }))
+                .collect::<HashSet<Position>>()
         }
     }
 
@@ -77,15 +81,15 @@ const ENTRY: Position = Position { x: 500, y: 0 };
 struct Day14;
 impl Solution for Day14 {
     fn solve_part_one(input: String) -> String {
-        let (abyss, mut set) = parse_rocks(&input);
-        let mut sands = 0;
+        let (abyssal_perimeter, mut set) = parse_rocks(&input);
 
+        let mut sands = 0;
         loop {
             let mut finished = false;
             let mut sand = ENTRY;
 
             loop {
-                if sand.y >= abyss {
+                if sand.y >= abyssal_perimeter {
                     finished = true;
                     break;
                 }
@@ -111,13 +115,45 @@ impl Solution for Day14 {
         sands.to_string()
     }
 
-    fn solve_part_two(_input: String) -> String {
-        String::new()
+    fn solve_part_two(input: String) -> String {
+        let (lowest, mut set) = parse_rocks(&input);
+        let floor = lowest + 2;
+
+        let mut sands = 0;
+        loop {
+            let mut sand = ENTRY;
+
+            loop {
+                if sand.y + 1 == floor {
+                    set.insert(sand);
+                    sands += 1;
+                    break;
+                }
+
+                if !set.contains(&sand.down()) {
+                    sand = sand.down();
+                } else if !set.contains(&sand.down_left()) {
+                    sand = sand.down_left();
+                } else if !set.contains(&sand.down_right()) {
+                    sand = sand.down_right();
+                } else {
+                    set.insert(sand);
+                    sands += 1;
+                    break;
+                }
+            }
+
+            if set.contains(&ENTRY) {
+                break;
+            }
+        }
+
+        sands.to_string()
     }
 }
 
 fn parse_rocks(input: &str) -> (usize, HashSet<Position>) {
-    let mut abyssal_perimeter: usize = 500;
+    let mut lowest: usize = 0;
     let mut set = HashSet::new();
 
     for path in input.lines().map(|line| {
@@ -126,12 +162,12 @@ fn parse_rocks(input: &str) -> (usize, HashSet<Position>) {
             .collect::<Vec<Position>>()
     }) {
         for pos in path.windows(2).map(|path| {
-            if path[0].y > abyssal_perimeter {
-                abyssal_perimeter = path[0].y;
+            if path[0].y > lowest {
+                lowest = path[0].y;
             }
 
-            if path[1].y > abyssal_perimeter {
-                abyssal_perimeter = path[1].y;
+            if path[1].y > lowest {
+                lowest = path[1].y;
             }
 
             path[0].path_to(&path[1])
@@ -140,5 +176,5 @@ fn parse_rocks(input: &str) -> (usize, HashSet<Position>) {
         }
     }
 
-    (abyssal_perimeter, set)
+    (lowest, set)
 }
