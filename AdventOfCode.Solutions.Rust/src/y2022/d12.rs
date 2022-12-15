@@ -9,17 +9,17 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-impl Position {
+impl Position<usize> {
     fn tuple(&self) -> (usize, usize) {
         (self.x, self.y)
     }
 }
 
 struct SquareMap<T> {
-    lowlands: Vec<Position>,
+    lowlands: Vec<Position<usize>>,
     items: Vec<Vec<T>>,
-    start: Position,
-    end: Position,
+    start: Position<usize>,
+    end: Position<usize>,
     rows: usize,
     cols: usize,
 }
@@ -107,7 +107,7 @@ impl SquareMap<u8> {
         distances
     }
 
-    fn peek_around(&self, pos: Position) -> Vec<Position> {
+    fn peek_around(&self, pos: Position<usize>) -> Vec<Position<usize>> {
         let mut adjacent = vec![];
         let (x, y) = pos.tuple();
 
@@ -130,7 +130,7 @@ impl SquareMap<u8> {
         adjacent
     }
 
-    fn get(&self, pos: Position) -> u8 {
+    fn get(&self, pos: Position<usize>) -> u8 {
         let (x, y) = pos.tuple();
         self.items[x][y]
     }

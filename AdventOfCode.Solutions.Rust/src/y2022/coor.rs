@@ -1,5 +1,5 @@
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-pub struct Position {
-    pub x: usize,
-    pub y: usize,
+pub struct Position<T> {
+    pub x: T,
+    pub y: T,
 }

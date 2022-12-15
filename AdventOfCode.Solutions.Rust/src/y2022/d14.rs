@@ -11,7 +11,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-impl Position {
+impl Position<usize> {
     fn from(pos_str: &str) -> Self {
         let (x, y) = pos_str.split_once(',').unwrap();
         Self {
@@ -22,7 +22,7 @@ impl Position {
         }
     }
 
-    fn path_to(&self, other: &Position) -> HashSet<Position> {
+    fn path_to(&self, other: &Position<usize>) -> HashSet<Position<usize>> {
         if self.x == other.x {
             let x = self.x;
 
@@ -34,7 +34,7 @@ impl Position {
 
             iter::once(self.clone())
                 .chain(range.map(|y| Position { x, y }))
-                .collect::<HashSet<Position>>()
+                .collect::<HashSet<Position<usize>>>()
         } else {
             let y = self.y;
 
@@ -46,7 +46,7 @@ impl Position {
 
             iter::once(self.clone())
                 .chain(range.map(|x| Position { x, y }))
-                .collect::<HashSet<Position>>()
+                .collect::<HashSet<Position<usize>>>()
         }
     }
 
@@ -72,7 +72,7 @@ impl Position {
     }
 }
 
-const ENTRY: Position = Position { x: 500, y: 0 };
+const ENTRY: Position<usize> = Position { x: 500, y: 0 };
 
 struct Day14;
 impl Solution for Day14 {
@@ -148,14 +148,14 @@ impl Solution for Day14 {
     }
 }
 
-fn parse_rocks(input: &str) -> (usize, HashSet<Position>) {
+fn parse_rocks(input: &str) -> (usize, HashSet<Position<usize>>) {
     let mut lowest: usize = 0;
     let mut set = HashSet::new();
 
     for path in input.lines().map(|line| {
         line.split(" -> ")
             .map(Position::from)
-            .collect::<Vec<Position>>()
+            .collect::<Vec<Position<usize>>>()
     }) {
         for pos in path.windows(2).map(|path| {
             if path[0].y > lowest {
