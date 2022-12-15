@@ -33,6 +33,24 @@ impl Sensor {
     fn within_coverage(&self, position: &Position<isize>) -> bool {
         self.position.manhattan(position) <= self.beacon_distance()
     }
+
+    fn perimeter(&self) -> Vec<Position<isize>> {
+        let distance = self.beacon_distance() + 1;
+        let y = self.position.y;
+        let mut offset = 0;
+
+        (self.position.x - distance..self.position.x + distance).flat_map(|x| {
+            let positions = vec![Position { x, y: y + offset }, Position { x, y: y - offset }];
+
+            if x < self.position.x {
+                offset += 1;
+            } else {
+                offset -= 1;
+            }
+
+            positions
+        }).collect()
+    }
 }
 
 impl Position<isize> {
@@ -97,62 +115,33 @@ impl Solution for Day15 {
         const MIN: isize = 0;
         const MAX: isize = 4_000_000;
         // const MAX: isize = 20;
-        let mut x_min = MAX;
-        let mut x_max = MIN;
-        let mut y_min = MAX;
-        let mut y_max = MIN;
 
         let sensors: HashMap<Position<isize>, Sensor> = input
             .lines()
             .map(|line| {
                 let sensor = Sensor::from(line);
-                let beacon_distance = sensor.beacon_distance();
-
-                let x = sensor.position.x - beacon_distance;
-                if x >= MIN && x < x_min {
-                    x_min = x;
-                }
-
-                let x = sensor.position.x + beacon_distance;
-                if x <= MAX && x > x_max {
-                    x_max = x;
-                }
-
-                let y = sensor.position.y - beacon_distance;
-                if y >= MIN && y < y_min {
-                    y_min = y;
-                }
-
-                let y = sensor.position.y + beacon_distance;
-                if y <= MAX && y > y_max {
-                    y_max = y;
-                }
-
                 (sensor.position, sensor)
             })
             .collect();
 
-        let distress_beacon = (x_min..x_max)
-            .find_map(|x| {
-                (y_min..y_max).find_map(|y| {
-                    let pos = Position { x, y };
+        let beacon = sensors
+            .values()
+            .find_map(|sensor| {
+                let candidates = sensor.perimeter();
 
-                    if sensors
-                        .values()
-                        .any(|sensor| sensor.within_coverage(&pos))
-                    {
-                        None
-                    } else {
-                        Some(pos)
-                    }
-                })
+                candidates
+                    .iter()
+                    .filter(|pos| pos.x >= MIN && pos.y >= MIN && pos.x <= MAX && pos.y <= MAX)
+                    .find_map(|pos| {
+                        if sensors.values().any(|sensor| sensor.within_coverage(&pos)) {
+                            None
+                        } else {
+                            Some(*pos)
+                        }
+                    })
             })
             .unwrap();
 
-        (distress_beacon.x * 4_000_000 + distress_beacon.y).to_string()
-
-        // println!("x: {} - {}; y {} - {}", x_min, x_max, y_min, y_max);
-
-        // String::new()
+        (beacon.x * 4_000_000 + beacon.y).to_string()
     }
 }
