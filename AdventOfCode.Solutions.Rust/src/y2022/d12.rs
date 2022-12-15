@@ -1,16 +1,12 @@
 use crate::core::{Part, Solution};
 
+use super::coor::Position;
+
 pub fn solve(part: Part, input: String) -> String {
     match part {
         Part::P1 => Day12::solve_part_one(input),
         Part::P2 => Day12::solve_part_two(input),
     }
-}
-
-#[derive(Clone, Copy, Eq, PartialEq, Hash)]
-struct Position {
-    x: usize,
-    y: usize,
 }
 
 impl Position {

@@ -1,3 +1,5 @@
+use super::coor::Position;
+
 use crate::core::{Part, Solution};
 
 pub fn solve(part: Part, input: String) -> String {

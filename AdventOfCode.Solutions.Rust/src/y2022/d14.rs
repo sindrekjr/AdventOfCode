@@ -2,17 +2,13 @@ use std::{collections::HashSet, iter};
 
 use crate::core::{Part, Solution};
 
+use super::coor::Position;
+
 pub fn solve(part: Part, input: String) -> String {
     match part {
         Part::P1 => Day14::solve_part_one(input),
         Part::P2 => Day14::solve_part_two(input),
     }
-}
-
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
-struct Position {
-    x: usize,
-    y: usize,
 }
 
 impl Position {
