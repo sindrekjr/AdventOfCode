@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use super::coor::Position;
 
 use crate::core::{Part, Solution};
@@ -39,7 +37,7 @@ impl Sensor {
         let y = self.position.y;
         let mut offset = 0;
 
-        (self.position.x - distance..self.position.x + distance).flat_map(|x| {
+        (self.position.x - distance..self.position.x + distance).flat_map(move |x| {
             let positions = vec![Position { x, y: y + offset }, Position { x, y: y - offset }];
 
             if x < self.position.x {
@@ -77,7 +75,7 @@ impl Solution for Day15 {
         let mut x_min = isize::MAX;
         let mut x_max = isize::MIN;
 
-        let sensors: HashMap<Position<isize>, Sensor> = input
+        let sensors: Vec<Sensor> = input
             .lines()
             .map(|line| {
                 let sensor = Sensor::from(line);
@@ -91,18 +89,18 @@ impl Solution for Day15 {
                     x_max = sensor.position.x + beacon_distance;
                 }
 
-                (sensor.position, sensor)
+                sensor
             })
             .collect();
 
         (x_min..x_max)
             .fold(0, |acc, x| {
                 let pos = &Position { x, y: Y };
-                let covered = sensors
-                    .values()
-                    .any(|sensor| sensor.within_coverage(pos) && pos != &sensor.closest_beacon);
 
-                if covered {
+                if sensors
+                    .iter()
+                    .any(|sensor| sensor.within_coverage(pos) && pos != &sensor.closest_beacon)
+                {
                     acc + 1
                 } else {
                     acc
@@ -116,27 +114,20 @@ impl Solution for Day15 {
         const MAX: isize = 4_000_000;
         // const MAX: isize = 20;
 
-        let sensors: HashMap<Position<isize>, Sensor> = input
-            .lines()
-            .map(|line| {
-                let sensor = Sensor::from(line);
-                (sensor.position, sensor)
-            })
-            .collect();
+        let sensors: Vec<Sensor> = input.lines().map(|line| Sensor::from(line)).collect();
 
         let beacon = sensors
-            .values()
+            .iter()
             .find_map(|sensor| {
-                let candidates = sensor.perimeter();
-
-                candidates
+                sensor
+                    .perimeter()
                     .iter()
                     .filter(|pos| pos.x >= MIN && pos.y >= MIN && pos.x <= MAX && pos.y <= MAX)
                     .find_map(|pos| {
-                        if sensors.values().any(|sensor| sensor.within_coverage(&pos)) {
+                        if sensors.iter().any(|sensor| sensor.within_coverage(&pos)) {
                             None
                         } else {
-                            Some(*pos)
+                            Some(pos.clone())
                         }
                     })
             })
