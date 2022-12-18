@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-#[derive(Eq, Hash, PartialEq)]
+#[derive(Debug, Eq, Hash, PartialEq)]
 struct Coordinate {
     x: i32,
     y: i32,
@@ -63,6 +63,48 @@ impl Coordinate {
             },
         ]
     }
+
+    fn neighbours_incremental(&self, radius: u16) -> Vec<Vec<Coordinate>> {
+        let mut neighbours = vec![];
+
+        for x in -1..2 {
+            for y in -1..2 {
+                for z in -1..2 {
+                    if (x == 0 && y == 0 && z == 0) || (x == y || y == z || x == z) {
+                        continue;
+                    }
+
+                    let mut direction = vec![];
+
+                    let mut start = Coordinate {
+                        x: self.x,
+                        y: self.y,
+                        z: self.z,
+                    };
+
+                    for _ in 0..radius {
+                        start = Coordinate {
+                            x: start.x + x,
+                            y: start.y + y,
+                            z: start.z + z,
+                        };
+
+                        let current = Coordinate {
+                            x: start.x,
+                            y: start.y,
+                            z: start.z,
+                        };
+
+                        direction.push(current);
+                    }
+
+                    neighbours.push(direction);
+                }
+            }
+        }
+
+        neighbours
+    }
 }
 
 struct Day18;
@@ -78,10 +120,40 @@ impl Solution for Day18 {
                     .iter()
                     .filter(|neighbour| coordinates.contains(neighbour))
                     .count()
-            }).to_string()
+            })
+            .to_string()
     }
 
     fn solve_part_two(input: String) -> String {
-        String::new()
+        let mut air = HashSet::new();
+        let cubes: HashSet<Coordinate> = input.lines().map(Coordinate::from).collect();
+
+        for cube in &cubes {
+            for maybe_air in cube.neighbours() {
+                println!("{:?}", maybe_air);
+                println!("{:?}", maybe_air.neighbours_incremental(4));
+
+                if maybe_air
+                    .neighbours_incremental(30)
+                    .iter()
+                    .all(|direction| direction.iter().any(|coor| cubes.contains(coor)))
+                {
+                    air.insert(maybe_air);
+                }
+            }
+        }
+
+        println!("{:?}", air);
+
+        cubes
+            .iter()
+            .fold(cubes.len() * 6, |acc, coordinate| {
+                acc - coordinate
+                    .neighbours()
+                    .iter()
+                    .filter(|neighbour| cubes.contains(neighbour) || air.contains(neighbour))
+                    .count()
+            })
+            .to_string()
     }
 }
