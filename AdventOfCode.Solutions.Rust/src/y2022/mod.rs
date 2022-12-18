@@ -14,6 +14,7 @@ mod d12;
 mod d13;
 mod d14;
 mod d15;
+mod d18;
 
 pub fn get_solution(day: Day, part: Part, input: String) -> String {
     match day {
@@ -29,6 +30,7 @@ pub fn get_solution(day: Day, part: Part, input: String) -> String {
         Day::D13 => d13::solve(part, input),
         Day::D14 => d14::solve(part, input),
         Day::D15 => d15::solve(part, input),
+        Day::D18 => d18::solve(part, input),
         _ => String::new(),
     }
 }
