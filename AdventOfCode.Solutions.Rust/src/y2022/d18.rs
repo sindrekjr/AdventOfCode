@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
     }
 }
 
-#[derive(Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 struct Coordinate {
     x: i32,
     y: i32,
@@ -63,48 +63,6 @@ impl Coordinate {
             },
         ]
     }
-
-    fn neighbours_incremental(&self, radius: u16) -> Vec<Vec<Coordinate>> {
-        let mut neighbours = vec![];
-
-        for x in -1..2 {
-            for y in -1..2 {
-                for z in -1..2 {
-                    if (x == 0 && y == 0 && z == 0) || (x == y || y == z || x == z) {
-                        continue;
-                    }
-
-                    let mut direction = vec![];
-
-                    let mut start = Coordinate {
-                        x: self.x,
-                        y: self.y,
-                        z: self.z,
-                    };
-
-                    for _ in 0..radius {
-                        start = Coordinate {
-                            x: start.x + x,
-                            y: start.y + y,
-                            z: start.z + z,
-                        };
-
-                        let current = Coordinate {
-                            x: start.x,
-                            y: start.y,
-                            z: start.z,
-                        };
-
-                        direction.push(current);
-                    }
-
-                    neighbours.push(direction);
-                }
-            }
-        }
-
-        neighbours
-    }
 }
 
 struct Day18;
@@ -125,35 +83,86 @@ impl Solution for Day18 {
     }
 
     fn solve_part_two(input: String) -> String {
-        let mut air = HashSet::new();
-        let cubes: HashSet<Coordinate> = input.lines().map(Coordinate::from).collect();
+        let mut minimum = Coordinate {
+            x: i32::MAX,
+            y: i32::MAX,
+            z: i32::MAX,
+        };
 
-        for cube in &cubes {
-            for maybe_air in cube.neighbours() {
-                println!("{:?}", maybe_air);
-                println!("{:?}", maybe_air.neighbours_incremental(4));
+        let mut maximum = Coordinate {
+            x: i32::MIN,
+            y: i32::MIN,
+            z: i32::MIN,
+        };
 
-                if maybe_air
-                    .neighbours_incremental(30)
-                    .iter()
-                    .all(|direction| direction.iter().any(|coor| cubes.contains(coor)))
+        let cubes: HashSet<Coordinate> = input
+            .lines()
+            .map(|line| {
+                let coordinate = Coordinate::from(line);
+
+                if minimum.x > coordinate.x {
+                    minimum.x = coordinate.x;
+                }
+
+                if maximum.x < coordinate.x {
+                    maximum.x = coordinate.x;
+                }
+
+                if minimum.y > coordinate.y {
+                    minimum.y = coordinate.y;
+                }
+
+                if maximum.y < coordinate.y {
+                    maximum.y = coordinate.y;
+                }
+
+                if minimum.z > coordinate.z {
+                    minimum.z = coordinate.z;
+                }
+
+                if maximum.z < coordinate.z {
+                    maximum.z = coordinate.z;
+                }
+
+                coordinate
+            })
+            .collect();
+
+        minimum.x -= 1;
+        minimum.y -= 1;
+        minimum.z -= 1;
+        maximum.x += 1;
+        maximum.y += 1;
+        maximum.z += 1;
+
+        let mut filled = HashSet::new();
+        let mut outside = vec![minimum];
+
+        let mut surface = 0;
+        while let Some(coor) = outside.pop() {
+            if filled.contains(&coor) {
+                continue;
+            }
+
+            for neighbour in coor.neighbours() {
+                if neighbour.x >= minimum.x
+                    && neighbour.x <= maximum.x
+                    && neighbour.y >= minimum.y
+                    && neighbour.y <= maximum.y
+                    && neighbour.z >= minimum.z
+                    && neighbour.z <= maximum.z
                 {
-                    air.insert(maybe_air);
+                    if cubes.contains(&neighbour) {
+                        surface += 1;
+                    } else {
+                        outside.insert(0, neighbour);
+                    }
                 }
             }
+
+            filled.insert(coor);
         }
 
-        println!("{:?}", air);
-
-        cubes
-            .iter()
-            .fold(cubes.len() * 6, |acc, coordinate| {
-                acc - coordinate
-                    .neighbours()
-                    .iter()
-                    .filter(|neighbour| cubes.contains(neighbour) || air.contains(neighbour))
-                    .count()
-            })
-            .to_string()
+        surface.to_string()
     }
 }
