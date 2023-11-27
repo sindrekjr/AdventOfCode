@@ -2,26 +2,22 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AdventOfCode.Services\**" />
-    <Compile Remove="AdventOfCode.Solutions\**" />
-    <Compile Remove="AdventOfCode.Solutions.Rust\**" />
-    <EmbeddedResource Remove="AdventOfCode.Services\**" />
-    <EmbeddedResource Remove="AdventOfCode.Solutions\**" />
-    <EmbeddedResource Remove="AdventOfCode.Solutions.Rust\**" />
-    <None Remove="AdventOfCode.Services\**" />
-    <None Remove="AdventOfCode.Solutions\**" />
-    <None Remove="AdventOfCode.Solutions.Rust\**" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="AdventOfCode.Services\AdventOfCode.Services.csproj" />
-    <ProjectReference Include="AdventOfCode.Solutions\AdventOfCode.Solutions.csproj" />
+    <ProjectReference Include="AdventOfCode.Solutions.FSharp\AdventOfCode.Solutions.FSharp.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AdventOfCode.Solutions.Rust\**" />
+    <ProjectReference Include="AdventOfCode.Solutions.Rust\AdventOfCode.Solutions.Rust.csproj" />
   </ItemGroup>
 
 </Project>

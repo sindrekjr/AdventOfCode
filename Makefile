@@ -7,7 +7,7 @@ LANG ?= cs
 YEAR ?= $(shell date +%Y)
 DAYS ?= $(shell seq 1 25)
 
-TEMPLATE := $(subst <YEAR>,$(YEAR),$(subst $(newline),\n,$(file < solution.$(LANG).template)))
+TEMPLATE := $(subst <YEAR>,$(YEAR),$(subst $(newline),\n,$(file < templates/solution.$(LANG).template)))
 
 ifeq ($(LANG), cs)
 	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions/Year$(YEAR)"

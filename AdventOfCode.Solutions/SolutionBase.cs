@@ -3,14 +3,12 @@ global using System;
 global using System.Collections;
 global using System.Collections.Generic;
 global using System.Linq;
-global using System.Text;
 global using static AdventOfCode.Solutions.Utils.CalculationUtils;
 global using static AdventOfCode.Solutions.Utils.CollectionUtils;
 global using static AdventOfCode.Solutions.Utils.StringUtils;
 
 using System.Diagnostics;
 using System.Net;
-using AdventOfCode.Services;
 
 namespace AdventOfCode.Solutions;
 
@@ -25,7 +23,6 @@ public abstract class SolutionBase
 
     public SolutionResult Part1 => Solve(1);
     public SolutionResult Part2 => Solve(2);
-
 
     private protected SolutionBase(int day, int year, string title, bool useDebugInput = false)
     {
@@ -100,7 +97,7 @@ public abstract class SolutionBase
 
         try
         {
-            var input = AdventOfCodeService.FetchInput(Year, Day).Result;
+            var input = InputService.FetchInput(Year, Day).Result;
             File.WriteAllText(inputFilepath, input);
             return input;
         }
@@ -142,18 +139,10 @@ public abstract class SolutionBase
         + $"{ResultToString(2, Part2)}";
 
     string ResultToString(int part, SolutionResult result) =>
-        $"  - Part{part} => " + (string.IsNullOrEmpty(result.Answer)
+        $"  - Part{part} => " + (string.IsNullOrEmpty(result.Answer) 
             ? "Unsolved"
             : $"{result.Answer} ({result.Time.TotalMilliseconds}ms)");
 
     protected abstract string SolvePartOne();
     protected abstract string SolvePartTwo();
-}
-
-public struct SolutionResult
-{
-    public string Answer { get; set; }
-    public TimeSpan Time { get; set; }
-
-    public static SolutionResult Empty => new SolutionResult();
 }

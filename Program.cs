@@ -1,12 +1,11 @@
-﻿using AdventOfCode.Services;
-using AdventOfCode.Solutions;
+﻿using AdventOfCode.Solutions;
 
-var year = ConfigurationService.GetYear();
-var days = ConfigurationService.GetDays();
+var config = Config.Get();
+var year = config.Year;
+var days = config.Days;
 
-if (args.Length > 0 && int.TryParse(args.First(), out int day)) days = new[] { day };
+if (args.Length > 0 && int.TryParse(args.First(), out int day)) days = [day];
 
-Console.WriteLine();
 foreach (var solution in SolutionCollector.FetchSolutions(year, days))
 {
     Console.WriteLine(solution.ToString());
