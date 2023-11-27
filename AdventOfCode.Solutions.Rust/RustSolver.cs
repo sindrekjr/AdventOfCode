@@ -2,9 +2,10 @@
 
 namespace AdventOfCode.Solutions.Rust;
 
-public static class RustSolver
+public static partial class RustSolver
 {
-    [DllImport("solutions.dll")] private static extern nint solve(int year, int day, int part, nint input);
+    [LibraryImport("solutions.dll")]
+    private static partial nint solve(int year, int day, int part, nint input);
 
     public static string Solve(int year, int day, int part, string input)
     {
