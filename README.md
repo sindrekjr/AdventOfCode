@@ -1,9 +1,9 @@
 # Advent of Code
 Solutions in C#.
 
-| Day | 2019 | 2020 | 2021 | 2022 |
-|-----|------|------|------|------|
-| 1  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2019/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2021/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2022/d01.rs)
+| Day | 2019 | 2020 | 2021 | 2022 | 2023 |
+|-----|------|------|------|------|------|
+| 1  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2019/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2021/Day01/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2022/d01.rs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2023/Day01/Solution.cs)
 | 2  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2019/Day02/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day02/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2021/Day02/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2022/Day02/Solution.cs)
 | 3  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2019/Day03/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day03/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2021/Day03/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2022/Day03/Solution.cs)
 | 4  | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2019/Day04/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day04/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2021/Day04/Solution.cs) | [✔️](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2022/Day04/Solution.cs)

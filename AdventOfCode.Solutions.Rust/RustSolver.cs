@@ -11,6 +11,8 @@ public static partial class RustSolver
     {
         var input_pntr = Marshal.StringToHGlobalAuto(input);
         var solution_pntr = solve(year, day, part, input_pntr);
-        return Marshal.PtrToStringAnsi(solution_pntr) ?? "";
+        var solution = Marshal.PtrToStringAnsi(solution_pntr) ?? "";
+        Marshal.FreeHGlobal(input_pntr);
+        return solution;
     }
 }
