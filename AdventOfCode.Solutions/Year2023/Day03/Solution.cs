@@ -45,7 +45,52 @@ class Solution : SolutionBase
 
     protected override string SolvePartTwo()
     {
-        return "";
+        var schematic = ParseSchematic();
+        var gears = new Dictionary<(int, int), int>();
+        var parts = new SquareMap<int>();
+
+        var nPositions = new List<(int, int)>();
+        foreach (var (k, v) in schematic)
+        {
+            if (char.IsNumber(v))
+            {
+                nPositions.Add(k);
+                continue;
+            }
+
+            if (v == '*')
+            {
+                gears.Add(k, 0);
+            }
+
+            if (nPositions.Count == 0)
+            {
+                continue;
+            }
+
+            var number = nPositions.Aggregate("", (n, pos) => n + schematic[pos]);
+            foreach (var pos in nPositions)
+            {
+                parts.Add(pos, int.Parse(number));
+            }
+
+            nPositions.Clear();
+        }
+
+        foreach (var pos in gears.Keys.ToArray())
+        {
+            var adjacentParts = parts.PokeAround(pos).Distinct().ToArray();
+            if (adjacentParts.Length == 2)
+            {
+                gears[pos] = adjacentParts[0] * adjacentParts[1];
+                continue;
+            }
+
+            gears.Remove(pos);
+        }
+
+        return gears.Values.Sum().ToString();
+
     }
 
     SquareMap<char> ParseSchematic()
