@@ -2,7 +2,7 @@ namespace AdventOfCode.Solutions.Year2023.Day02;
 
 class Solution : SolutionBase
 {
-    public Solution() : base(02, 2023, "") { }
+    public Solution() : base(02, 2023, "Cube Conundrum") { }
 
     protected override string SolvePartOne()
     {
