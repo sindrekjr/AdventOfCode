@@ -22,7 +22,7 @@ public class SquareMap<T> : SortedDictionary<(int x, int y), T>
     {
         for (int x = -1; x <= 1; x++) for (int y = -1; y <= 1; y++)
         {
-            if ((x == 0 && y == 0) || (!diagonal && (x != 0 && y != 0))) continue;
+            if ((x == 0 && y == 0) || (!diagonal && x != 0 && y != 0)) continue;
             var direction = RelativelyIncrementalPoke(position, (x, y), radius).ToArray();
             yield return direction;
         }
