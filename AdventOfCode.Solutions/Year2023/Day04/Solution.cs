@@ -36,6 +36,30 @@ partial class Solution : SolutionBase
 
     protected override string SolvePartTwo()
     {
-        return "";
+        var cards = Input.SplitByNewline();
+        var i = 0;
+        return cards.Select(card =>
+        {
+            var (_, points, _) = card.Split(":");
+            var (winners, owned, _) = points
+                .Split("|", StringSplitOptions.TrimEntries)
+                .Select(str => SpaceRegex().Split(str).Select(int.Parse))
+                .ToArray();
+
+            return owned.Count(n => winners.Contains(n));
+        }).Aggregate(new int[cards.Length], (list, wins) =>
+        {
+            var duplicates = ++list[i];
+            for (var _ = 0; _ < duplicates; _++)
+            {
+                for (var win = 1; win <= wins; win++)
+                {
+                    list[i + win]++;
+                }
+            }
+
+            i++;
+            return list;
+        }).Sum().ToString();
     }
 }
