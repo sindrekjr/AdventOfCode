@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace AdventOfCode.Solutions.Utils;
 
 public static class StringUtils
@@ -23,6 +25,12 @@ public static class StringUtils
 
     public static string[] SplitAtIndex(this string input, int index)
         => new string[] { input.Substring(0, index), input.Substring(index) };
+
+    public static int[] ToIntArray(this string str, Regex regex) => regex
+        .Split(str)
+        .Where(n => int.TryParse(n, out int v))
+        .Select(n => Convert.ToInt32(n))
+        .ToArray();
 
     public static int[] ToIntArray(this string str, string delimiter = "")
     {
