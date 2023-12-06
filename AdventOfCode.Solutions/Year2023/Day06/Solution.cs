@@ -43,6 +43,23 @@ partial class Solution : SolutionBase
 
     protected override string SolvePartTwo()
     {
-        return "";
+        var (time, record, _) = Input.SplitByNewline()
+            .Select(line =>
+                long.Parse(line.Split(":").Last().Replace(" ", "")))
+            .ToArray();
+
+        var beat = 0;
+        for (var hold = 1; hold < time; hold++)
+        {
+            var distance = (time - hold) * hold;
+            if (distance > record)
+            {
+                beat++;
+                continue;
+            }
+
+            if (beat > 0) break;
+        }
+        return beat.ToString();
     }
 }
