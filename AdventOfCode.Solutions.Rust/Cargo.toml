@@ -11,4 +11,4 @@ name = "solutions"
 crate-type = ["cdylib"]
 
 [dependencies]
-take-until = "0.1.0"
+take-until = "0.2.0"
