@@ -3,15 +3,15 @@ define newline
 
 endef
 
-LANG ?= cs
+LEXT ?= cs
 YEAR ?= $(shell date +%Y)
 DAYS ?= $(shell seq 1 25)
 
-TEMPLATE := $(subst <YEAR>,$(YEAR),$(subst $(newline),\n,$(file < templates/solution.$(LANG).template)))
+TEMPLATE := $(subst <YEAR>,$(YEAR),$(subst $(newline),\n,$(file < templates/solution.$(LEXT).template)))
 
-ifeq ($(LANG), cs)
+ifeq ($(LEXT), cs)
 	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions/Year$(YEAR)"
-else ifeq ($(LANG), rs)
+else ifeq ($(LEXT), rs)
 	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions.Rust/src/y$(YEAR)"
 endif
 
@@ -19,10 +19,10 @@ solutions-files: $(DAYS)
 
 $(DAYS):
 	$(eval DAY=$(shell printf "%02d" $@))
-ifeq ($(LANG), cs)
+ifeq ($(LEXT), cs)
 	$(eval DAY_DIR="$(DIRECTORY)/Day$(DAY)")
 	$(eval DAY_FILE="$(DAY_DIR)/Solution.cs")
-else ifeq ($(LANG), rs)
+else ifeq ($(LEXT), rs)
 	$(eval DAY_DIR="$(DIRECTORY)")
 	$(eval DAY_FILE="$(DIRECTORY)/d$(DAY).rs")
 endif
