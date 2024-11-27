@@ -10,10 +10,10 @@ pub fn solve(part: Part, input: String) -> String {
 struct Day04;
 impl Solution for Day04 {
     fn solve_part_one(input: String) -> String {
-        String::new()
+        format!("Input is {}", input)
     }
 
     fn solve_part_two(input: String) -> String {
-        String::new()
+        format!("Input is {}", input)
     }
 }

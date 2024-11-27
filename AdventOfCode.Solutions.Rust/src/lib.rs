@@ -2,6 +2,7 @@ mod core;
 mod utils;
 mod y2022;
 mod y2023;
+mod y2024;
 
 use crate::core::{Day, Part};
 use std::ffi::CString;
@@ -12,6 +13,7 @@ pub extern "C" fn solve(year: u16, day: Day, part: Part, ptr: *mut c_char) -> *m
     let solution = match year {
         2022 => y2022::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
         2023 => y2023::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
+        2024 => y2024::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
         _ => String::new(),
     };
 
