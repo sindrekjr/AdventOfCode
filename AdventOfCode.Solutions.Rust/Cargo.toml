@@ -11,4 +11,5 @@ name = "solutions"
 crate-type = ["cdylib"]
 
 [dependencies]
+regex = "1.11.1"
 take-until = "0.2.0"
