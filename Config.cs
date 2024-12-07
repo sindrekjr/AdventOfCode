@@ -75,7 +75,7 @@ class DaysConverter : JsonConverter<int[]>
         return days.Where(v => v < 26 && v > 0).OrderBy(day => day).ToArray();
     }
 
-    private IEnumerable<int> ParseString(string str)
+    public static IEnumerable<int> ParseString(string str)
     {
         return str.Split(",").SelectMany(str =>
         {
