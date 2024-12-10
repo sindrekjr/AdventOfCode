@@ -82,86 +82,69 @@ impl Solution for Day09 {
     }
 
     fn solve_part_two(input: String) -> String {
-        // let mut files: Vec<(u8, Option<u64>)> = vec![];
+        let mut files: Vec<(u8, Option<u64>)> = vec![];
 
-        // let mut file_blocks: u64 = 0;
-        // let mut id: u64 = 0;
-        // for (i, ch) in input.char_indices() {
-        //     let number = ch.to_digit(10).unwrap() as u8;
+        let mut id: u64 = 0;
+        for (i, ch) in input.char_indices() {
+            let number = ch.to_digit(10).unwrap() as u8;
 
-        //     if i % 2 == 0 {
-        //         file_blocks += number as u64;
-        //         files.push((number, Some(id)));
-        //         id += 1;
-        //     } else {
-        //         files.push((number, None));
-        //     }
-        // }
+            if i % 2 == 0 {
+                files.push((number, Some(id)));
+                id += 1;
+            } else {
+                files.push((number, None));
+            }
+        }
 
-        // loop {
-        //     let last_file = files.iter().enumerate().rfind(|(_, (_, id))| *id != None);
-        //     if let Some((i, (blocks, id))) = last_file {
-        //         let id = id.unwrap();
+        for (blocks, id) in files.iter().cloned().rev().collect::<Vec<_>>() {
+            if let Some(id) = id {
+                let (current_i, _) = files
+                    .iter()
+                    .enumerate()
+                    .find(|&(_, &(_, matching_id))| matching_id == Some(id))
+                    .unwrap();
 
-        //         let leftmost_empty = files.iter().enumerate().find(|(_, (empty_blocks, maybe_empty))| *maybe_empty == None && empty_blocks >= blocks);
-        //         if let Some((left_i, (left_b, _))) = leftmost_empty {
-        //             files[left_i].0 -= blocks;
-        //         }
-        //     }
-        // }
+                if let Some((empty_i, (empty_blocks, _))) = files
+                    .iter()
+                    .enumerate()
+                    .find(|&(e_i, &(e_b, e_id))| e_i < current_i && e_id == None && e_b >= blocks)
+                {
+                    if *empty_blocks == blocks {
+                        files[current_i] = (blocks, None);
+                        files[empty_i] = (blocks, Some(id));
+                    } else {
+                        files[current_i] = (blocks, None);
+                        files[empty_i].0 -= blocks;
+                        files.insert(empty_i, (blocks, Some(id)));
+                    }
+                }
+            }
+        }
 
-        // let mut i = 0;
-        // let mut sum: u64 = 0;
-        // let mut b = 0;
+        let mut sum = 0;
+        let mut b = 0;
 
-        // while b < file_blocks {
-        //     let (blocks, id) = files[i];
+        for (blocks, id) in files {
+            if blocks == 0 {
+                b += blocks as u64;
+                continue;
+            }
 
-        //     if blocks == 0 {
-        //         i += 1;
-        //         continue;
-        //     }
+            match id {
+                None => {
+                    b += blocks as u64;
+                }
+                Some(id) => {
+                    for _ in 0..blocks {
+                        // println!("Sum is {}; add {} * {}", sum, b, id);
 
-        //     match id {
-        //         None => {
-        //             let possible_match = files.iter().enumerate().rfind(|(_, (t_blocks, id))| *t_blocks <= blocks && *id != None);
+                        sum += b * id;
+                        b += 1;
+                    }
+                }
+            }
+        }
 
-        //             if let Some((last_i, (trailing_blocks, id))) = possible_match {
-        //                 let id = id.unwrap();
-        //                 let trailing_blocks = trailing_blocks.to_owned();
-        //                 if trailing_blocks == blocks {
-        //                     i += 1;
-        //                 } else {
-        //                     files[i].0 -= trailing_blocks;
-        //                 }
-
-        //                 for _ in 0..trailing_blocks {
-        //                     sum += b * id;
-        //                     b += 1;
-        //                 }
-
-        //                 files.remove(last_i);
-        //             } else {
-        //                 // b += blocks as u64;
-        //                 i += 1;
-        //                 continue;
-        //             }
-        //         }
-        //         Some(id) => {
-        //             for _ in 0..blocks {
-        //                 // println!("Sum is {}; add {} * {}", sum, b, id);
-
-        //                 sum += b * id;
-        //                 b += 1;
-        //             }
-
-        //             i += 1;
-        //         }
-        //     }
-        // }
-
-        // sum.to_string()
-
-        String::new()
+        sum.to_string()
     }
 }
