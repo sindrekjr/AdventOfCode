@@ -100,11 +100,7 @@ impl Solution for Day06 {
                     let mut obstacles = obstacles.clone();
                     obstacles.insert((*x, *y));
 
-                    if gallivant(&mut guard, &obstacles, height, width) == None {
-                        true
-                    } else {
-                        false
-                    }
+                    gallivant(&mut guard, &obstacles, height, width) == None
                 }
             })
             .count()

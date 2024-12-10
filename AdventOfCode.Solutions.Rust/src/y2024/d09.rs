@@ -57,8 +57,6 @@ impl Solution for Day09 {
                             let blocks = blocks.min(trailing_blocks);
 
                             for _ in 0..blocks {
-                                // println!("Sum is {}; add {} * {}", sum, b, id);
-
                                 sum += b * id;
                                 b += 1;
                             }
@@ -67,8 +65,6 @@ impl Solution for Day09 {
                 }
                 Some(id) => {
                     for _ in 0..blocks {
-                        // println!("Sum is {}; add {} * {}", sum, b, id);
-
                         sum += b * id;
                         b += 1;
                     }
@@ -125,19 +121,12 @@ impl Solution for Day09 {
         let mut b = 0;
 
         for (blocks, id) in files {
-            if blocks == 0 {
-                b += blocks as u64;
-                continue;
-            }
-
             match id {
                 None => {
                     b += blocks as u64;
                 }
                 Some(id) => {
                     for _ in 0..blocks {
-                        // println!("Sum is {}; add {} * {}", sum, b, id);
-
                         sum += b * id;
                         b += 1;
                     }

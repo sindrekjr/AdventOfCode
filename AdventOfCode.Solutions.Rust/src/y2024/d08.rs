@@ -104,7 +104,6 @@ impl Solution for Day08 {
                             break;
                         }
                     }
-
                 }
 
                 antinodes
