@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Direction {
     N,
     E,
@@ -14,6 +14,7 @@ pub struct Coordinate {
     pub y: isize,
 }
 
+#[allow(dead_code)]
 impl Coordinate {
     pub fn north(&self) -> Self {
         Self {
@@ -69,6 +70,36 @@ impl Coordinate {
             x: self.x - 1,
             y: self.y + 1,
         }
+    }
+
+    pub fn neighbours(&self) -> [Self; 8] {
+        [
+            self.north(),
+            self.east(),
+            self.west(),
+            self.south(),
+            self.north_east(),
+            self.north_west(),
+            self.south_east(),
+            self.south_west(),
+        ]
+    }
+
+    pub fn neighbours_orthogonal(&self) -> [Self; 4] {
+        [self.north(), self.east(), self.west(), self.south()]
+    }
+
+    pub fn neighbours_diagonal(&self) -> [Self; 4] {
+        [
+            self.north_east(),
+            self.north_west(),
+            self.south_east(),
+            self.south_west(),
+        ]
+    }
+
+    pub fn manhattan_distance(&self, other: &Self) -> isize {
+        (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 }
 

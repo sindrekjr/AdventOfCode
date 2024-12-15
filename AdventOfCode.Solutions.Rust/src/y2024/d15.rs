@@ -24,37 +24,62 @@ impl Solution for Day15 {
         let mut robot = *map.iter().find(|(_, ch)| **ch == '@').unwrap().0;
         map.insert(robot, '.');
 
-        for m in moves.chars() {
-            let adj_pos = match m {
-                '^' => robot.north(),
-                '>' => robot.east(),
-                '<' => robot.west(),
-                'v' => robot.south(),
-                _ => continue,
-            };
+        for m in parse_moves(moves) {
+            if let Some(coordinates) = try_move(&robot, &m, &map) {
+                map.insert(robot, '.');
 
-            match map[&adj_pos] {
-                '.' => robot = adj_pos,
-                '#' => {}
-                'O' => {
-                    let mut next_pos = adj_pos;
-                    while map[&next_pos] == 'O' {
-                        next_pos = match m {
-                            '^' => next_pos.north(),
-                            '>' => next_pos.east(),
-                            '<' => next_pos.west(),
-                            'v' => next_pos.south(),
-                            _ => panic!("illegal move"),
-                        };
-                    }
+                let mut coordinates_vec: Vec<Coordinate> =
+                    coordinates.clone().into_iter().collect();
+                match m {
+                    Direction::N => {
+                        robot = robot.north();
+                        coordinates_vec.sort_by_key(|coor| coor.y);
 
-                    if map[&next_pos] == '.' {
-                        map.insert(adj_pos, '.');
-                        map.insert(next_pos, 'O');
-                        robot = adj_pos;
+                        for coor in coordinates_vec {
+                            let previous = coor.south();
+                            if coordinates.contains(&previous) {
+                                map.insert(coor, map[&previous]);
+                                map.insert(previous, '.');
+                            }
+                        }
                     }
-                }
-                _ => (),
+                    Direction::E => {
+                        robot = robot.east();
+                        coordinates_vec.sort_by_key(|coor| -coor.x);
+
+                        for coor in coordinates_vec {
+                            let previous = coor.west();
+                            if coordinates.contains(&previous) {
+                                map.insert(coor, map[&previous]);
+                                map.insert(previous, '.');
+                            }
+                        }
+                    }
+                    Direction::W => {
+                        robot = robot.west();
+                        coordinates_vec.sort_by_key(|coor| coor.x);
+
+                        for coor in coordinates_vec {
+                            let previous = coor.east();
+                            if coordinates.contains(&previous) {
+                                map.insert(coor, map[&previous]);
+                                map.insert(previous, '.');
+                            }
+                        }
+                    }
+                    Direction::S => {
+                        robot = robot.south();
+                        coordinates_vec.sort_by_key(|coor| -coor.y);
+
+                        for coor in coordinates_vec {
+                            let previous = coor.north();
+                            if coordinates.contains(&previous) {
+                                map.insert(coor, map[&previous]);
+                                map.insert(previous, '.');
+                            }
+                        }
+                    }
+                };
             }
         }
 
@@ -83,20 +108,12 @@ impl Solution for Day15 {
                 _ => panic!("illegal character in map"),
             })
             .collect();
-        let moves = moves.chars().filter_map(|m| match m {
-            '^' => Some(Direction::N),
-            '>' => Some(Direction::E),
-            '<' => Some(Direction::W),
-            'v' => Some(Direction::S),
-            '\n' => None,
-            _ => panic!("illegal move"),
-        });
 
         let mut map = parse_grid(&map);
         let mut robot = *map.iter().find(|(_, ch)| **ch == '@').unwrap().0;
         map.insert(robot, '.');
 
-        for m in moves {
+        for m in parse_moves(moves) {
             if let Some(coordinates) = try_move(&robot, &m, &map) {
                 map.insert(robot, '.');
 
@@ -108,10 +125,6 @@ impl Solution for Day15 {
                         coordinates_vec.sort_by_key(|coor| coor.y);
 
                         for coor in coordinates_vec {
-                            if coor.y == robot.y {
-                                continue;
-                            }
-
                             let previous = coor.south();
                             if coordinates.contains(&previous) {
                                 map.insert(coor, map[&previous]);
@@ -124,10 +137,6 @@ impl Solution for Day15 {
                         coordinates_vec.sort_by_key(|coor| -coor.x);
 
                         for coor in coordinates_vec {
-                            if coor.x == robot.x {
-                                continue;
-                            }
-
                             let previous = coor.west();
                             if coordinates.contains(&previous) {
                                 map.insert(coor, map[&previous]);
@@ -140,10 +149,6 @@ impl Solution for Day15 {
                         coordinates_vec.sort_by_key(|coor| coor.x);
 
                         for coor in coordinates_vec {
-                            if coor.x == robot.x {
-                                continue;
-                            }
-
                             let previous = coor.east();
                             if coordinates.contains(&previous) {
                                 map.insert(coor, map[&previous]);
@@ -156,10 +161,6 @@ impl Solution for Day15 {
                         coordinates_vec.sort_by_key(|coor| -coor.y);
 
                         for coor in coordinates_vec {
-                            if coor.y == robot.y {
-                                continue;
-                            }
-
                             let previous = coor.north();
                             if coordinates.contains(&previous) {
                                 map.insert(coor, map[&previous]);
@@ -173,7 +174,7 @@ impl Solution for Day15 {
 
         map.iter()
             .filter_map(|(coor, ch)| {
-                if *ch == '[' {
+                if *ch == '[' || *ch == 'O' {
                     Some(coor.x + coor.y * 100)
                 } else {
                     None
@@ -182,6 +183,20 @@ impl Solution for Day15 {
             .sum::<isize>()
             .to_string()
     }
+}
+
+fn parse_moves(moves: &str) -> Vec<Direction> {
+    moves
+        .chars()
+        .filter_map(|m| match m {
+            '^' => Some(Direction::N),
+            '>' => Some(Direction::E),
+            '<' => Some(Direction::W),
+            'v' => Some(Direction::S),
+            '\n' => None,
+            _ => panic!("illegal move"),
+        })
+        .collect()
 }
 
 fn try_move(
@@ -199,6 +214,18 @@ fn try_move(
     match map[&next_position] {
         '#' => None,
         '.' => Some([next_position].into()),
+        'O' => match try_move(&next_position, direction, map) {
+            Some(coordinates) => Some(coordinates.into_iter().chain(once(next_position)).collect()),
+            None => None,
+        },
+        '[' | ']' if *direction == Direction::E || *direction == Direction::W => {
+            match try_move(&next_position, direction, map) {
+                Some(coordinates) => {
+                    Some(coordinates.into_iter().chain(once(next_position)).collect())
+                }
+                None => None,
+            }
+        }
         '[' => match direction {
             Direction::N | Direction::S => {
                 match (
@@ -215,13 +242,7 @@ fn try_move(
                     _ => None,
                 }
             }
-            Direction::E | Direction::W => {
-                if let Some(coordinates) = try_move(&next_position, direction, map) {
-                    Some(coordinates.into_iter().chain(once(next_position)).collect())
-                } else {
-                    None
-                }
-            }
+            _ => None,
         },
         ']' => match direction {
             Direction::N | Direction::S => {
@@ -239,14 +260,8 @@ fn try_move(
                     _ => None,
                 }
             }
-            Direction::E | Direction::W => {
-                if let Some(coordinates) = try_move(&next_position, direction, map) {
-                    Some(coordinates.into_iter().chain(once(next_position)).collect())
-                } else {
-                    None
-                }
-            }
+            _ => None,
         },
-        _ => panic!("illegal object"),
+        _ => None,
     }
 }

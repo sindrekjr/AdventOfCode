@@ -54,13 +54,8 @@ fn find_region(
         visited.insert(*coordinate);
     }
 
-    let n = coordinate.north();
-    let e = coordinate.east();
-    let w = coordinate.west();
-    let s = coordinate.south();
-
     let mut mismatches = HashSet::new();
-
+    let [n, e, w, s] = coordinate.neighbours_orthogonal();
     let (region, fences) = [n, e, w, s]
         .into_iter()
         .fold((1, 0), |(region, fences), neighbour| {
@@ -91,11 +86,7 @@ fn find_region(
         });
 
     if discount {
-        let ne = coordinate.north_east();
-        let nw = coordinate.north_west();
-        let se = coordinate.south_east();
-        let sw = coordinate.south_west();
-
+        let [ne, nw, se, sw] = coordinate.neighbours_diagonal();
         let corners = [ne, nw, se, sw]
             .into_iter()
             .fold(fences, |corners, diagonal| match map.get(&diagonal) {
