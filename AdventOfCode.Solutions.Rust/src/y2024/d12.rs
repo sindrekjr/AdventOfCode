@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use crate::{
     core::{Part, Solution},
-    utils::grid::Coordinate,
+    utils::grid::{parse_grid, Coordinate},
 };
 
 pub fn solve(part: Part, input: String) -> String {
@@ -15,7 +15,7 @@ pub fn solve(part: Part, input: String) -> String {
 struct Day12;
 impl Solution for Day12 {
     fn solve_part_one(input: String) -> String {
-        let map = parse_map(&input);
+        let map = parse_grid(&input);
         let mut visited: HashSet<Coordinate> = HashSet::new();
 
         map.iter()
@@ -28,7 +28,7 @@ impl Solution for Day12 {
     }
 
     fn solve_part_two(input: String) -> String {
-        let map = parse_map(&input);
+        let map = parse_grid(&input);
         let mut visited: HashSet<Coordinate> = HashSet::new();
 
         map.iter()
@@ -39,26 +39,6 @@ impl Solution for Day12 {
             .sum::<u32>()
             .to_string()
     }
-}
-
-fn parse_map(input: &String) -> HashMap<Coordinate, char> {
-    input
-        .lines()
-        .enumerate()
-        .flat_map(|(y, line)| {
-            line.char_indices()
-                .map(|(x, ch)| {
-                    (
-                        Coordinate {
-                            x: x as isize,
-                            y: y as isize,
-                        },
-                        ch,
-                    )
-                })
-                .collect::<Vec<_>>()
-        })
-        .collect()
 }
 
 fn find_region(
