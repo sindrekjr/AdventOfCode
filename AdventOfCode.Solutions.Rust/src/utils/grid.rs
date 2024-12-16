@@ -1,14 +1,34 @@
 use std::collections::HashMap;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub enum Direction {
-    N,
-    E,
-    W,
-    S,
+    N = 0,
+    E = 1,
+    W = 2,
+    S = 3,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+impl Direction {
+    pub fn rotate_right_90deg(&self) -> Self {
+        match self {
+            Direction::N => Direction::E,
+            Direction::E => Direction::S,
+            Direction::S => Direction::W,
+            Direction::W => Direction::N,
+        }
+    }
+
+    pub fn rotate_left_90deg(&self) -> Self {
+        match self {
+            Direction::N => Direction::W,
+            Direction::E => Direction::N,
+            Direction::S => Direction::E,
+            Direction::W => Direction::S,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd)]
 pub struct Coordinate {
     pub x: isize,
     pub y: isize,
@@ -69,6 +89,15 @@ impl Coordinate {
         Self {
             x: self.x - 1,
             y: self.y + 1,
+        }
+    }
+
+    pub fn neighbour_by_direction(&self, direction: &Direction) -> Self {
+        match direction {
+            Direction::N => self.north(),
+            Direction::E => self.east(),
+            Direction::W => self.west(),
+            Direction::S => self.south(),
         }
     }
 
