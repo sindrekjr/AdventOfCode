@@ -10,10 +10,177 @@ pub fn solve(part: Part, input: String) -> String {
 struct Day17;
 impl Solution for Day17 {
     fn solve_part_one(input: String) -> String {
-        format!("Input is {}", input)
+        let ([mut a, mut b, mut c], program) = parse_input(&input);
+
+        let mut pointer = 0;
+        let mut output = vec![];
+        while pointer < program.len() {
+            let opcode = program[pointer];
+            let literal = program[pointer + 1];
+            let combo = match literal {
+                0 => 0,
+                1 => 1,
+                2 => 2,
+                3 => 3,
+                4 => a,
+                5 => b,
+                6 => c,
+                7 => 7,
+                _ => panic!("illegal combo operand"),
+            };
+
+            // println!(
+            //     "A: {}\nB: {}\nC: {}\nProcessing {} {}\n",
+            //     a, b, c, opcode, literal
+            // );
+
+            pointer += 2;
+
+            match opcode {
+                0 => {
+                    // adv
+                    a /= 2u64.pow(combo as u32);
+                }
+                1 => {
+                    // bxl
+                    b ^= literal;
+                }
+                2 => {
+                    // bst
+                    b = combo % 8;
+                }
+                3 => {
+                    // jnz
+                    if a != 0 {
+                        pointer = literal as usize;
+                    }
+                }
+                4 => {
+                    // bxc
+                    b ^= c;
+                }
+                5 => {
+                    // out
+                    output.push(combo % 8);
+                }
+                6 => {
+                    // bdv
+                    b = a / 2u64.pow(combo as u32);
+                }
+                7 => {
+                    // cdv
+                    c = a / 2u64.pow(combo as u32);
+                }
+                _ => panic!("illegal opcode"),
+            }
+        }
+
+        output
+            .iter()
+            .map(|n| n.to_string())
+            .collect::<Vec<_>>()
+            .join(",")
     }
 
     fn solve_part_two(input: String) -> String {
-        format!("Input is {}", input)
+        let ([mut a, mut b, mut c], program) = parse_input(&input);
+
+        (1_000_000_000..10_000_000_000)
+            .find(|i| {
+                a = *i;
+                let mut pointer = 0;
+                let mut output = vec![];
+                while pointer < program.len() {
+                    let opcode = program[pointer];
+                    let literal = program[pointer + 1];
+                    let combo = match literal {
+                        0 => 0,
+                        1 => 1,
+                        2 => 2,
+                        3 => 3,
+                        4 => a,
+                        5 => b,
+                        6 => c,
+                        7 => 7,
+                        _ => panic!("illegal combo operand"),
+                    };
+
+                    // println!(
+                    //     "A: {}\nB: {}\nC: {}\nProcessing {} {}\n",
+                    //     a, b, c, opcode, literal
+                    // );
+
+                    pointer += 2;
+
+                    match opcode {
+                        0 => {
+                            // adv
+                            a /= 2u64.pow(combo as u32);
+                        }
+                        1 => {
+                            // bxl
+                            b ^= literal;
+                        }
+                        2 => {
+                            // bst
+                            b = combo % 8;
+                        }
+                        3 => {
+                            // jnz
+                            if a != 0 {
+                                pointer = literal as usize;
+                            }
+                        }
+                        4 => {
+                            // bxc
+                            b ^= c;
+                        }
+                        5 => {
+                            // out
+                            output.push(combo % 8);
+                            let len = output.len();
+                            if len > program.len() || output[len - 1] != program[len - 1] {
+                                return false;
+                            }
+                        }
+                        6 => {
+                            // bdv
+                            b = a / 2u64.pow(combo as u32);
+                        }
+                        7 => {
+                            // cdv
+                            c = a / 2u64.pow(combo as u32);
+                        }
+                        _ => panic!("illegal opcode"),
+                    }
+                }
+
+                output == program
+            })
+            .unwrap_or(0)
+            .to_string()
     }
+}
+
+fn parse_input(input: &str) -> ([u64; 3], Vec<u64>) {
+    let (registers, program) = input.split_once("\n\n").unwrap();
+
+    (
+        registers
+            .lines()
+            .map(|line| {
+                let (_, value) = line.split_once(": ").unwrap();
+                value.parse().unwrap()
+            })
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap(),
+        program
+            .split_once(": ")
+            .unwrap()
+            .1
+            .split(',')
+            .map(|n| n.parse().unwrap())
+            .collect(),
+    )
 }
