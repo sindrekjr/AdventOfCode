@@ -85,9 +85,12 @@ impl Solution for Day17 {
     fn solve_part_two(input: String) -> String {
         let ([mut a, mut b, mut c], program) = parse_input(&input);
 
-        (1_000_000_000..10_000_000_000)
-            .find(|i| {
-                a = *i;
+        let mut adjust = 0;
+        loop {
+            for i in 0..u64::MAX {
+                let initialize = a + adjust + i;
+                a += initialize;
+
                 let mut pointer = 0;
                 let mut output = vec![];
                 while pointer < program.len() {
@@ -104,11 +107,6 @@ impl Solution for Day17 {
                         7 => 7,
                         _ => panic!("illegal combo operand"),
                     };
-
-                    // println!(
-                    //     "A: {}\nB: {}\nC: {}\nProcessing {} {}\n",
-                    //     a, b, c, opcode, literal
-                    // );
 
                     pointer += 2;
 
@@ -138,10 +136,6 @@ impl Solution for Day17 {
                         5 => {
                             // out
                             output.push(combo % 8);
-                            let len = output.len();
-                            if len > program.len() || output[len - 1] != program[len - 1] {
-                                return false;
-                            }
                         }
                         6 => {
                             // bdv
@@ -155,16 +149,19 @@ impl Solution for Day17 {
                     }
                 }
 
-                output == program
-            })
-            .unwrap_or(0)
-            .to_string()
+                if output == program {
+                    return initialize.to_string();
+                } else if output.ends_with(&program[program.len() - output.len()..]) {
+                    adjust = (adjust + i) * 8;
+                    break;
+                }
+            }
+        }
     }
 }
 
 fn parse_input(input: &str) -> ([u64; 3], Vec<u64>) {
     let (registers, program) = input.split_once("\n\n").unwrap();
-
     (
         registers
             .lines()
