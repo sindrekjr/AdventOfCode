@@ -1,5 +1,6 @@
 mod core;
 mod utils;
+mod y2017;
 mod y2022;
 mod y2023;
 mod y2024;
@@ -11,6 +12,7 @@ use std::os::raw::c_char;
 #[no_mangle]
 pub extern "C" fn solve(year: u16, day: Day, part: Part, ptr: *mut c_char) -> *mut c_char {
     let solution = match year {
+        2017 => y2017::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
         2022 => y2022::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
         2023 => y2023::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
         2024 => y2024::get_solution(day, part, unwrap_input(ptr).trim().to_owned()),
