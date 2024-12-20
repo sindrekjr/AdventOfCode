@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::HashSet;
 
 use crate::{
     core::{Part, Solution},
@@ -15,34 +15,19 @@ pub fn solve(part: Part, input: String) -> String {
 struct Day20;
 impl Solution for Day20 {
     fn solve_part_one(input: String) -> String {
-        let (start, _, walls) = parse_elements(&input);
-        let width = walls.iter().max_by_key(|coor| coor.x).unwrap().x;
-        let height = walls.iter().max_by_key(|coor| coor.y).unwrap().y;
-
-        black_sheep_wall(&start, &walls, width, height, 2)
-            .values()
-            .filter(|&seconds| *seconds >= 100)
-            .count()
-            .to_string()
+        let (start, walls) = parse_elements(&input);
+        black_sheep_wall(&start, &walls, 2, 100).to_string()
     }
 
     fn solve_part_two(input: String) -> String {
-        let (start, _, walls) = parse_elements(&input);
-        let width = walls.iter().max_by_key(|coor| coor.x).unwrap().x;
-        let height = walls.iter().max_by_key(|coor| coor.y).unwrap().y;
-
-        black_sheep_wall(&start, &walls, width, height, 20)
-            .values()
-            .filter(|&seconds| *seconds >= 100)
-            .count()
-            .to_string()
+        let (start, walls) = parse_elements(&input);
+        black_sheep_wall(&start, &walls, 20, 100).to_string()
     }
 }
 
-fn parse_elements(input: &str) -> (Coordinate, Coordinate, HashSet<Coordinate>) {
+fn parse_elements(input: &str) -> (Coordinate, HashSet<Coordinate>) {
     let map = parse_grid(input);
     let start = *map.iter().find(|(_, ch)| **ch == 'S').unwrap().0;
-    let end = *map.iter().find(|(_, ch)| **ch == 'E').unwrap().0;
     let walls: HashSet<Coordinate> = map
         .iter()
         .filter_map(|(coor, ch)| match *ch == '#' {
@@ -51,48 +36,46 @@ fn parse_elements(input: &str) -> (Coordinate, Coordinate, HashSet<Coordinate>) 
         })
         .collect();
 
-    (start, end, walls)
+    (start, walls)
 }
 
 fn black_sheep_wall(
     start: &Coordinate,
     walls: &HashSet<Coordinate>,
-    width: isize,
-    height: isize,
     picoseconds: isize,
-) -> HashMap<(Coordinate, Coordinate), u32> {
-    let mut queue: VecDeque<_> = [(*start, 0)].into();
-    let mut visits: HashMap<Coordinate, u32> = [(*start, 0)].into();
+    gain: usize,
+) -> usize {
+    let mut path: Vec<Coordinate> = vec![*start];
 
-    while let Some((position, cost)) = queue.pop_front() {
-        for neighbour in position.neighbours_orthogonal() {
-            if &neighbour != start
-                && 0 <= neighbour.x
-                && neighbour.x < width
-                && 0 <= neighbour.y
-                && neighbour.y < height
-                && !walls.contains(&neighbour)
-                && !visits.contains_key(&neighbour)
-            {
-                queue.push_back((neighbour, cost + 1));
-                visits.insert(neighbour, cost + 1);
-            }
-        }
-    }
-
-    let mut cheats: HashMap<(Coordinate, Coordinate), u32> = HashMap::new();
-    for (coor, cost) in &visits {
-        let within_cheating_distance = visits.iter().filter(|(next_coor, next_cost)| {
-            next_cost > &cost && coor.manhattan_distance(&next_coor) <= picoseconds
+    let mut step = 0;
+    loop {
+        let position = path[step];
+        let neighbours = position.neighbours_orthogonal();
+        let next = neighbours.iter().find(|neighbour| {
+            (step == 0 || **neighbour != path[step - 1]) && !walls.contains(&neighbour)
         });
 
-        for (next_coor, next_cost) in within_cheating_distance {
-            let cheat_seconds = coor.manhattan_distance(next_coor);
-            if (cost + cheat_seconds as u32) < *next_cost {
-                cheats.insert((*coor, *next_coor), next_cost - cost - cheat_seconds as u32);
-            }
+        if let Some(position) = next {
+            path.push(*position);
+            step += 1;
+        } else {
+            break;
         }
     }
 
-    cheats
+    let mut count = 0;
+    for (step, position) in path.iter().enumerate() {
+        if let Some(shortcuts) = path.get((step + gain)..) {
+            count += shortcuts
+                .iter()
+                .enumerate()
+                .filter(|(c, p)| {
+                    let distance = position.manhattan_distance(p);
+                    distance <= picoseconds && distance <= *c as isize
+                })
+                .count()
+        }
+    }
+
+    count
 }
