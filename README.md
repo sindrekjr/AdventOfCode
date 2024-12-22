@@ -25,6 +25,8 @@ Solutions in C#.
 | 18 | [RAM Run](https://adventofcode.com/2024/day/18) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d18.rs) |
 | 19 | [Linen Layout](https://adventofcode.com/2024/day/19) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d19.rs) |
 | 20 | [Race Condition](https://adventofcode.com/2024/day/20) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d20.rs) |
+| 21 | [Keypad Conundrum ](https://adventofcode.com/2024/day/21) |
+| 22 | [Monkey Market](https://adventofcode.com/2024/day/22) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d22.rs) |
 
 ## 2023
 
