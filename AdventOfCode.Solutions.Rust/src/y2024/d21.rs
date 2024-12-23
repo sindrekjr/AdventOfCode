@@ -165,7 +165,7 @@ impl Solution for Day21 {
             .lines()
             .map(|code| {
                 let len = (0..3)
-                    .fold(code.to_string(), |code, _| direct_robot(&map, &code))
+                    .fold(code.to_string(), |code, _| direct_robot(&map, &'A', &code))
                     .len();
                 let num = code[..code.len() - 1].parse::<usize>().unwrap();
 
@@ -176,14 +176,55 @@ impl Solution for Day21 {
     }
 
     fn solve_part_two(input: String) -> String {
-        String::new()
+        let map: HashMap<(char, char), &str> = DIRECTIONAL_MAP.into();
+        let mut memo: HashMap<(String, u8), usize> = HashMap::new();
+        input
+            .lines()
+            .map(|code| {
+                let len = modify_the_phase_variance(code, 26, &map, &mut memo);
+                let num = code[..code.len() - 1].parse::<usize>().unwrap();
+
+                len * num
+            })
+            .sum::<usize>()
+            .to_string()
     }
 }
 
-fn direct_robot(map: &HashMap<(char, char), &str>, target_sequence: &str) -> String {
+fn modify_the_phase_variance(
+    code: &str,
+    robots: u8,
+    map: &HashMap<(char, char), &str>,
+    memo: &mut HashMap<(String, u8), usize>,
+) -> usize {
+    if robots == 0 {
+        return code.len();
+    } else if let Some(length) = memo.get(&(code.to_string(), robots)) {
+        return *length;
+    }
+
+    let length = "A"
+        .chars()
+        .chain(code.chars())
+        .collect::<Vec<_>>()
+        .windows(2)
+        .fold(0, |acc, chars| {
+            acc + modify_the_phase_variance(
+                &direct_robot(map, &chars[0], &chars[1].to_string()),
+                robots - 1,
+                map,
+                memo,
+            )
+        });
+
+    memo.insert((code.to_string(), robots), length);
+    length
+}
+
+fn direct_robot(map: &HashMap<(char, char), &str>, start: &char, target_sequence: &str) -> String {
     target_sequence
         .chars()
-        .fold(('A', String::new()), |(prev_ch, seq), next_ch| {
+        .fold((*start, String::new()), |(prev_ch, seq), next_ch| {
             (next_ch, format!("{}{}A", seq, map[&(prev_ch, next_ch)]))
         })
         .1
