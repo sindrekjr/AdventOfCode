@@ -29,6 +29,7 @@ Solutions in C#.
 | 22 | [Monkey Market](https://adventofcode.com/2024/day/22) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d22.rs) |
 | 23 | [LAN Party](https://adventofcode.com/2024/day/23) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d23.rs) |
 | 24 | [Crossed Wires](https://adventofcode.com/2024/day/24) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/d24.rs) |
+| 25 | [Code Chronicle](https://adventofcode.com/2024/day/25) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2024/25.rs) |
 
 ## 2023
 
