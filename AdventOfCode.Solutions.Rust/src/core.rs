@@ -4,6 +4,7 @@ pub trait Solution {
 }
 
 #[repr(i32)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Day {
     D01 = 1,
     D02 = 2,
@@ -33,6 +34,7 @@ pub enum Day {
 }
 
 #[repr(i32)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Part {
     P1 = 1,
     P2 = 2,

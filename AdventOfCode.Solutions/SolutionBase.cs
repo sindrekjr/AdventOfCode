@@ -32,22 +32,13 @@ public abstract class SolutionBase
         Debug = useDebugInput;
     }
 
-    public IEnumerable<SolutionResult> SolveAll()
-    {
-        yield return Solve(SolvePartOne);
-        yield return Solve(SolvePartTwo);
-    }
-
     public SolutionResult Solve(int part = 1)
     {
-        if (part == 1) return Solve(SolvePartOne);
-        if (part == 2) return Solve(SolvePartTwo);
+        if (part is not 1 and not 2)
+        {
+            throw new InvalidOperationException("Invalid part param supplied.");
+        }
 
-        throw new InvalidOperationException("Invalid part param supplied.");
-    }
-
-    SolutionResult Solve(Func<string> SolverFunction)
-    {
         if (Debug)
         {
             if (string.IsNullOrEmpty(DebugInput))
@@ -63,11 +54,16 @@ public abstract class SolutionBase
         try
         {
             var then = DateTime.Now;
-            var result = SolverFunction();
+            var result = part == 1 ? SolvePartOne() : SolvePartTwo();
             var now = DateTime.Now;
+
             return string.IsNullOrEmpty(result)
                 ? SolutionResult.Empty
-                : new SolutionResult { Answer = result, Time = now - then };
+                : new SolutionResult
+                {
+                    Answer = result,
+                    Duration = RustSolver.GetSolveDuration(Year, Day, part) ?? now - then
+                };
         }
         catch (Exception)
         {
@@ -135,13 +131,8 @@ public abstract class SolutionBase
 
     public override string ToString() =>
         $"\n--- Day {Day}: {Title} --- {(Debug ? "!! Debug mode active, using DebugInput !!" : "")}\n"
-        + $"{ResultToString(1, Part1)}\n"
-        + $"{ResultToString(2, Part2)}";
-
-    string ResultToString(int part, SolutionResult result) =>
-        $"  - Part{part} => " + (string.IsNullOrEmpty(result.Answer) 
-            ? "Unsolved"
-            : $"{result.Answer} ({result.Time.TotalMilliseconds}ms)");
+        + $" - Part1 => {Part1}\n"
+        + $" - Part2 => {Part2}";
 
     protected abstract string SolvePartOne();
     protected abstract string SolvePartTwo();
