@@ -2,7 +2,7 @@ namespace AdventOfCode.Solutions;
 
 public static class SolutionCollector
 {
-    public static IEnumerable<SolutionBase> FetchSolutions(int year, IEnumerable<int> days)
+    public static IEnumerable<SolutionBase> FetchSolutions(int year, IEnumerable<int> days, bool debug = false)
     {
         if (days.Sum() == 0) days = Enumerable.Range(1, 25).ToArray();
 
@@ -13,6 +13,7 @@ public static class SolutionCollector
             {
                 if (Activator.CreateInstance(type) is SolutionBase solution)
                 {
+                    solution.Debug = debug;
                     yield return solution;
                 }
             }
