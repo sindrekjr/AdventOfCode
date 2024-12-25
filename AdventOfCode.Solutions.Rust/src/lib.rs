@@ -2,6 +2,7 @@ mod core;
 mod timer;
 mod utils;
 mod y2017;
+mod y2020;
 mod y2022;
 mod y2023;
 mod y2024;
@@ -18,6 +19,7 @@ pub extern "C" fn solve(year: u16, day: Day, part: Part, ptr: *mut c_char) -> *m
 
     let solve = match year {
         2017 => y2017::get_solution,
+        2020 => y2020::get_solution,
         2022 => y2022::get_solution,
         2023 => y2023::get_solution,
         2024 => y2024::get_solution,
