@@ -1,9 +1,7 @@
 namespace AdventOfCode.Solutions.Year<YEAR>.Day<DAY>;
 
-class Solution : SolutionBase
+class Solution() : SolutionBase(<DAY>, <YEAR>, "")
 {
-    public Solution() : base(<DAY>, <YEAR>, "") { }
-
     protected override string SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
 
     protected override string SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
