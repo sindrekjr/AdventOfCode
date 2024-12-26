@@ -124,7 +124,7 @@ Solutions in C#.
 | 20 | [Jurassic Jigsaw](https://adventofcode.com/2020/day/20) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day20/Solution.cs) |
 | 21 | [Allergen Assessment](https://adventofcode.com/2020/day/21) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day21/Solution.cs) |
 | 22 | [Crab Combat](https://adventofcode.com/2020/day/22) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day22/Solution.cs) |
-| 23 | [Crab Cups](https://adventofcode.com/2020/day/23) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day23/Solution.cs) |
+| 23 | [Crab Cups](https://adventofcode.com/2020/day/23) | [Rust](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions.Rust/src/y2020/d23.rs) |
 | 24 | [Lobby Layout](https://adventofcode.com/2020/day/24) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day24/Solution.cs) |
 | 25 | [Combo Breaker](https://adventofcode.com/2020/day/25) | [C#](https://github.com/sindrekjr/AdventOfCode/blob/master/AdventOfCode.Solutions/Year2020/Day25/Solution.cs) |
 
