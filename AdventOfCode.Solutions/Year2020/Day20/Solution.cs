@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AdventOfCode.Solutions.Year2020;
-
 namespace AdventOfCode.Solutions.Year2020.Day20;
 
 class Solution : SolutionBase
@@ -14,35 +7,35 @@ class Solution : SolutionBase
 
     public Solution() : base(20, 2020, "Jurassic Jigsaw", true) { }
 
-    protected override string SolvePartOne()
-    {
-        Tiles = new Dictionary<int, SquareTile>();
-        foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
-        {
-            var id = int.Parse(title.Substring(5, 4));
-            Tiles.Add(id, new SquareTile(tile) { Id = id });
-        }
+    protected override string SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
+    // {
+    //     Tiles = new Dictionary<int, SquareTile>();
+    //     foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
+    //     {
+    //         var id = int.Parse(title.Substring(5, 4));
+    //         Tiles.Add(id, new SquareTile(tile) { Id = id });
+    //     }
 
-        foreach (var tile in Tiles.Values) FindMatches(tile);
+    //     foreach (var tile in Tiles.Values) FindMatches(tile);
 
-        return Tiles.Values.Where(t => t.CountMatchingSides() == 2).Aggregate(default(long) + 1, (product, t) => product * t.Id).ToString();
-    }
+    //     return Tiles.Values.Where(t => t.CountMatchingSides() == 2).Aggregate(default(long) + 1, (product, t) => product * t.Id).ToString();
+    // }
 
-    protected override string SolvePartTwo()
-    {
-        Tiles = new Dictionary<int, SquareTile>();
-        foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
-        {
-            var id = int.Parse(title.Substring(5, 4));
-            Tiles.Add(id, new SquareTile(tile.Take(tile.Count - 1).Skip(1).Select(s => s.Substring(1, s.Length - 2))) { Id = id });
-        }
+    protected override string SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
+    // {
+    //     Tiles = new Dictionary<int, SquareTile>();
+    //     foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
+    //     {
+    //         var id = int.Parse(title.Substring(5, 4));
+    //         Tiles.Add(id, new SquareTile(tile.Take(tile.Count - 1).Skip(1).Select(s => s.Substring(1, s.Length - 2))) { Id = id });
+    //     }
 
-        foreach (var tile in Tiles.Values) FindMatches(tile);
+    //     foreach (var tile in Tiles.Values) FindMatches(tile);
 
-        CreatePuzzle();
+    //     CreatePuzzle();
 
-        return Puzzle.Count.ToString();
-    }
+    //     return Puzzle.Count.ToString();
+    // }
 
     void CreatePuzzle()
     {
