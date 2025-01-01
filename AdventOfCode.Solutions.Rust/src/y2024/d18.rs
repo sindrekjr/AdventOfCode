@@ -55,7 +55,6 @@ impl Solution for Day18 {
             .find_map(|i| {
                 if bfs(start, end, bytes.iter().cloned().take(i).collect(), 71, 71).is_none() {
                     let bad = bytes[i - 1];
-                    println!("Found! {:?}", bad);
                     Some(format!("{},{}", bad.x, bad.y))
                 } else {
                     None
