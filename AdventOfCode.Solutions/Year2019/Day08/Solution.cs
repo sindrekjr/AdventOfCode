@@ -1,6 +1,3 @@
-using System.Drawing;
-using System.Drawing.Imaging;
-
 namespace AdventOfCode.Solutions.Year2019.Day08;
 
 class Solution : SolutionBase
@@ -13,7 +10,7 @@ class Solution : SolutionBase
 
     protected override string SolvePartOne()
     {
-        var image = Input.ToIntArray().Split(25).Split(6);
+        var image = Input.ToIntArray().SplitIntoChunks(25).SplitIntoChunks(6);
         int fewest = 0, result = 0;
         foreach(var layer in image)
         {
@@ -38,7 +35,7 @@ class Solution : SolutionBase
 
     protected override string SolvePartTwo()
     {
-        var image = Input.ToIntArray().Split(25).Split(6);
+        var image = Input.ToIntArray().SplitIntoChunks(25).SplitIntoChunks(6);
         int?[,] display = new int?[6, 25];
         foreach(var layer in image)
         {

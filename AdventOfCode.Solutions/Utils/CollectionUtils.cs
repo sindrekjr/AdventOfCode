@@ -28,7 +28,7 @@ public static class CollectionUtils
         : values.SelectMany(v =>
             Permutations(values.Where(x => x?.Equals(v) == false)), (v, p) => p.Prepend(v));
 
-    public static IEnumerable<IEnumerable<T>> Split<T>(this IEnumerable<T> array, int size)
+    public static IEnumerable<IEnumerable<T>> SplitIntoChunks<T>(this IEnumerable<T> array, int size)
     {
         for (var i = 0; i < (float)array.Count() / size; i++)
         {
