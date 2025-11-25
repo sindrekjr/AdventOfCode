@@ -1,4 +1,5 @@
 ﻿global using AdventOfCode.Solutions.Rust;
+global using AdventOfCode.Solutions.Zig;
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
@@ -62,7 +63,7 @@ public abstract class SolutionBase
                 : new SolutionResult
                 {
                     Answer = result,
-                    Duration = RustSolver.GetSolveDuration(Year, Day, part) ?? now - then
+                    Duration = RustSolver.GetSolveDuration(Year, Day, part) ?? now - then // TODO: generalise for any interop
                 };
         }
         catch (Exception)
