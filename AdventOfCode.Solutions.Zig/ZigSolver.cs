@@ -4,7 +4,7 @@ namespace AdventOfCode.Solutions.Zig;
 
 public static partial class ZigSolver
 {
-    [LibraryImport("solutions.dll")]
+    [LibraryImport("zigsolutions.dll")]
     private static partial nint solve(int year, int day, int part, nint input);
 
     public static string Solve(int year, int day, int part, string input)

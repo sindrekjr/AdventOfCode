@@ -9,7 +9,7 @@
 
   <Target Name="PreCompileZigSolutions" BeforeTargets="Build">
     <Exec Command="zig build-lib src/root.zig --library c --name aocsolutions -dynamic" />
-    <Exec Command="mv ./libaocsolutions.so ./solutions.dll" />
+    <Exec Command="mv ./libaocsolutions.so ./zigsolutions.dll" />
   </Target>
 
   <ItemGroup>

@@ -4,7 +4,7 @@ namespace AdventOfCode.Solutions.Rust;
 
 public static partial class RustSolver
 {
-    [LibraryImport("solutions.dll")]
+    [LibraryImport("rustsolutions.dll")]
     private static partial nint solve(int year, int day, int part, nint input);
     // private static partial nint solve(int year, int day, int part, nint input, nint debug);
 
@@ -15,7 +15,7 @@ public static partial class RustSolver
         return Marshal.PtrToStringAnsi(solution_pntr) ?? "Unsolved";
     }
 
-    [LibraryImport("solutions.dll")]
+    [LibraryImport("rustsolutions.dll")]
     private static partial nint get_last_duration(int year, int day, int part);
 
     public static TimeSpan? GetSolveDuration(int year, int day, int part)
