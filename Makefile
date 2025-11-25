@@ -13,6 +13,8 @@ ifeq ($(LEXT), cs)
 	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions/Year$(YEAR)"
 else ifeq ($(LEXT), rs)
 	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions.Rust/src/y$(YEAR)"
+else ifeq ($(LEXT), zig)
+	DIRECTORY := "$(shell pwd)/AdventOfCode.Solutions.Zig/src/y$(YEAR)"
 endif
 
 solutions-files: $(DAYS)
@@ -25,6 +27,9 @@ ifeq ($(LEXT), cs)
 else ifeq ($(LEXT), rs)
 	$(eval DAY_DIR="$(DIRECTORY)")
 	$(eval DAY_FILE="$(DIRECTORY)/d$(DAY).rs")
+else ifeq ($(LEXT), zig)
+	$(eval DAY_DIR="$(DIRECTORY)")
+	$(eval DAY_FILE="$(DIRECTORY)/d$(DAY).zig")
 endif
 	@if [ ! -f $(DAY_FILE) ]; then \
 		mkdir -p $(DAY_DIR); \

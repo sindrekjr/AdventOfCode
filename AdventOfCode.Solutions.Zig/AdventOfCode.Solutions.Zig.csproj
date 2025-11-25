@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <Target Name="PreCompileZigSolutions" BeforeTargets="Build">
+    <Exec Command="zig build-lib src/root.zig --library c --name aocsolutions -dynamic" />
+    <Exec Command="mv ./libaocsolutions.so ./solutions.dll" />
+  </Target>
+
+  <ItemGroup>
+    <Content Include="./*.dll">
+      <Link>%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

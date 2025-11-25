@@ -13,11 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="AdventOfCode.Solutions.FSharp\AdventOfCode.Solutions.FSharp.fsproj" />
-  </ItemGroup>
 
-  <ItemGroup>
     <Compile Remove="AdventOfCode.Solutions.Rust\**" />
     <ProjectReference Include="AdventOfCode.Solutions.Rust\AdventOfCode.Solutions.Rust.csproj" />
+
+    <Compile Remove="AdventOfCode.Solutions.Zig\**" />
+    <ProjectReference Include="AdventOfCode.Solutions.Zig\AdventOfCode.Solutions.Zig.csproj" />
   </ItemGroup>
 
 </Project>
