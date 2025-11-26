@@ -172,12 +172,19 @@ public abstract class SolutionBase
     private string PartToString(int part)
     {
         var header = $" - Part{part} => ";
-        var results = Targets.Select(t => Solve(part, t)).OfType<SolutionResult>().ToArray();
-        return header + (
-            results.Length == 0
-            ? "Unsolved"
-            : string.Join("\n".PadRight(header.Length + 1), results)
-        );
+        try
+        {
+            var results = Targets.Select(t => Solve(part, t)).OfType<SolutionResult>().ToArray();
+            return header + (
+                results.Length == 0
+                ? "Unsolved"
+                : string.Join("\n".PadRight(header.Length + 1), results)
+            );
+        }
+        catch (Exception e)
+        {
+            return header + $"Exception: {e.Message}";
+        }
     }
 
     protected abstract string? SolvePartOne();
