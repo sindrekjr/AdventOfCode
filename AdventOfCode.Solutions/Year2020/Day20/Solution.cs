@@ -7,7 +7,7 @@ class Solution : SolutionBase
 
     public Solution() : base(20, 2020, "Jurassic Jigsaw", true) { }
 
-    protected override string SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
+    protected override string? SolvePartOne() => RustSolver.Solve(Year, Day, 1, Input);
     // {
     //     Tiles = new Dictionary<int, SquareTile>();
     //     foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))
@@ -21,7 +21,7 @@ class Solution : SolutionBase
     //     return Tiles.Values.Where(t => t.CountMatchingSides() == 2).Aggregate(default(long) + 1, (product, t) => product * t.Id).ToString();
     // }
 
-    protected override string SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
+    protected override string? SolvePartTwo() => RustSolver.Solve(Year, Day, 2, Input);
     // {
     //     Tiles = new Dictionary<int, SquareTile>();
     //     foreach (var (title, tile) in Input.SplitByParagraph().Select(p => p.SplitByNewline()))

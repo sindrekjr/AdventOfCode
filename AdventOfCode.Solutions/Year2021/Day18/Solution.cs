@@ -6,10 +6,10 @@ class Solution : SolutionBase
 {
     public Solution() : base(18, 2021, "Snailfish") { }
 
-    protected override string SolvePartOne() =>
+    protected override string? SolvePartOne() =>
         CalculateMagnitude(Input.SplitByNewline().Aggregate(Add)).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var sums = new List<string>();
         var lines = Input.SplitByNewline();

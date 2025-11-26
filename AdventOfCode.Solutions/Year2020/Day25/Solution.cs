@@ -10,16 +10,13 @@ class Solution : SolutionBase
 
     public Solution() : base(25, 2020, "Combo Breaker") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (cardkey, doorkey, _) = Input.ToIntArray("\n");
         return Transform(doorkey, FindLoopSize(cardkey)).ToString();
     }
 
-    protected override string SolvePartTwo()
-    {
-        return "";
-    }
+    protected override string? SolvePartTwo() => null;
 
     int FindLoopSize(int key)
     {

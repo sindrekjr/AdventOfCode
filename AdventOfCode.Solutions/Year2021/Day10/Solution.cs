@@ -33,7 +33,7 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var lines = Input.SplitByNewline();
 
@@ -43,7 +43,7 @@ class Solution : SolutionBase
         }).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var incomplete = Input.SplitByNewline().Where(l => IsCorrupted(l) == 0);
 

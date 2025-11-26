@@ -10,9 +10,9 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne() => Input.ToIntArray("\n").Select(Fuel).Sum().ToString();
+    protected override string? SolvePartOne() => Input.ToIntArray("\n").Select(Fuel).Sum().ToString();
 
-    protected override string SolvePartTwo() => Input.ToIntArray("\n").Select(FuelFuel).Sum().ToString();
+    protected override string? SolvePartTwo() => Input.ToIntArray("\n").Select(FuelFuel).Sum().ToString();
 
     int Fuel(int module) => module / 3 - 2;
 

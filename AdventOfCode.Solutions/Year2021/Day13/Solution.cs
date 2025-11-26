@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(13, 2021, "Transparent Origami") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (dots, instructions) = ParseInput();
         var (axis, param) = instructions.First();
@@ -17,7 +17,7 @@ class Solution : SolutionBase
         return Fold(paper, axis, param).Count.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (dots, instructions) = ParseInput();
 

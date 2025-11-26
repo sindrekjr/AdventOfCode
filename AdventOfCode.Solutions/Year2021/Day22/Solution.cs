@@ -6,7 +6,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(22, 2021, "Reactor Reboot") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var grid = new Grid<bool>();
         var instructions = Input.SplitByNewline().Select(ParseInputLine);
@@ -30,7 +30,7 @@ class Solution : SolutionBase
         return grid.Values.Count(val => val).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var cubes = Input.SplitByNewline().Select(ParseInputLineAsCubeRange);
         return cubes.First().Count().ToString();

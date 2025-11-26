@@ -10,10 +10,10 @@ class Solution : SolutionBase
 
     public Solution() : base(15, 2020, "Rambunctious Recitation") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => PredictSpokenNumber(GetStartingNumbers(), 2020).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => PredictSpokenNumber(GetStartingNumbers(), 30000000).ToString();
 
     int PredictSpokenNumber(int[] startingNumbers, int n)

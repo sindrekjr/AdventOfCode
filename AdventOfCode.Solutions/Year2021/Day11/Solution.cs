@@ -7,13 +7,13 @@ class Solution : SolutionBase
 {
     public Solution() : base(11, 2021, "Dumbo Octopus") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var octopuses = new SquareMap<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
         return Enumerable.Range(0, 100).Aggregate(0, (flashes, _) => flashes + FlashStep(octopuses)).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var octopuses = new SquareMap<int>(Input.SplitByNewline().Select(line => line.ToIntArray()).ToArray());
         for (int i = 1;; i++) if (FlashStep(octopuses) == octopuses.Count) return i.ToString();

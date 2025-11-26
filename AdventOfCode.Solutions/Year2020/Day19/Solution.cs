@@ -12,14 +12,14 @@ class Solution : SolutionBase
 
     public Solution() : base(19, 2020, "Monster Messages") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (rules, messages, _) = Input.SplitByParagraph();
         Rules = MapRulesToDictionary(rules.SplitByNewline());
         return messages.SplitByNewline().Count(m => Regex.IsMatch(m, $"^{ParseRule(0)}$")).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (rules, messages, _) = Input.SplitByParagraph();
         

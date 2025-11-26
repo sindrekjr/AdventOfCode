@@ -9,7 +9,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(07, 2020, "Handy Haversacks") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var rules = new Dictionary<string, List<string>>();
         foreach (var line in Regex.Replace(Input, $@"((bag[s]?)|([. 0-9]))", "").SplitByNewline())
@@ -27,7 +27,7 @@ class Solution : SolutionBase
         return GetPossibleContainers(rules, "shinygold").Count.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var rules = new Dictionary<string, Dictionary<string, int>>();
         foreach (var line in Regex.Replace(Input, $@"((bag[s]?)|([. ]))", "").SplitByNewline())

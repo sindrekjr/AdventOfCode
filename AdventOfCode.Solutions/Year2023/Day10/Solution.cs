@@ -6,17 +6,14 @@ class Solution : SolutionBase
 {
     public Solution() : base(10, 2023, "Pipe Maze") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var map = new SquareMap<char>(Input.SplitByNewline().Select(line => line.ToCharArray()).ToArray());
         var start = map.First(kv => kv.Value == 'S');
         return (FindLoop(map, [start.Key], start.Key).Length / 2).ToString();
     }
 
-    protected override string SolvePartTwo()
-    {
-        return "";
-    }
+    protected override string? SolvePartTwo() => null;
 
     (int, int)[] FindLoop(SquareMap<char> map, IEnumerable<(int, int)> loop, (int, int) last)
     {

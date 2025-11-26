@@ -12,7 +12,7 @@ class Solution : SolutionBase
 
     public Solution() : base(21, 2020, "Allergen Assessment") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         Ingredients = new Dictionary<string, int>();
         ImplicatedIngredients = new Dictionary<string, HashSet<string>>();
@@ -48,7 +48,7 @@ class Solution : SolutionBase
         return Ingredients.Aggregate(0, (count, i) => allImplicatedIngredients.Contains(i.Key) ? count : count + i.Value).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         Ingredients = new Dictionary<string, int>();
         ImplicatedIngredients = new Dictionary<string, HashSet<string>>();

@@ -6,12 +6,12 @@ class Solution : SolutionBase
 {
     public Solution() : base(19, 2021, "Beacon Scanner") { }
 
-    protected override string SolvePartOne() => GetScannersAligned()
+    protected override string? SolvePartOne() => GetScannersAligned()
         .SelectMany(a => a.AbsBeacons)
         .ToHashSet().Count
         .ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var largestDistance = 0F;
         var positions = GetScannersAligned().Select(a => a.Position).ToArray();

@@ -9,9 +9,9 @@ class Solution : SolutionBase
 {
     public Solution() : base(08, 2020, "Handheld Halting") { }
 
-    protected override string SolvePartOne() => GetInstructions().Boot().acc.ToString();
+    protected override string? SolvePartOne() => GetInstructions().Boot().acc.ToString();
 
-    protected override string SolvePartTwo() => GetInstructions().TryFix().ToString();
+    protected override string? SolvePartTwo() => GetInstructions().TryFix().ToString();
 
     (string cmd, int n)[] GetInstructions() => Input.SplitByNewline().Select(l => 
     {

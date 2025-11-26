@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(04, 2022, "Camp Cleanup") { }
 
-    protected override string SolvePartOne() => Input.SplitByNewline()
+    protected override string? SolvePartOne() => Input.SplitByNewline()
         .Select(pair =>
         {
             var (a, b, _) = pair.Split(",");
@@ -16,7 +16,7 @@ class Solution : SolutionBase
         })
         .Count(contained => contained).ToString();
 
-    protected override string SolvePartTwo() => Input.SplitByNewline()
+    protected override string? SolvePartTwo() => Input.SplitByNewline()
         .Select(pair =>
         {
             var (a, b, _) = pair.Split(",");

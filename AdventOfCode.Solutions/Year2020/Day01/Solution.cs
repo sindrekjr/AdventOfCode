@@ -12,7 +12,7 @@ class Solution : SolutionBase
         Report = Input.ToIntArray("\n").ToHashSet().Where(e => e < 2020);
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var expenses = new Queue<int>(Report);
         while (true) 
@@ -25,7 +25,7 @@ class Solution : SolutionBase
         }
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var expenses = new Queue<int>(Report);
         while (true)

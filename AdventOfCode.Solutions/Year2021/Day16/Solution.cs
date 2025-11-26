@@ -6,9 +6,9 @@ class Solution : SolutionBase
 
     public Solution() : base(16, 2021, "Packet Decoder") { }
 
-    protected override string SolvePartOne() => ParseBitsAsPacket(InputAsQueue).VersionS.ToString();
+    protected override string? SolvePartOne() => ParseBitsAsPacket(InputAsQueue).VersionS.ToString();
 
-    protected override string SolvePartTwo() => ParseBitsAsPacket(InputAsQueue).Value.ToString();
+    protected override string? SolvePartTwo() => ParseBitsAsPacket(InputAsQueue).Value.ToString();
 
     int[] ParseInput() => Input.Select(hex => Convert.ToString(Convert.ToInt32(hex.ToString(), 16), 2).PadLeft(4, '0')).JoinAsStrings().ToIntArray();
 

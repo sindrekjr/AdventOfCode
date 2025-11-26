@@ -21,9 +21,9 @@ class Solution : SolutionBase
         Pairs = FindPairs();
     }
 
-    protected override string SolvePartOne() => TimeSteps(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
+    protected override string? SolvePartOne() => TimeSteps(1000).Select(m => m.GetPotentialEnergy() * m.GetKineticEnergy()).Sum().ToString();
 
-    protected override string SolvePartTwo() => FindFirstRepetitionOfSpaceHistory().ToString();
+    protected override string? SolvePartTwo() => FindFirstRepetitionOfSpaceHistory().ToString();
 
     List<Moon> TimeSteps(double steps)
     {

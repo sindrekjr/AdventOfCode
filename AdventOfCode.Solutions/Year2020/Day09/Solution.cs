@@ -10,10 +10,10 @@ class Solution : SolutionBase
 
     public Solution() : base(09, 2020, "Encoding Error") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => FindInvalidNumber(Input.ToIntArray("\n")).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => FindDecryptionWeakness(Input.ToIntArray("\n")).ToString();
 
     int FindInvalidNumber(int[] sequence, int preambleLength = 25)

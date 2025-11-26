@@ -9,7 +9,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(22, 2020, "Crab Combat") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (Queue1, Queue2) = GetDecks();
 
@@ -35,7 +35,7 @@ class Solution : SolutionBase
         return score.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (Queue1, Queue2) = GetDecks();
         var (score1, score2) = RecursiveCombat(Queue1, Queue2);

@@ -10,7 +10,7 @@ class Solution : SolutionBase
 
     public Solution() : base(10, 2020, "Adapter Array") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         int count1 = 0;
         int count3 = 1;
@@ -25,7 +25,7 @@ class Solution : SolutionBase
         return (count1 * count3).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => GetCombinations(Input.ToIntArray("\n").OrderBy(n => n).Prepend(0).ToArray(), new Dictionary<int, long>()).ToString();
 
     long GetCombinations(int[] adapters, Dictionary<int, long> memo)

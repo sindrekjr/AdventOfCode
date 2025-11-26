@@ -8,7 +8,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(09, 2021, "Smoke Basin") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var map = new SquareMap<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
         return FindSinks(map)
@@ -16,7 +16,7 @@ class Solution : SolutionBase
             .ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var map = new SquareMap<int>(Input.SplitByNewline().Select(row => row.ToIntArray()).ToArray());
         return FindSinks(map)

@@ -10,9 +10,9 @@ class Solution : SolutionBase
         Machine = new IntcodeComputer(Input.ToIntArray(","));
     }
 
-    protected override string SolvePartOne() => Machine.Initialize().SetMemory(1, 12).SetMemory(2, 02).Run().Memory[0].ToString();
+    protected override string? SolvePartOne() => Machine.Initialize().SetMemory(1, 12).SetMemory(2, 02).Run().Memory[0].ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         int noun = 0;
         while(true)

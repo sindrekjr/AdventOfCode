@@ -7,13 +7,13 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (alg, pixels) = ParseInput();
         return EnhanceImage(pixels, alg, 2).Values.Count(v => v).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (alg, pixels) = ParseInput();
         return EnhanceImage(pixels, alg, 50).Values.Count(v => v).ToString();

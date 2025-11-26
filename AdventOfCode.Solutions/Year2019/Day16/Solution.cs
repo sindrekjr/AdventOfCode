@@ -10,8 +10,8 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne() => string.Join("", RunPhases(Input.ToIntArray()).Take(8));
-    protected override string SolvePartTwo() =>
+    protected override string? SolvePartOne() => string.Join("", RunPhases(Input.ToIntArray()).Take(8));
+    protected override string? SolvePartTwo() =>
         string.Join(
             "",
             RunPhases(string.Concat(Enumerable.Repeat(Input, 10000))

@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(03, 2022, "Rucksack Reorganization") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         return Input
             .SplitByNewline()
@@ -18,7 +18,7 @@ class Solution : SolutionBase
             .ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var sum = 0;
         var index = 0;

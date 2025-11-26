@@ -23,9 +23,9 @@ class Solution : SolutionBase
         }
     }
 
-    protected override string SolvePartOne() => DeployStation().ToString();
+    protected override string? SolvePartOne() => DeployStation().ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         (int x, int y) = FindNthAsteroidToBeVaporized(200);
         return (x * 100 + y).ToString();

@@ -6,7 +6,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(04, 2021, "Giant Squid") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (numbers, boards) = ParseInput();
         
@@ -40,10 +40,10 @@ class Solution : SolutionBase
             }
         }
 
-        return "";
+        return null;
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (numbers, boards) = ParseInput();
         
@@ -86,7 +86,7 @@ class Solution : SolutionBase
             boards = nextBoards;
         }
         
-        return "";
+        return null;
     }
 
     (int[], IList<Dictionary<int, (int x, int y, bool marked)>>) ParseInput()

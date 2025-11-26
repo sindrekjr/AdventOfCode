@@ -6,10 +6,10 @@ class Solution : SolutionBase
 {
     public Solution() : base(05, 2021, "Hydrothermal Venture") { }
 
-    protected override string SolvePartOne() =>
+    protected override string? SolvePartOne() =>
         ParseInput(Input.SplitByNewline()).Values.Count(value => value >= 2).ToString();
 
-    protected override string SolvePartTwo() =>
+    protected override string? SolvePartTwo() =>
         ParseInput(Input.SplitByNewline(), true).Values.Count(value => value >= 2).ToString();
 
     Dictionary<(int x, int y), int> ParseInput(IEnumerable<string> lines, bool diagonal = false)

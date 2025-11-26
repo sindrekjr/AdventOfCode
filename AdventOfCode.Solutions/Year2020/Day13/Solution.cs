@@ -10,7 +10,7 @@ class Solution : SolutionBase
 
     public Solution() : base(13, 2020, "Shuttle Search") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (arrival, buses) = ParseInput();
         (int offset, int bus) = buses.Aggregate<int, (int offset, int bus)>((-1, 0), (best, bus) =>
@@ -34,7 +34,7 @@ class Solution : SolutionBase
         return (offset * bus).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (_, buses) = ParseInput();
         for (long i = buses[0], j = 1, mod = i;; i += mod)

@@ -9,10 +9,10 @@ class Solution : SolutionBase
         Connections = ParseInput();
     }
 
-    protected override string SolvePartOne() =>
+    protected override string? SolvePartOne() =>
         Connections["end"].Aggregate(0, (paths, p) => paths + CountPaths(p, "end")).ToString();
 
-    protected override string SolvePartTwo() =>
+    protected override string? SolvePartTwo() =>
         Connections["end"].Aggregate(0, (paths, p) => paths + CountPaths(p, "end", true)).ToString();
 
     int CountPaths(string cave, string path, bool canVisitSmallTwice = false)

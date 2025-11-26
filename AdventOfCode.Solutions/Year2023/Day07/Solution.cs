@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(07, 2023, "Camel Cards") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var hands = Input.SplitByNewline().Select(line => new CamelCardHand(line)).Order().ToArray();
 
@@ -17,7 +17,7 @@ class Solution : SolutionBase
         return winnings.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var hands = Input.SplitByNewline().Select(line => new CamelCardHand(line, true)).Order().ToArray();
 

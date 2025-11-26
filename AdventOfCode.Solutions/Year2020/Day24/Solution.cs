@@ -11,10 +11,10 @@ class Solution : SolutionBase
 {
     public Solution() : base(24, 2020, "Lobby Layout") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => GetFloorGrid().Values.Count(t => t).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var floor = GetFloorGrid();
         for (int i = 0; i < 100; i++) floor = SimulateDay(floor);

@@ -11,10 +11,10 @@ class Solution : SolutionBase
 
     public Solution() : base(02, 2020, "Password Philosophy") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => Input.SplitByNewline().Count(line => IsValid_Deprecated(ParseLine(line))).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => Input.SplitByNewline().Count(line => IsValid(ParseLine(line))).ToString();
 
     string ParseLine(string line)

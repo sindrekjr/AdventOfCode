@@ -10,6 +10,6 @@ class Solution : SolutionBase
         Arcade = new Arcade(new IntcodeComputer(Input.ToIntArray(",")));
     }
 
-    protected override string SolvePartOne() => Arcade.Initialize().Run().GetTileAmount(2).ToString();
-    protected override string SolvePartTwo() => Arcade.Initialize().Run(2).Score.ToString();
+    protected override string? SolvePartOne() => Arcade.Initialize().Run().GetTileAmount(2).ToString();
+    protected override string? SolvePartTwo() => Arcade.Initialize().Run(2).Score.ToString();
 }

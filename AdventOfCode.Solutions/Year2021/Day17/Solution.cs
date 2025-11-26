@@ -16,7 +16,7 @@ class Solution : SolutionBase
         MaxY = y.Max();
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var actuallyHighest = 0;
         for (int y = 5; y < 2000; y++)
@@ -28,7 +28,7 @@ class Solution : SolutionBase
         return actuallyHighest.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var successes = 0;
         for (int y = -1000; y < 2000; y++) for (int x = 1; x < 2000; x++)

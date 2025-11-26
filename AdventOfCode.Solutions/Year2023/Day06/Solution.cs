@@ -9,7 +9,7 @@ partial class Solution : SolutionBase
     [GeneratedRegex(@"\s+")]
     private static partial Regex SpaceRegex();
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (times, records, _) = Input.SplitByNewline().Select(line =>
         {
@@ -41,7 +41,7 @@ partial class Solution : SolutionBase
         return result.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (time, record, _) = Input.SplitByNewline()
             .Select(line =>

@@ -4,13 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(25, 2023, "") { }
 
-    protected override string SolvePartOne()
-    {
-        return "";
-    }
+    protected override string? SolvePartOne() => null;
 
-    protected override string SolvePartTwo()
-    {
-        return "";
-    }
+    protected override string? SolvePartTwo() => null;
 }

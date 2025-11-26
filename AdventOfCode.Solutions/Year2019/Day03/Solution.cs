@@ -8,7 +8,7 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         string[] wires = Input.SplitByNewline();
         List<(int x, int y)> path1 = Path(wires[0]);
@@ -29,7 +29,7 @@ class Solution : SolutionBase
         return closest.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         string[] wires = Input.SplitByNewline();
         List<(int x, int y)> path1 = Path(wires[0]);

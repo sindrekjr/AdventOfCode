@@ -25,10 +25,10 @@ class Solution : SolutionBase
         return dict;
     }).ToArray();
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => GetPassports().Count(ContainsRequiredFields).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => GetPassports().Where(ContainsRequiredFields).Count(Validate).ToString();
 
     bool ContainsRequiredFields(Dictionary<string, string> passport)

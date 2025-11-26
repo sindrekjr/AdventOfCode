@@ -10,10 +10,10 @@ class Solution : SolutionBase
 {
     public Solution() : base(18, 2020, "Operation Order") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => Input.Replace(" ", "").SplitByNewline().Aggregate(default(long), (acc, exp) => acc + Resolve(exp)).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => Input.Replace(" ", "").SplitByNewline().Aggregate(default(long), (acc, exp) => acc + Resolve(exp, '+')).ToString();
 
     long Resolve(string expression, char precedence = default)

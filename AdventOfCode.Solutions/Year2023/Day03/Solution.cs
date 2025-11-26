@@ -6,7 +6,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(03, 2023, "Gear Ratios") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var schematic = ParseSchematic();
         var values = new List<int>();
@@ -43,7 +43,7 @@ class Solution : SolutionBase
         return values.Sum().ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var schematic = ParseSchematic();
         var gears = new Dictionary<(int, int), int>();

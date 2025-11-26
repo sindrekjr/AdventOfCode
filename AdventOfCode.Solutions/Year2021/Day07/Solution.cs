@@ -6,7 +6,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(07, 2021, "The Treachery of Whales") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var positions = Input.ToIntArray(",");
         Array.Sort(positions);
@@ -15,7 +15,7 @@ class Solution : SolutionBase
         return positions.Aggregate(0, (acc, p) => acc + Math.Abs(p - middle)).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var positions = Input.ToIntArray(",");
 

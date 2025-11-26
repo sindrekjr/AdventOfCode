@@ -176,6 +176,6 @@ public abstract class SolutionBase
             .Aggregate(header, (str, r) => $"{str.PadRight(str.LastIndexOf('\n') + header.Length + 1)}{r}\n");
     }
 
-    protected abstract string SolvePartOne();
-    protected abstract string SolvePartTwo();
+    protected abstract string? SolvePartOne();
+    protected abstract string? SolvePartTwo();
 }

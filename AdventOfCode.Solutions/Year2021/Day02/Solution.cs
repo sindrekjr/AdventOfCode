@@ -6,7 +6,7 @@ class Solution : SolutionBase
     {
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var x = 0;
         var y = 0;
@@ -33,7 +33,7 @@ class Solution : SolutionBase
         return (x * y).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var a = 0;
         var x = 0;

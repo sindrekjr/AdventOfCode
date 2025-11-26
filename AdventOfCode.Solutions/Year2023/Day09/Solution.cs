@@ -5,7 +5,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(09, 2023, "Mirage Maintenance") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         return Input.SplitByNewline().Aggregate(0, (sum, line) =>
         {
@@ -13,7 +13,7 @@ class Solution : SolutionBase
         }).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         return Input.SplitByNewline().Aggregate(0, (sum, line) =>
         {

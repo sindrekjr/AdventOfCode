@@ -10,11 +10,11 @@ class Solution : SolutionBase
         Robot = new HullPaintingRobot(new IntcodeComputer(Input.ToIntArray(",")));
     }
 
-    protected override string SolvePartOne() => Robot.Run().Count.ToString();
+    protected override string? SolvePartOne() => Robot.Run().Count.ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         //var Map = Robot.Initialize().Run(1); 
-        return "";
+        return null;
     }
 }

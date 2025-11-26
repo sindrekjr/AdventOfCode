@@ -13,7 +13,7 @@ class Solution : SolutionBase
 
     public Solution() : base(16, 2020, "Ticket Translation") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => ParseInput().Skip(1).Aggregate(0, (acc, ticket) => ticket.Aggregate(acc, (acc, val) => 
         {
             foreach (var rule in Rules.Values)
@@ -23,7 +23,7 @@ class Solution : SolutionBase
             return acc + val;
         })).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var tickets = ParseInput().Where(IsValid).ToArray();
         var candidates = tickets.Select(t => t.Select(GetCandidates).ToArray());

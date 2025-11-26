@@ -33,7 +33,7 @@ class Solution : SolutionBase
         return list;
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         InitializeCollection();
         foreach(string orbiter in orbits.Keys)
@@ -43,7 +43,7 @@ class Solution : SolutionBase
         return orbits.Sum(x => x.Value.indirect.Count).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         InitializeCollection();
         var meAndSanta = new List<string>(CollectIndirectOrbits("YOU").Concat(CollectIndirectOrbits("SAN")));

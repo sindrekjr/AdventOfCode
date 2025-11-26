@@ -9,7 +9,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(11, 2020, "Seating System") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var seating = GetSeatingArrangement();
         bool stable = false;
@@ -22,7 +22,7 @@ class Solution : SolutionBase
         return occupied.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var seating = GetSeatingArrangement();
         bool stable = false;

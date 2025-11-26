@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(14, 2021, "Extended Polymerization") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (pairs, rules) = ParseInput();
         var last = pairs.Last().Key.Last();
@@ -22,7 +22,7 @@ class Solution : SolutionBase
         return (counter.Values.Max() - counter.Values.Min()).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (pairs, rules) = ParseInput();
         var last = pairs.Last().Key.Last();

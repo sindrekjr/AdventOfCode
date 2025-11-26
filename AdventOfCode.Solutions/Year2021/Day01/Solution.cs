@@ -11,11 +11,11 @@ class Solution : SolutionBase
         Measurements = ListModule.OfSeq(Input.ToIntArray("\n"));
     }
 
-    protected override string SolvePartOne() => FSharp
+    protected override string? SolvePartOne() => FSharp
             .CountIncreases(Measurements, 0)
             .ToString();
 
-    protected override string SolvePartTwo() => FSharp
+    protected override string? SolvePartTwo() => FSharp
         .CountIncreases(
             FSharp.SumGroupsOfThree(Measurements),
             0).ToString();

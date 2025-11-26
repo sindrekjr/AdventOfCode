@@ -8,7 +8,7 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var image = Input.ToIntArray().SplitIntoChunks(25).SplitIntoChunks(6);
         int fewest = 0, result = 0;
@@ -33,7 +33,7 @@ class Solution : SolutionBase
         return result.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var image = Input.ToIntArray().SplitIntoChunks(25).SplitIntoChunks(6);
         int?[,] display = new int?[6, 25];

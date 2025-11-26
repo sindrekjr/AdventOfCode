@@ -9,7 +9,7 @@ partial class Solution : SolutionBase
     [GeneratedRegex(@"\s+")]
     private static partial Regex SpaceRegex();
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         return Input.SplitByNewline().Select(card =>
         {
@@ -34,7 +34,7 @@ partial class Solution : SolutionBase
         }).Sum().ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var cards = Input.SplitByNewline();
         var i = 0;

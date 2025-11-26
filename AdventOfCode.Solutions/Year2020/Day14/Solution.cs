@@ -6,7 +6,7 @@ class Solution : SolutionBase
 
     public Solution() : base(14, 2020, "Docking Data") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var memory = new long[99999];
         foreach (var instruction in GetProgram())
@@ -34,7 +34,7 @@ class Solution : SolutionBase
         return memory.Sum().ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var memory = new Dictionary<string, long>();
         foreach (var instruction in GetProgram())

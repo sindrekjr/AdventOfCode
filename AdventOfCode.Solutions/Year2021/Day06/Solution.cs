@@ -7,10 +7,10 @@ class Solution : SolutionBase
 {
     public Solution() : base(06, 2021, "Lanternfish") { }
 
-    protected override string SolvePartOne() =>
+    protected override string? SolvePartOne() =>
         SimulateFishForDays(Input.ToIntArray(","), 80).ToString();
 
-    protected override string SolvePartTwo() =>
+    protected override string? SolvePartTwo() =>
         SimulateFishForDays(Input.ToIntArray(","), 256).ToString();
 
     long SimulateFishForDays(IEnumerable<int> fish, int days)

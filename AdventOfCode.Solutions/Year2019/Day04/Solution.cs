@@ -8,7 +8,7 @@ class Solution : SolutionBase
 
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         int[] range = Input.ToIntArray("-");
         int passwords = 0;
@@ -19,7 +19,7 @@ class Solution : SolutionBase
         return passwords.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         int[] range = Input.ToIntArray("-");
         int passwords = 0;

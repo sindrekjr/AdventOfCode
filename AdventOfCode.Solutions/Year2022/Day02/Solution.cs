@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(02, 2022, "Rock Paper Scissors") { }
 
-    protected override string SolvePartOne() => Input
+    protected override string? SolvePartOne() => Input
         .SplitByNewline()
         .Aggregate(0, (score, round) => score + (round[0], round[2]) switch
         {
@@ -21,7 +21,7 @@ class Solution : SolutionBase
         })
         .ToString();
 
-    protected override string SolvePartTwo() => Input
+    protected override string? SolvePartTwo() => Input
         .SplitByNewline()
         .Aggregate(0, (score, round) => score + (round[0], round[2]) switch
         {

@@ -13,7 +13,7 @@ class Solution : SolutionBase
         Amplifier = new IntcodeComputer(Input.ToIntArray(","));
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         int highest = 0;
         foreach(var signal in Enumerable.Range(0, 5).Permutations())
@@ -28,7 +28,7 @@ class Solution : SolutionBase
         return highest.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         int highest = 0;
         foreach(var signal in Enumerable.Range(5, 5).Permutations())

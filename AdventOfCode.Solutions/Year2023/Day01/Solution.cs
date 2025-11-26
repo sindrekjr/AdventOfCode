@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(01, 2023, "Trebuchet?!") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         return RustSolver.Solve(Year, Day, 1, Input);
 
@@ -16,7 +16,7 @@ class Solution : SolutionBase
         // return values.Sum().ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         return RustSolver.Solve(Year, Day, 2, Input);
 

@@ -6,7 +6,7 @@ class Solution : SolutionBase
 
     public Solution() : base(21, 2021, "Dirac Dice") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (player1, player2, _) = Input.SplitByNewline();
         var a = int.Parse(player1.Split(":").Last().Trim());
@@ -15,7 +15,7 @@ class Solution : SolutionBase
         return (--rolls * scores.Min()).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (player1, player2, _) = Input.SplitByNewline();
         var a = int.Parse(player1.Split(":").Last().Trim());
@@ -25,7 +25,7 @@ class Solution : SolutionBase
         Console.WriteLine(results.a);
         Console.WriteLine(results.b);
 
-        return "";
+        return null;
     }
 
     (int rolls, int[] scores) PlayDeterministic(int aPos, int bPos)

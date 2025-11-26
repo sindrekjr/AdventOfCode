@@ -5,7 +5,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(03, 2021, "Binary Diagnostic") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var counter = CountBits(Input.SplitByNewline());
         var gamma = counter.Aggregate("", (acc, n) => acc + (n >= 0 ? "1" : "0"));
@@ -13,7 +13,7 @@ class Solution : SolutionBase
         return (Convert.ToInt32(gamma, 2) * Convert.ToInt32(epsilon, 2)).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var report = Input.SplitByNewline();
         var oxygenGenerator = report.ToList();

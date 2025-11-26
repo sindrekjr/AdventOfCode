@@ -6,7 +6,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(08, 2021, "Seven Segment Search") { }
 
-    protected override string SolvePartOne() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
+    protected override string? SolvePartOne() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
     {
         var (_, output, _) = entry.Split(" | ");
         return output
@@ -14,7 +14,7 @@ class Solution : SolutionBase
             .Aggregate(total, (acc, value) => value.Length is 2 or 4 or 3 or 7 ? acc + 1 : acc);
     }).ToString();
 
-    protected override string SolvePartTwo() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
+    protected override string? SolvePartTwo() => Input.SplitByNewline().Aggregate(0, (total, entry) =>
     {
         var (input, output, _) = entry.Split(" | ");
         var decodedSignals = DeduceSignals(input.Split(" "));

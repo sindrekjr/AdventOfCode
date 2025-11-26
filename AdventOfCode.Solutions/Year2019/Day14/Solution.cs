@@ -10,9 +10,9 @@ class Solution : SolutionBase
         Factory = new Nanofactory(Input.SplitByNewline());
     }
 
-    protected override string SolvePartOne() => Factory.Initialize().CountRequiredOre(Factory.Reactions["FUEL"], 1).ToString();
+    protected override string? SolvePartOne() => Factory.Initialize().CountRequiredOre(Factory.Reactions["FUEL"], 1).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         Factory.Initialize().CollectOre(1000000000000);
         return Factory.ProduceMaxFuel().ToString();

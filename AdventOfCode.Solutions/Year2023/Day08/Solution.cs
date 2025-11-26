@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(08, 2023, "Haunted Wasteland") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var lines = Input.SplitByNewline();
         var instructions = lines.First().ToCharArray();
@@ -37,8 +37,5 @@ class Solution : SolutionBase
         return steps.ToString();
     }
 
-    protected override string SolvePartTwo()
-    {
-        return "";
-    }
+    protected override string? SolvePartTwo() => null;
 }

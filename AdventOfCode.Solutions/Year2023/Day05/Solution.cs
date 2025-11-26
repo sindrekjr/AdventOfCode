@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(05, 2023, "If You Give A Seed A Fertilizer") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var (seeds, paragraphs) = Input.SplitByParagraph();
 
@@ -41,7 +41,7 @@ class Solution : SolutionBase
             .ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var (seeds, paragraphs) = Input.SplitByParagraph();
 

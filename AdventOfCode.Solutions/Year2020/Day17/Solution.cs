@@ -9,14 +9,14 @@ class Solution : SolutionBase
 {
     public Solution() : base(17, 2020, "Conway Cubes") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var grid = GetPocketDimensionInitialState();
         for (int i = 0; i < 6; i++) grid = SimulateCycle(grid);
         return grid.Count(c => c.Value).ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var dimension = GetActualPocketDimensionInitialState();
         for (int i = 0; i < 6; i++) dimension = SimulateCycle(dimension);

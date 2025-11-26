@@ -10,14 +10,14 @@ class Solution : SolutionBase
 
     public Solution() : base(05, 2020, "Binary Boarding") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => Input.SplitByNewline().Aggregate(0, (hi, bpass) =>
         {
             var id = GetSeatId(bpass);
             return id > hi ? id : hi;
         }).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => FindFreeSeat(Input.SplitByNewline().Select(GetSeatId).OrderBy(b => b).ToArray()).ToString();
 
     int GetSeatId(string bpass)

@@ -6,13 +6,13 @@ class Solution : SolutionBase
 
     public Solution() : base(12, 2020, "Rain Risk") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
         => ManhattanDistance(
             StartingPosition,
             Input.SplitByNewline().Aggregate(new Ship(StartingPosition), (ship, action) => ship.DoActionByErroneousAssumptions(action)).Position
         ).ToString();
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
         => ManhattanDistance(
             StartingPosition,
             Input.SplitByNewline().Aggregate(new Ship(StartingPosition, StartingPosition.Add((-1, 10))), (ship, action) => ship.DoAction(action)).Position

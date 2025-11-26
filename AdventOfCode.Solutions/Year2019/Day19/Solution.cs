@@ -10,7 +10,7 @@ class Solution : SolutionBase
         Drone = new IntcodeComputer(Input.ToIntArray(","));
     }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         int affected = 0;
         for(int x = 0; x < 50; x++)
@@ -23,7 +23,7 @@ class Solution : SolutionBase
         return affected.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         int x = 0;
         for(int y = 1000; ; y++)

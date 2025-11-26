@@ -4,7 +4,7 @@ class Solution : SolutionBase
 {
     public Solution() : base(02, 2023, "Cube Conundrum") { }
 
-    protected override string SolvePartOne()
+    protected override string? SolvePartOne()
     {
         var possibles = 0;
         foreach (var line in Input.SplitByNewline())
@@ -20,7 +20,7 @@ class Solution : SolutionBase
         return possibles.ToString();
     }
 
-    protected override string SolvePartTwo()
+    protected override string? SolvePartTwo()
     {
         var powerSum = 0;
         foreach (var line in Input.SplitByNewline())
