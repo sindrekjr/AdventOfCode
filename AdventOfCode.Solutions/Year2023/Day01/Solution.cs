@@ -6,7 +6,7 @@ class Solution : SolutionBase
 
     protected override string? SolvePartOne()
     {
-        return RustSolver.Solve(Year, Day, 1, Input);
+        return null;
 
         // var values = Input.SplitByNewline().Select(line =>
         // {
@@ -18,7 +18,7 @@ class Solution : SolutionBase
 
     protected override string? SolvePartTwo()
     {
-        return RustSolver.Solve(Year, Day, 2, Input);
+        return null;
 
         // var values = Input.SplitByNewline().Select(line =>
         // {
