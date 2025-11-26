@@ -345,3 +345,6 @@ AdventOfCode.Solutions/Year*/Day*/debug
 AdventOfCode.Solutions/Year*/Day*/input
 
 .ionide
+
+# Advent of Code inputs
+/inputs

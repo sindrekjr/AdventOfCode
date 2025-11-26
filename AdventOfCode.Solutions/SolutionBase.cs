@@ -114,9 +114,11 @@ public abstract class SolutionBase
     string LoadInput(bool debug = false)
     {
         var inputFilepath =
-            $"./AdventOfCode.Solutions/Year{Year}/Day{Day:D2}/{(debug ? "debug" : "input")}";
+            $"./inputs/y{Year}/d{Day:D2}/{(debug ? "debug" : "input")}";
 
-        if (File.Exists(inputFilepath) && new FileInfo(inputFilepath).Length > 0)
+        var file = new FileInfo(inputFilepath);
+
+        if (File.Exists(inputFilepath) && file.Length > 0)
         {
             return File.ReadAllText(inputFilepath);
         }
@@ -126,6 +128,7 @@ public abstract class SolutionBase
         try
         {
             var input = InputService.FetchInput(Year, Day).Result;
+            file.Directory?.Create();
             File.WriteAllText(inputFilepath, input);
             return input;
         }
