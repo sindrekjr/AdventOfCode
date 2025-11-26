@@ -8,7 +8,7 @@ export fn solve(year: u16, day: u8, part: core.Part, ptr: [*:0]const u8) callcon
 
     const result = switch (year) {
         2025 => y2025.solve(day, part, input),
-        else => std.debug.panic("Solutions for year {} not found", .{year}),
+        else => return null,
     };
 
     return result;

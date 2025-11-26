@@ -1,14 +1,17 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AdventOfCode.Solutions;
 
 struct Config
 {
     public string Cookie { get; set; }
 
     public int Year { get; set; }
-    
+
     [JsonConverter(typeof(DaysConverter))]
     public int[] Days { get; set; }
+
+    public SolutionTarget[] Targets { get; set; }
 
     private void SetDefaults()
     {
@@ -16,7 +19,8 @@ struct Config
         var currentEst = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.Utc).AddHours(-5);
         if (Cookie == default) Cookie = "";
         if (Year == default) Year = currentEst.Year;
-        if (Days == default(int[])) Days = (currentEst.Month == 12 && currentEst.Day <= 25) ? [currentEst.Day] : [0];
+        if (Days == default) Days = (currentEst.Month == 12 && currentEst.Day <= 25) ? [currentEst.Day] : [0];
+        if (Targets == default) Targets = [SolutionTarget.CSharp];
     }
 
     public static Config Get(string path = "config.json")
@@ -56,7 +60,7 @@ class DaysConverter : JsonConverter<int[]>
                 return [reader.GetInt16()];
 
             case JsonTokenType.String:
-                tokens = new string[] { reader.GetString() ?? "" };
+                tokens = [reader.GetString() ?? ""];
                 break;
 
             default:
@@ -65,7 +69,7 @@ class DaysConverter : JsonConverter<int[]>
 
                 tokens = obj != null
                     ? obj.Select(o => o.ToString() ?? "")
-                    : Array.Empty<string>();
+                    : [];
                 break;
         }
 
@@ -88,10 +92,10 @@ class DaysConverter : JsonConverter<int[]>
             }
             else if (int.TryParse(str, out int day))
             {
-                return new int[] { day };
+                return [day];
             }
 
-            return Array.Empty<int>();
+            return [];
         });
     }
 

@@ -1,19 +1,36 @@
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text.Json.Serialization;
+
 namespace AdventOfCode.Solutions;
 
 public struct SolutionResult
 {
     public string Answer { get; set; }
-    public TimeSpan Duration { get; set; }
-
-    private readonly string FormattedTime =>
-        Duration.Microseconds < 1 ? $"{Duration.Nanoseconds}ns" :
-        Duration.TotalMilliseconds < 1 ? $"{Duration.TotalMicroseconds}µs" :
-        Duration.TotalSeconds < 1 ? $"{Duration.TotalMilliseconds}ms" :
-        $"{Duration.TotalSeconds}s";
+    public TimeSpan? Duration { get; set; }
+    public SolutionTarget Target { get; set; }
 
     public override readonly string ToString() => string.IsNullOrEmpty(Answer)
-        ? "Unsolved"
-        : $"{Answer} ({FormattedTime})";
+        ? $"Unsolved ({Target.GetType().GetMember(Target.ToString()).First().GetCustomAttribute<DisplayAttribute>()?.Name})"
+        : $"{Answer} ({Target.GetType().GetMember(Target.ToString()).First().GetCustomAttribute<DisplayAttribute>()?.Name}{(Duration.HasValue ? $", {FormatTime(Duration.Value)}" : "")})";
 
-    public static SolutionResult Empty => new();
+    private static string FormatTime(TimeSpan time) =>
+        time.Microseconds < 1 ? $"{time.Nanoseconds}ns" :
+        time.TotalMilliseconds < 1 ? $"{time.TotalMicroseconds}µs" :
+        time.TotalSeconds < 1 ? $"{time.TotalMilliseconds}ms" :
+        $"{time.TotalSeconds}s";
+}
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum SolutionTarget
+{
+    [Display(Name = "C#")]
+    [JsonStringEnumMemberName("C#")]
+    CSharp,
+
+    [Display(Name = "Rust")]
+    Rust,
+
+    [Display(Name = "Zig")]
+    Zig
 }

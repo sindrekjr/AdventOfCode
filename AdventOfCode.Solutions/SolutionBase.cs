@@ -19,21 +19,21 @@ public abstract class SolutionBase
     public int Year { get; }
     public string Title { get; }
     public bool Debug { get; set; }
+    public SolutionTarget[] Targets { get; set; }
+
     public string Input => LoadInput(Debug);
     public string DebugInput => LoadInput(true);
 
-    public SolutionResult Part1 => Solve(1);
-    public SolutionResult Part2 => Solve(2);
-
-    private protected SolutionBase(int day, int year, string title, bool useDebugInput = false)
+    private protected SolutionBase(int day, int year, string title, bool useDebugInput = false, SolutionTarget[]? targets = null)
     {
         Day = day;
         Year = year;
         Title = title;
         Debug = useDebugInput;
+        Targets = targets ?? [];
     }
 
-    public SolutionResult Solve(int part = 1)
+    public SolutionResult? Solve(int part = 1, SolutionTarget target = SolutionTarget.CSharp)
     {
         if (part is not 1 and not 2)
         {
@@ -52,18 +52,50 @@ public abstract class SolutionBase
             throw new Exception("Input is null or empty");
         }
 
-        try
+        (string? answer, TimeSpan duration) SolveCSharp()
         {
             var then = DateTime.Now;
-            var result = part == 1 ? SolvePartOne() : SolvePartTwo();
+            var answer = part == 1 ? SolvePartOne() : SolvePartTwo();
             var now = DateTime.Now;
+            var duration = now - then;
 
-            return string.IsNullOrEmpty(result)
-                ? SolutionResult.Empty
+            return (answer, duration);
+        }
+
+        (string? answer, TimeSpan? duration) SolveRust()
+        {
+            var answer = RustSolver.Solve(Year, Day, part, Input);
+            var duration = RustSolver.GetSolveDuration(Year, Day, part);
+
+            return (answer, duration);
+
+        }
+
+        (string? answer, TimeSpan duration) SolveZig()
+        {
+            var answer = ZigSolver.Solve(Year, Day, part, Input);
+            var duration = TimeSpan.MaxValue;
+
+            return (answer, duration);
+        }
+
+        try
+        {
+            var (answer, duration) = target switch
+            {
+                SolutionTarget.CSharp => SolveCSharp(),
+                SolutionTarget.Rust => SolveRust(),
+                SolutionTarget.Zig => SolveZig(),
+                _ => throw new NotImplementedException(),
+            };
+
+            return string.IsNullOrEmpty(answer)
+                ? null
                 : new SolutionResult
                 {
-                    Answer = result,
-                    Duration = RustSolver.GetSolveDuration(Year, Day, part) ?? now - then // TODO: generalise for any interop
+                    Answer = answer,
+                    Duration = duration,
+                    Target = target,
                 };
         }
         catch (Exception)
@@ -71,7 +103,7 @@ public abstract class SolutionBase
             if (Debugger.IsAttached)
             {
                 Debugger.Break();
-                return SolutionResult.Empty;
+                return null;
             }
             else
             {
@@ -131,9 +163,18 @@ public abstract class SolutionBase
     }
 
     public override string ToString() =>
-        $"\n--- Day {Day}: {Title} --- {(Debug ? "!! Debug mode active, using DebugInput !!" : "")}\n"
-        + $" - Part1 => {Part1}\n"
-        + $" - Part2 => {Part2}";
+        $"--- Day {Day}: {Title} --- {(Debug ? "!! Debug mode active, using DebugInput !!" : "")}\n"
+        + PartToString(1)
+        + PartToString(2);
+
+    private string PartToString(int part)
+    {
+        var header = $" - Part{part} => ";
+        return Targets
+            .Select(t => Solve(part, t))
+            .OfType<SolutionResult>()
+            .Aggregate(header, (str, r) => $"{str.PadRight(str.LastIndexOf('\n') + header.Length + 1)}{r}\n");
+    }
 
     protected abstract string SolvePartOne();
     protected abstract string SolvePartTwo();

@@ -8,11 +8,11 @@ public static partial class RustSolver
     private static partial nint solve(int year, int day, int part, nint input);
     // private static partial nint solve(int year, int day, int part, nint input, nint debug);
 
-    public static string Solve(int year, int day, int part, string input)
+    public static string? Solve(int year, int day, int part, string input)
     {
         var input_pntr = Marshal.StringToHGlobalAuto(input);
         var solution_pntr = solve(year, day, part, input_pntr);
-        return Marshal.PtrToStringAnsi(solution_pntr) ?? "Unsolved";
+        return Marshal.PtrToStringAnsi(solution_pntr);
     }
 
     [LibraryImport("rustsolutions.dll")]
