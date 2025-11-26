@@ -169,8 +169,12 @@ public abstract class SolutionBase
     private string PartToString(int part)
     {
         var header = $" - Part{part} => ";
-        var results = Targets.Select(t => Solve(part, t)).OfType<SolutionResult>();
-        return header + string.Join("\n".PadRight(header.Length + 1), results);
+        var results = Targets.Select(t => Solve(part, t)).OfType<SolutionResult>().ToArray();
+        return header + (
+            results.Length == 0
+            ? "Unsolved"
+            : string.Join("\n".PadRight(header.Length + 1), results)
+        );
     }
 
     protected abstract string? SolvePartOne();
