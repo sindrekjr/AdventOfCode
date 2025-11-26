@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, HashMap};
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day24::solve_part_one(input),
         Part::P2 => Day24::solve_part_two(input),
@@ -27,7 +27,7 @@ impl<'a> From<&'a str> for Gate<'a> {
 
 struct Day24;
 impl Solution for Day24 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let wires: BTreeMap<&str, Gate> = input
             .lines()
             .filter_map(|line| {
@@ -41,21 +41,23 @@ impl Solution for Day24 {
             })
             .collect();
 
-        wires
-            .iter()
-            .filter(|(k, _)| k.starts_with('z'))
-            .enumerate()
-            .fold(0 as u64, |val, (i, (key, _))| {
-                if show_me_the_money(key, &wires) {
-                    val | (1 << i)
-                } else {
-                    val
-                }
-            })
-            .to_string()
+        Some(
+            wires
+                .iter()
+                .filter(|(k, _)| k.starts_with('z'))
+                .enumerate()
+                .fold(0 as u64, |val, (i, (key, _))| {
+                    if show_me_the_money(key, &wires) {
+                        val | (1 << i)
+                    } else {
+                        val
+                    }
+                })
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut output_chains = HashMap::new();
         let wires: BTreeMap<&str, Gate> = input
             .lines()
@@ -140,7 +142,7 @@ impl Solution for Day24 {
             .collect::<Vec<_>>();
 
         faulty.sort();
-        faulty.join(",")
+        Some(faulty.join(","))
     }
 }
 

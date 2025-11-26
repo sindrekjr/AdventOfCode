@@ -2,7 +2,7 @@ use super::coor::Position;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day15::solve_part_one(input),
         Part::P2 => Day15::solve_part_two(input),
@@ -37,17 +37,19 @@ impl Sensor {
         let y = self.position.y;
         let mut offset = 0;
 
-        (self.position.x - distance..self.position.x + distance).flat_map(move |x| {
-            let positions = vec![Position { x, y: y + offset }, Position { x, y: y - offset }];
+        (self.position.x - distance..self.position.x + distance)
+            .flat_map(move |x| {
+                let positions = vec![Position { x, y: y + offset }, Position { x, y: y - offset }];
 
-            if x < self.position.x {
-                offset += 1;
-            } else {
-                offset -= 1;
-            }
+                if x < self.position.x {
+                    offset += 1;
+                } else {
+                    offset -= 1;
+                }
 
-            positions
-        }).collect()
+                positions
+            })
+            .collect()
     }
 }
 
@@ -69,7 +71,7 @@ impl Position<isize> {
 
 struct Day15;
 impl Solution for Day15 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         // const Y: isize = 10;
         const Y: isize = 2_000_000;
         let mut x_min = isize::MAX;
@@ -93,23 +95,25 @@ impl Solution for Day15 {
             })
             .collect();
 
-        (x_min..x_max)
-            .fold(0, |acc, x| {
-                let pos = &Position { x, y: Y };
+        Some(
+            (x_min..x_max)
+                .fold(0, |acc, x| {
+                    let pos = &Position { x, y: Y };
 
-                if sensors
-                    .iter()
-                    .any(|sensor| sensor.within_coverage(pos) && pos != &sensor.closest_beacon)
-                {
-                    acc + 1
-                } else {
-                    acc
-                }
-            })
-            .to_string()
+                    if sensors
+                        .iter()
+                        .any(|sensor| sensor.within_coverage(pos) && pos != &sensor.closest_beacon)
+                    {
+                        acc + 1
+                    } else {
+                        acc
+                    }
+                })
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         const MIN: isize = 0;
         const MAX: isize = 4_000_000;
         // const MAX: isize = 20;
@@ -133,6 +137,6 @@ impl Solution for Day15 {
             })
             .unwrap();
 
-        (beacon.x * 4_000_000 + beacon.y).to_string()
+        Some((beacon.x * 4_000_000 + beacon.y).to_string())
     }
 }

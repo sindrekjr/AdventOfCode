@@ -5,7 +5,7 @@ use crate::{
     utils::grid::{parse_grid, Coordinate},
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day12::solve_part_one(input),
         Part::P2 => Day12::solve_part_two(input),
@@ -14,30 +14,35 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day12;
 impl Solution for Day12 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let map = parse_grid(&input);
         let mut visited: HashSet<Coordinate> = HashSet::new();
 
-        map.iter()
-            .map(|(coordinate, plant)| {
-                let (region, fences) = find_region(coordinate, plant, &map, &mut visited, false);
-                region as u32 * fences
-            })
-            .sum::<u32>()
-            .to_string()
+        Some(
+            map.iter()
+                .map(|(coordinate, plant)| {
+                    let (region, fences) =
+                        find_region(coordinate, plant, &map, &mut visited, false);
+                    region as u32 * fences
+                })
+                .sum::<u32>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let map = parse_grid(&input);
         let mut visited: HashSet<Coordinate> = HashSet::new();
 
-        map.iter()
-            .map(|(coordinate, plant)| {
-                let (region, fences) = find_region(coordinate, plant, &map, &mut visited, true);
-                region as u32 * fences
-            })
-            .sum::<u32>()
-            .to_string()
+        Some(
+            map.iter()
+                .map(|(coordinate, plant)| {
+                    let (region, fences) = find_region(coordinate, plant, &map, &mut visited, true);
+                    region as u32 * fences
+                })
+                .sum::<u32>()
+                .to_string(),
+        )
     }
 }
 

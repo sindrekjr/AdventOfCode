@@ -1,6 +1,9 @@
-use crate::{core::{Part, Solution}, utils::string::StrUtils};
+use crate::{
+    core::{Part, Solution},
+    utils::string::StrUtils,
+};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day11::solve_part_one(input),
         Part::P2 => Day11::solve_part_two(input),
@@ -33,7 +36,7 @@ impl Monkey {
             ("+", val) => Operation::Add(val.parse::<u64>().unwrap()),
             ("*", "old") => Operation::MultiplySelf,
             ("*", val) => Operation::Multiply(val.parse::<u64>().unwrap()),
-            _ => panic!()
+            _ => panic!(),
         }
     }
 
@@ -52,37 +55,54 @@ impl Monkey {
 
 struct Day11;
 impl Solution for Day11 {
-    fn solve_part_one(input: String) -> String {
-        let mut monkeys: Vec<Monkey> = input.paragraphs().map(|paragraph| {
-            let mut monkey = paragraph.lines().skip(1).map(|line| {
-                let (_, val) = line.split_once(':').unwrap();
-                val
-            });
+    fn solve_part_one(input: String) -> Option<String> {
+        let mut monkeys: Vec<Monkey> = input
+            .paragraphs()
+            .map(|paragraph| {
+                let mut monkey = paragraph.lines().skip(1).map(|line| {
+                    let (_, val) = line.split_once(':').unwrap();
+                    val
+                });
 
-            let items = monkey.next().unwrap().split(',').map(|val| {
-                val.trim().parse::<u64>().unwrap()
-            }).collect();
+                let items = monkey
+                    .next()
+                    .unwrap()
+                    .split(',')
+                    .map(|val| val.trim().parse::<u64>().unwrap())
+                    .collect();
 
-            let op = Monkey::parse_operation(monkey.next().unwrap());
-            
-            let divisible_by = monkey.next().unwrap().split(' ').last().unwrap().parse::<u64>().unwrap();
+                let op = Monkey::parse_operation(monkey.next().unwrap());
 
-            let mut decision_values = monkey.into_iter().map(|v| {
-                v.split_whitespace().last().unwrap().parse::<usize>().unwrap()
-            });
+                let divisible_by = monkey
+                    .next()
+                    .unwrap()
+                    .split(' ')
+                    .last()
+                    .unwrap()
+                    .parse::<u64>()
+                    .unwrap();
 
-            let t = decision_values.next().unwrap();
-            let f = decision_values.next().unwrap();
+                let mut decision_values = monkey.into_iter().map(|v| {
+                    v.split_whitespace()
+                        .last()
+                        .unwrap()
+                        .parse::<usize>()
+                        .unwrap()
+                });
 
-            Monkey {
-                inspections: 0,
-                items,
-                op,
-                divisible_by,
-                t,
-                f,
-            }
-        }).collect();
+                let t = decision_values.next().unwrap();
+                let f = decision_values.next().unwrap();
+
+                Monkey {
+                    inspections: 0,
+                    items,
+                    op,
+                    divisible_by,
+                    t,
+                    f,
+                }
+            })
+            .collect();
 
         for _ in 0..20 {
             for i in 0..monkeys.len() {
@@ -113,45 +133,75 @@ impl Solution for Day11 {
             }
         }
 
-        let mut inspections = monkeys.into_iter().map(|monkey| monkey.inspections).collect::<Vec<u64>>();
+        let mut inspections = monkeys
+            .into_iter()
+            .map(|monkey| monkey.inspections)
+            .collect::<Vec<u64>>();
         inspections.sort();
 
-        inspections.iter().rev().take(2).product::<u64>().to_string()
+        Some(
+            inspections
+                .iter()
+                .rev()
+                .take(2)
+                .product::<u64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
-        let mut monkeys: Vec<Monkey> = input.paragraphs().map(|paragraph| {
-            let mut monkey = paragraph.lines().skip(1).map(|line| {
-                let (_, val) = line.split_once(':').unwrap();
-                val
-            });
+    fn solve_part_two(input: String) -> Option<String> {
+        let mut monkeys: Vec<Monkey> = input
+            .paragraphs()
+            .map(|paragraph| {
+                let mut monkey = paragraph.lines().skip(1).map(|line| {
+                    let (_, val) = line.split_once(':').unwrap();
+                    val
+                });
 
-            let items = monkey.next().unwrap().split(',').map(|val| {
-                val.trim().parse::<u64>().unwrap()
-            }).collect();
+                let items = monkey
+                    .next()
+                    .unwrap()
+                    .split(',')
+                    .map(|val| val.trim().parse::<u64>().unwrap())
+                    .collect();
 
-            let op = Monkey::parse_operation(monkey.next().unwrap());
-            
-            let divisible_by = monkey.next().unwrap().split(' ').last().unwrap().parse::<u64>().unwrap();
+                let op = Monkey::parse_operation(monkey.next().unwrap());
 
-            let mut decision_values = monkey.into_iter().map(|v| {
-                v.split_whitespace().last().unwrap().parse::<usize>().unwrap()
-            });
+                let divisible_by = monkey
+                    .next()
+                    .unwrap()
+                    .split(' ')
+                    .last()
+                    .unwrap()
+                    .parse::<u64>()
+                    .unwrap();
 
-            let t = decision_values.next().unwrap();
-            let f = decision_values.next().unwrap();
+                let mut decision_values = monkey.into_iter().map(|v| {
+                    v.split_whitespace()
+                        .last()
+                        .unwrap()
+                        .parse::<usize>()
+                        .unwrap()
+                });
 
-            Monkey {
-                inspections: 0,
-                items,
-                op,
-                divisible_by,
-                t,
-                f,
-            }
-        }).collect();
+                let t = decision_values.next().unwrap();
+                let f = decision_values.next().unwrap();
 
-        let common = monkeys.iter().map(|monkey| monkey.divisible_by).product::<u64>();
+                Monkey {
+                    inspections: 0,
+                    items,
+                    op,
+                    divisible_by,
+                    t,
+                    f,
+                }
+            })
+            .collect();
+
+        let common = monkeys
+            .iter()
+            .map(|monkey| monkey.divisible_by)
+            .product::<u64>();
 
         for _ in 0..10_000 {
             for i in 0..monkeys.len() {
@@ -182,9 +232,19 @@ impl Solution for Day11 {
             }
         }
 
-        let mut inspections = monkeys.into_iter().map(|monkey| monkey.inspections).collect::<Vec<u64>>();
+        let mut inspections = monkeys
+            .into_iter()
+            .map(|monkey| monkey.inspections)
+            .collect::<Vec<u64>>();
         inspections.sort();
 
-        inspections.iter().rev().take(2).product::<u64>().to_string()
+        Some(
+            inspections
+                .iter()
+                .rev()
+                .take(2)
+                .product::<u64>()
+                .to_string(),
+        )
     }
 }

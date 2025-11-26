@@ -5,7 +5,7 @@ use crate::{
     utils::grid::Coordinate,
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day18::solve_part_one(input),
         Part::P2 => Day18::solve_part_two(input),
@@ -14,7 +14,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day18;
 impl Solution for Day18 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let bytes: HashSet<Coordinate> = input
             .lines()
             .take(1024)
@@ -26,18 +26,20 @@ impl Solution for Day18 {
             })
             .collect();
 
-        bfs(
-            Coordinate { x: 0, y: 0 },
-            Coordinate { x: 70, y: 70 },
-            bytes,
-            71,
-            71,
+        Some(
+            bfs(
+                Coordinate { x: 0, y: 0 },
+                Coordinate { x: 70, y: 70 },
+                bytes,
+                71,
+                71,
+            )
+            .unwrap()
+            .to_string(),
         )
-        .unwrap()
-        .to_string()
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let bytes: Vec<Coordinate> = input
             .lines()
             .map(|b| {
@@ -51,16 +53,18 @@ impl Solution for Day18 {
         let start = Coordinate { x: 0, y: 0 };
         let end = Coordinate { x: 70, y: 70 };
 
-        (1024..bytes.len())
-            .find_map(|i| {
-                if bfs(start, end, bytes.iter().cloned().take(i).collect(), 71, 71).is_none() {
-                    let bad = bytes[i - 1];
-                    Some(format!("{},{}", bad.x, bad.y))
-                } else {
-                    None
-                }
-            })
-            .unwrap_or("Unsolved".to_string())
+        Some(
+            (1024..bytes.len())
+                .find_map(|i| {
+                    if bfs(start, end, bytes.iter().cloned().take(i).collect(), 71, 71).is_none() {
+                        let bad = bytes[i - 1];
+                        Some(format!("{},{}", bad.x, bad.y))
+                    } else {
+                        None
+                    }
+                })
+                .unwrap_or("Unsolved".to_string()),
+        )
     }
 }
 

@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day02::solve_part_one(input),
         Part::P2 => Day02::solve_part_two(input),
@@ -9,41 +9,45 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day02;
 impl Solution for Day02 {
-    fn solve_part_one(input: String) -> String {
-        input
-            .lines()
-            .filter(|l| {
-                let levels: Vec<i32> = l
-                    .split_whitespace()
-                    .map(|level| level.parse::<i32>().unwrap())
-                    .collect();
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            input
+                .lines()
+                .filter(|l| {
+                    let levels: Vec<i32> = l
+                        .split_whitespace()
+                        .map(|level| level.parse::<i32>().unwrap())
+                        .collect();
 
-                safe(levels)
-            })
-            .count()
-            .to_string()
+                    safe(levels)
+                })
+                .count()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
-        input
-            .lines()
-            .filter(|l| {
-                let levels: Vec<i32> = l
-                    .split_whitespace()
-                    .map(|level| level.parse::<i32>().unwrap())
-                    .collect();
-
-                (0..levels.len()).any(|i| {
-                    let new_levels: Vec<i32> = levels[..i]
-                        .iter()
-                        .chain(&levels[i + 1..])
-                        .cloned()
+    fn solve_part_two(input: String) -> Option<String> {
+        Some(
+            input
+                .lines()
+                .filter(|l| {
+                    let levels: Vec<i32> = l
+                        .split_whitespace()
+                        .map(|level| level.parse::<i32>().unwrap())
                         .collect();
-                    safe(new_levels)
+
+                    (0..levels.len()).any(|i| {
+                        let new_levels: Vec<i32> = levels[..i]
+                            .iter()
+                            .chain(&levels[i + 1..])
+                            .cloned()
+                            .collect();
+                        safe(new_levels)
+                    })
                 })
-            })
-            .count()
-            .to_string()
+                .count()
+                .to_string(),
+        )
     }
 }
 

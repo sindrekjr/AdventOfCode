@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day11::solve_part_one(input),
         Part::P2 => Day11::solve_part_two(input),
@@ -11,24 +11,28 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day11;
 impl Solution for Day11 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let blinks = 25;
         let mut memo: HashMap<(u64, u8), u64> = HashMap::new();
-        input
-            .split_whitespace()
-            .map(|str| stonecount(str.parse().unwrap(), blinks, &mut memo))
-            .sum::<u64>()
-            .to_string()
+        Some(
+            input
+                .split_whitespace()
+                .map(|str| stonecount(str.parse().unwrap(), blinks, &mut memo))
+                .sum::<u64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let blinks = 75;
         let mut memo: HashMap<(u64, u8), u64> = HashMap::new();
-        input
-            .split_whitespace()
-            .map(|str| stonecount(str.parse().unwrap(), blinks, &mut memo))
-            .sum::<u64>()
-            .to_string()
+        Some(
+            input
+                .split_whitespace()
+                .map(|str| stonecount(str.parse().unwrap(), blinks, &mut memo))
+                .sum::<u64>()
+                .to_string(),
+        )
     }
 }
 

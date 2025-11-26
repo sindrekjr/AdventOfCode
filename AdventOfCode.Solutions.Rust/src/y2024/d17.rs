@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day17::solve_part_one(input),
         Part::P2 => Day17::solve_part_two(input),
@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day17;
 impl Solution for Day17 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let ([mut a, mut b, mut c], program) = parse_input(&input);
 
         let mut pointer = 0;
@@ -75,14 +75,16 @@ impl Solution for Day17 {
             }
         }
 
-        output
-            .iter()
-            .map(|n| n.to_string())
-            .collect::<Vec<_>>()
-            .join(",")
+        Some(
+            output
+                .iter()
+                .map(|n| n.to_string())
+                .collect::<Vec<_>>()
+                .join(","),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let ([mut a, mut b, mut c], program) = parse_input(&input);
 
         let mut adjust = 0;
@@ -150,7 +152,7 @@ impl Solution for Day17 {
                 }
 
                 if output == program {
-                    return initialize.to_string();
+                    return Some(initialize.to_string());
                 } else if output.ends_with(&program[program.len() - output.len()..]) {
                     adjust = (adjust + i) * 8;
                     break;

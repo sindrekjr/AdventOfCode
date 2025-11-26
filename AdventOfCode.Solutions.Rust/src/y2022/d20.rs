@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day20::solve_part_one(input),
         Part::P2 => Day20::solve_part_two(input),
@@ -15,7 +15,7 @@ struct Number {
 
 struct Day20;
 impl Solution for Day20 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut numbers: Vec<Number> = input
             .lines()
             .enumerate()
@@ -35,13 +35,15 @@ impl Solution for Day20 {
 
         let z_i = numbers.iter().position(|n| n.value == 0).unwrap();
 
-        (numbers[(z_i + 1000) % numbers.len()].value
-            + numbers[(z_i + 2000) % numbers.len()].value
-            + numbers[(z_i + 3000) % numbers.len()].value)
-            .to_string()
+        Some(
+            (numbers[(z_i + 1000) % numbers.len()].value
+                + numbers[(z_i + 2000) % numbers.len()].value
+                + numbers[(z_i + 3000) % numbers.len()].value)
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         const DECRYPTION_KEY: i64 = 811589153;
 
         let mut numbers: Vec<Number> = input
@@ -65,9 +67,11 @@ impl Solution for Day20 {
 
         let z_i = numbers.iter().position(|n| n.value == 0).unwrap();
 
-        (numbers[(z_i + 1000) % numbers.len()].value
-            + numbers[(z_i + 2000) % numbers.len()].value
-            + numbers[(z_i + 3000) % numbers.len()].value)
-            .to_string()
+        Some(
+            (numbers[(z_i + 1000) % numbers.len()].value
+                + numbers[(z_i + 2000) % numbers.len()].value
+                + numbers[(z_i + 3000) % numbers.len()].value)
+                .to_string(),
+        )
     }
 }

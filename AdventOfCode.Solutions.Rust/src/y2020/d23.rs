@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day23::solve_part_one(input),
         Part::P2 => Day23::solve_part_two(input),
@@ -100,22 +100,24 @@ struct Day23;
 
 #[allow(unused_variables)]
 impl Solution for Day23 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut cups = Cups::from(input.as_str());
         (0..100).for_each(|_| cups.do_move());
 
-        cups.get_labels(1)
-            .iter()
-            .map(|n| n.to_string())
-            .collect::<Vec<_>>()
-            .join("")
+        Some(
+            cups.get_labels(1)
+                .iter()
+                .map(|n| n.to_string())
+                .collect::<Vec<_>>()
+                .join(""),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut cups = Cups::from(input.as_str());
         cups.expand(1_000_000);
 
         (0..10_000_000).for_each(|_| cups.do_move());
-        cups.star_product().to_string()
+        Some(cups.star_product().to_string())
     }
 }

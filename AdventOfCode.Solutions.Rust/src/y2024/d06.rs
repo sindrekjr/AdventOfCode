@@ -2,7 +2,7 @@ use std::{collections::HashSet, fmt::Display};
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day06::solve_part_one(input),
         Part::P2 => Day06::solve_part_two(input),
@@ -61,19 +61,21 @@ impl Display for Guard {
 
 struct Day06;
 impl Solution for Day06 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let grid: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
 
         let (obstacles, x, y, d) = parse_grid(&grid);
         let mut guard = Guard { x, y, d };
 
-        gallivant(&mut guard, &obstacles, grid.len(), grid[0].len())
-            .unwrap()
-            .len()
-            .to_string()
+        Some(
+            gallivant(&mut guard, &obstacles, grid.len(), grid[0].len())
+                .unwrap()
+                .len()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let grid: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
 
         let (obstacles, start_x, start_y, start_d) = parse_grid(&grid);
@@ -85,26 +87,28 @@ impl Solution for Day06 {
 
         let height = grid.len();
         let width = grid[0].len();
-        gallivant(&mut first, &obstacles, height, width)
-            .unwrap()
-            .iter()
-            .filter(|(x, y)| {
-                if *x == start_x && *y == start_y {
-                    false
-                } else {
-                    let mut guard = Guard {
-                        x: start_x,
-                        y: start_y,
-                        d: start_d,
-                    };
-                    let mut obstacles = obstacles.clone();
-                    obstacles.insert((*x, *y));
+        Some(
+            gallivant(&mut first, &obstacles, height, width)
+                .unwrap()
+                .iter()
+                .filter(|(x, y)| {
+                    if *x == start_x && *y == start_y {
+                        false
+                    } else {
+                        let mut guard = Guard {
+                            x: start_x,
+                            y: start_y,
+                            d: start_d,
+                        };
+                        let mut obstacles = obstacles.clone();
+                        obstacles.insert((*x, *y));
 
-                    gallivant(&mut guard, &obstacles, height, width) == None
-                }
-            })
-            .count()
-            .to_string()
+                        gallivant(&mut guard, &obstacles, height, width) == None
+                    }
+                })
+                .count()
+                .to_string(),
+        )
     }
 }
 

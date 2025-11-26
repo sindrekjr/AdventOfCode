@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day13::solve_part_one(input),
         Part::P2 => Day13::solve_part_two(input),
@@ -72,33 +72,37 @@ impl ClawMachine {
 
 struct Day13;
 impl Solution for Day13 {
-    fn solve_part_one(input: String) -> String {
-        input
-            .split("\n\n")
-            .filter_map(|paragraph| {
-                let machine = ClawMachine::from(paragraph);
-                if machine.is_winnable() {
-                    Some(machine.cost())
-                } else {
-                    None
-                }
-            })
-            .sum::<i64>()
-            .to_string()
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            input
+                .split("\n\n")
+                .filter_map(|paragraph| {
+                    let machine = ClawMachine::from(paragraph);
+                    if machine.is_winnable() {
+                        Some(machine.cost())
+                    } else {
+                        None
+                    }
+                })
+                .sum::<i64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
-        input
-            .split("\n\n")
-            .filter_map(|paragraph| {
-                let machine = ClawMachine::from(paragraph).with_conversion(10000000000000);
-                if machine.is_winnable() {
-                    Some(machine.cost())
-                } else {
-                    None
-                }
-            })
-            .sum::<i64>()
-            .to_string()
+    fn solve_part_two(input: String) -> Option<String> {
+        Some(
+            input
+                .split("\n\n")
+                .filter_map(|paragraph| {
+                    let machine = ClawMachine::from(paragraph).with_conversion(10000000000000);
+                    if machine.is_winnable() {
+                        Some(machine.cost())
+                    } else {
+                        None
+                    }
+                })
+                .sum::<i64>()
+                .to_string(),
+        )
     }
 }

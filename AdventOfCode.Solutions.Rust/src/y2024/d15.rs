@@ -8,7 +8,7 @@ use crate::{
     utils::grid::{parse_grid, Coordinate, Direction},
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day15::solve_part_one(input),
         Part::P2 => Day15::solve_part_two(input),
@@ -17,7 +17,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day15;
 impl Solution for Day15 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let (map, moves) = input.split_once("\n\n").unwrap();
 
         let mut map = parse_grid(map);
@@ -83,19 +83,21 @@ impl Solution for Day15 {
             }
         }
 
-        map.iter()
-            .filter_map(|(coor, ch)| {
-                if *ch == 'O' {
-                    Some(coor.x + coor.y * 100)
-                } else {
-                    None
-                }
-            })
-            .sum::<isize>()
-            .to_string()
+        Some(
+            map.iter()
+                .filter_map(|(coor, ch)| {
+                    if *ch == 'O' {
+                        Some(coor.x + coor.y * 100)
+                    } else {
+                        None
+                    }
+                })
+                .sum::<isize>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let (map, moves) = input.split_once("\n\n").unwrap();
         let map: String = map
             .chars()
@@ -172,16 +174,18 @@ impl Solution for Day15 {
             }
         }
 
-        map.iter()
-            .filter_map(|(coor, ch)| {
-                if *ch == '[' || *ch == 'O' {
-                    Some(coor.x + coor.y * 100)
-                } else {
-                    None
-                }
-            })
-            .sum::<isize>()
-            .to_string()
+        Some(
+            map.iter()
+                .filter_map(|(coor, ch)| {
+                    if *ch == '[' || *ch == 'O' {
+                        Some(coor.x + coor.y * 100)
+                    } else {
+                        None
+                    }
+                })
+                .sum::<isize>()
+                .to_string(),
+        )
     }
 }
 

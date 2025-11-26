@@ -5,7 +5,7 @@ use crate::{
 
 use take_until::TakeUntilExt;
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day08::solve_part_one(input),
         Part::P2 => Day08::solve_part_two(input),
@@ -14,7 +14,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day08;
 impl Solution for Day08 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let grid: Vec<Vec<u8>> = input.lines().map(|line| line.digits()).collect();
         let height = grid.len();
         let length = grid[0].len();
@@ -37,10 +37,10 @@ impl Solution for Day08 {
             }
         }
 
-        visible.to_string()
+        Some(visible.to_string())
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let grid: Vec<Vec<u8>> = input.lines().map(|line| line.digits()).collect();
         let height = grid.len();
         let length = grid[0].len();
@@ -77,6 +77,6 @@ impl Solution for Day08 {
             }
         }
 
-        score.to_string()
+        Some(score.to_string())
     }
 }

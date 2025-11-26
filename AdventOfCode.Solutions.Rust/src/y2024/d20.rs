@@ -5,7 +5,7 @@ use crate::{
     utils::grid::{parse_grid, Coordinate},
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day20::solve_part_one(input),
         Part::P2 => Day20::solve_part_two(input),
@@ -14,14 +14,14 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day20;
 impl Solution for Day20 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let (start, walls) = parse_elements(&input);
-        black_sheep_wall(&start, &walls, 2, 100).to_string()
+        Some(black_sheep_wall(&start, &walls, 2, 100).to_string())
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let (start, walls) = parse_elements(&input);
-        black_sheep_wall(&start, &walls, 20, 100).to_string()
+        Some(black_sheep_wall(&start, &walls, 20, 100).to_string())
     }
 }
 

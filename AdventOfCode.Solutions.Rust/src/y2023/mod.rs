@@ -26,7 +26,7 @@ mod d01;
 // mod d24;
 // mod d25;
 
-pub fn get_solution(day: Day, part: Part, input: String) -> String {
+pub fn get_solution(day: Day, part: Part, input: String) -> Option<String> {
     match day {
         Day::D01 => d01::solve(part, input),
         // Day::D05 => d05::solve(part, input),
@@ -42,6 +42,6 @@ pub fn get_solution(day: Day, part: Part, input: String) -> String {
         // Day::D15 => d15::solve(part, input),
         // Day::D18 => d18::solve(part, input),
         // Day::D20 => d20::solve(part, input),
-        _ => String::new(),
+        _ => None,
     }
 }

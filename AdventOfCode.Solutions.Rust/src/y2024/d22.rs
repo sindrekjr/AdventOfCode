@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day22::solve_part_one(input),
         Part::P2 => Day22::solve_part_two(input),
@@ -11,15 +11,19 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day22;
 impl Solution for Day22 {
-    fn solve_part_one(input: String) -> String {
-        input
-            .lines()
-            .map(|secret| (0..2000).fold(secret.parse().unwrap(), |secret, _| next_secret(secret)))
-            .sum::<u64>()
-            .to_string()
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            input
+                .lines()
+                .map(|secret| {
+                    (0..2000).fold(secret.parse().unwrap(), |secret, _| next_secret(secret))
+                })
+                .sum::<u64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut bananas: HashMap<[i8; 4], u32> = HashMap::new();
 
         input.lines().for_each(|secret| {
@@ -37,7 +41,7 @@ impl Solution for Day22 {
             }
         });
 
-        bananas.values().max().unwrap().to_string()
+        Some(bananas.values().max().unwrap().to_string())
     }
 }
 

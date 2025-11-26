@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day08::solve_part_one(input),
         Part::P2 => Day08::solve_part_two(input),
@@ -77,18 +77,22 @@ impl Trail {
 
 struct Day08;
 impl Solution for Day08 {
-    fn solve_part_one(input: String) -> String {
-        Trail::new(2)
-            .do_moves(input.lines().map(parse_move))
-            .len()
-            .to_string()
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            Trail::new(2)
+                .do_moves(input.lines().map(parse_move))
+                .len()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
-        Trail::new(10)
-            .do_moves(input.lines().map(parse_move))
-            .len()
-            .to_string()
+    fn solve_part_two(input: String) -> Option<String> {
+        Some(
+            Trail::new(10)
+                .do_moves(input.lines().map(parse_move))
+                .len()
+                .to_string(),
+        )
     }
 }
 

@@ -5,7 +5,7 @@ use crate::{
     utils::grid::Coordinate,
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day14::solve_part_one(input),
         Part::P2 => Day14::solve_part_two(input),
@@ -51,49 +51,53 @@ impl Robot {
 
 struct Day14;
 impl Solution for Day14 {
-    fn solve_part_one(input: String) -> String {
-        input
-            .lines()
-            .fold([0, 0, 0, 0], |mut q, robo_str| {
-                let prediction = Robot::from(robo_str).prediction(100);
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            input
+                .lines()
+                .fold([0, 0, 0, 0], |mut q, robo_str| {
+                    let prediction = Robot::from(robo_str).prediction(100);
 
-                match (
-                    prediction.x < (W / 2) as isize,
-                    prediction.y < (H / 2) as isize,
-                    prediction.x > (W / 2) as isize,
-                    prediction.y > (H / 2) as isize,
-                ) {
-                    (true, true, false, false) => q[0] += 1,
-                    (false, true, true, false) => q[1] += 1,
-                    (true, false, false, true) => q[2] += 1,
-                    (false, false, true, true) => q[3] += 1,
-                    _ => (),
-                };
+                    match (
+                        prediction.x < (W / 2) as isize,
+                        prediction.y < (H / 2) as isize,
+                        prediction.x > (W / 2) as isize,
+                        prediction.y > (H / 2) as isize,
+                    ) {
+                        (true, true, false, false) => q[0] += 1,
+                        (false, true, true, false) => q[1] += 1,
+                        (true, false, false, true) => q[2] += 1,
+                        (false, false, true, true) => q[3] += 1,
+                        _ => (),
+                    };
 
-                q
-            })
-            .into_iter()
-            .product::<u32>()
-            .to_string()
+                    q
+                })
+                .into_iter()
+                .product::<u32>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let robots: Vec<Robot> = input
             .lines()
             .map(|robo_str| Robot::from(robo_str))
             .collect();
         let robo_count = robots.len();
 
-        (1..100_000_000)
-            .find(|seconds| {
-                robots
-                    .iter()
-                    .map(|robot| robot.prediction(*seconds))
-                    .collect::<HashSet<Coordinate>>()
-                    .len()
-                    == robo_count
-            })
-            .unwrap()
-            .to_string()
+        Some(
+            (1..100_000_000)
+                .find(|seconds| {
+                    robots
+                        .iter()
+                        .map(|robot| robot.prediction(*seconds))
+                        .collect::<HashSet<Coordinate>>()
+                        .len()
+                        == robo_count
+                })
+                .unwrap()
+                .to_string(),
+        )
     }
 }

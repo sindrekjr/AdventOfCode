@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day08::solve_part_one(input),
         Part::P2 => Day08::solve_part_two(input),
@@ -11,7 +11,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day08;
 impl Solution for Day08 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let lines: Vec<&str> = input.lines().collect();
         let h = lines.len() as isize;
         let w = lines[0].len() as isize;
@@ -55,10 +55,10 @@ impl Solution for Day08 {
             })
             .collect();
 
-        antinodes.len().to_string()
+        Some(antinodes.len().to_string())
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let lines: Vec<&str> = input.lines().collect();
         let h = lines.len() as isize;
         let w = lines[0].len() as isize;
@@ -110,6 +110,6 @@ impl Solution for Day08 {
             })
             .collect();
 
-        antinodes.len().to_string()
+        Some(antinodes.len().to_string())
     }
 }

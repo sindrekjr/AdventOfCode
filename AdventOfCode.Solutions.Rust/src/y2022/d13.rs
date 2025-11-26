@@ -5,7 +5,7 @@ use crate::{
     utils::string::StrUtils,
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day13::solve_part_one(input),
         Part::P2 => Day13::solve_part_two(input),
@@ -104,22 +104,24 @@ impl Pair {
 
 struct Day13;
 impl Solution for Day13 {
-    fn solve_part_one(input: String) -> String {
-        input
-            .paragraphs()
-            .enumerate()
-            .filter_map(|(i, pair)| {
-                if Pair::new(pair).ordered() {
-                    Some(i + 1)
-                } else {
-                    None
-                }
-            })
-            .sum::<usize>()
-            .to_string()
+    fn solve_part_one(input: String) -> Option<String> {
+        Some(
+            input
+                .paragraphs()
+                .enumerate()
+                .filter_map(|(i, pair)| {
+                    if Pair::new(pair).ordered() {
+                        Some(i + 1)
+                    } else {
+                        None
+                    }
+                })
+                .sum::<usize>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let dividers = vec![Value::new("[[2]]"), Value::new("[[6]]")];
         let mut packets: Vec<Value<i32>> = input
             .lines()
@@ -131,17 +133,19 @@ impl Solution for Day13 {
         packets.push(dividers[1].clone());
         packets.sort_by(|a, b| a.cmp(b));
 
-        packets
-            .iter()
-            .enumerate()
-            .filter_map(|(i, packet)| {
-                if dividers.contains(packet) {
-                    Some(i + 1)
-                } else {
-                    None
-                }
-            })
-            .product::<usize>()
-            .to_string()
+        Some(
+            packets
+                .iter()
+                .enumerate()
+                .filter_map(|(i, packet)| {
+                    if dividers.contains(packet) {
+                        Some(i + 1)
+                    } else {
+                        None
+                    }
+                })
+                .product::<usize>()
+                .to_string(),
+        )
     }
 }

@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day07::solve_part_one(input),
         Part::P2 => Day07::solve_part_two(input),
@@ -11,77 +11,82 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day07;
 impl Solution for Day07 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut operators_cache = HashMap::new();
 
-        parse_input(input)
-            .iter()
-            .filter_map(|(value, numbers)| {
-                if numbers.len() == 1 {
-                    if *value == numbers[0] {
-                        return Some(value);
-                    } else {
-                        return None;
-                    }
-                }
-
-                for operators in get_operators(numbers.len() - 1, &mut operators_cache, false) {
-                    let mut result = numbers[0];
-                    for (i, op) in operators.iter().enumerate() {
-                        match op {
-                            '+' => result += numbers[i + 1],
-                            '*' => result *= numbers[i + 1],
-                            _ => panic!(),
+        Some(
+            parse_input(input)
+                .iter()
+                .filter_map(|(value, numbers)| {
+                    if numbers.len() == 1 {
+                        if *value == numbers[0] {
+                            return Some(value);
+                        } else {
+                            return None;
                         }
                     }
 
-                    if result == *value {
-                        return Some(value);
-                    }
-                }
+                    for operators in get_operators(numbers.len() - 1, &mut operators_cache, false) {
+                        let mut result = numbers[0];
+                        for (i, op) in operators.iter().enumerate() {
+                            match op {
+                                '+' => result += numbers[i + 1],
+                                '*' => result *= numbers[i + 1],
+                                _ => panic!(),
+                            }
+                        }
 
-                None
-            })
-            .sum::<u64>()
-            .to_string()
+                        if result == *value {
+                            return Some(value);
+                        }
+                    }
+
+                    None
+                })
+                .sum::<u64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut operators_cache = HashMap::new();
 
-        parse_input(input)
-            .iter()
-            .filter_map(|(value, numbers)| {
-                if numbers.len() == 1 {
-                    if *value == numbers[0] {
-                        return Some(value);
-                    } else {
-                        return None;
-                    }
-                }
-
-                for operators in get_operators(numbers.len() - 1, &mut operators_cache, true) {
-                    let mut result = numbers[0];
-                    for (i, op) in operators.iter().enumerate() {
-                        match op {
-                            '+' => result += numbers[i + 1],
-                            '*' => result *= numbers[i + 1],
-                            '|' => {
-                                result = format!("{}{}", result, numbers[i + 1]).parse().unwrap()
-                            }
-                            _ => panic!(),
+        Some(
+            parse_input(input)
+                .iter()
+                .filter_map(|(value, numbers)| {
+                    if numbers.len() == 1 {
+                        if *value == numbers[0] {
+                            return Some(value);
+                        } else {
+                            return None;
                         }
                     }
 
-                    if result == *value {
-                        return Some(value);
-                    }
-                }
+                    for operators in get_operators(numbers.len() - 1, &mut operators_cache, true) {
+                        let mut result = numbers[0];
+                        for (i, op) in operators.iter().enumerate() {
+                            match op {
+                                '+' => result += numbers[i + 1],
+                                '*' => result *= numbers[i + 1],
+                                '|' => {
+                                    result =
+                                        format!("{}{}", result, numbers[i + 1]).parse().unwrap()
+                                }
+                                _ => panic!(),
+                            }
+                        }
 
-                None
-            })
-            .sum::<u64>()
-            .to_string()
+                        if result == *value {
+                            return Some(value);
+                        }
+                    }
+
+                    None
+                })
+                .sum::<u64>()
+                .to_string(),
+        )
     }
 }
 

@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day09::solve_part_one(input),
         Part::P2 => Day09::solve_part_two(input),
@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day09;
 impl Solution for Day09 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut files: Vec<(u8, Option<u64>)> = vec![];
 
         let mut file_blocks: u64 = 0;
@@ -74,10 +74,10 @@ impl Solution for Day09 {
             }
         }
 
-        sum.to_string()
+        Some(sum.to_string())
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut files: Vec<(u8, Option<u64>)> = vec![];
 
         let mut id: u64 = 0;
@@ -134,6 +134,6 @@ impl Solution for Day09 {
             }
         }
 
-        sum.to_string()
+        Some(sum.to_string())
     }
 }

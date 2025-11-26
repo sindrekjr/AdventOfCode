@@ -8,9 +8,9 @@ mod y2023;
 mod y2024;
 
 use core::{Day, Part};
-use std::ffi::CString;
 use std::os::raw::c_char;
 use std::time::Instant;
+use std::{ffi::CString, ptr};
 use timer::{initialize, DURATIONS, INIT};
 
 #[no_mangle]
@@ -23,12 +23,14 @@ pub extern "C" fn solve(year: u16, day: Day, part: Part, ptr: *mut c_char) -> *m
         2022 => y2022::get_solution,
         2023 => y2023::get_solution,
         2024 => y2024::get_solution,
-        _ => panic!("Solutions for year {} not found", year),
+        _ => return ptr::null_mut(),
     };
 
     let input = unwrap_input(ptr).trim().to_owned();
-    let solution = timer!(year, day, part, solve(day, part, input));
-    return CString::new(solution).unwrap().into_raw();
+    match timer!(year, day, part, solve(day, part, input)) {
+        Some(solution) => CString::new(solution).unwrap().into_raw(),
+        None => ptr::null_mut(),
+    }
 }
 
 fn unwrap_input(ptr: *mut c_char) -> String {

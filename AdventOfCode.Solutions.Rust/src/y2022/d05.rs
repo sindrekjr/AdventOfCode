@@ -3,7 +3,7 @@ use crate::{
     utils::string::StrUtils,
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day05::solve_part_one(input),
         Part::P2 => Day05::solve_part_two(input),
@@ -12,7 +12,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 pub struct Day05;
 impl Solution for Day05 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let paragraphs = input.paragraphs().collect::<Vec<_>>();
         let mut stacks = parse_stacks(paragraphs[0]);
 
@@ -24,10 +24,10 @@ impl Solution for Day05 {
             stack_crates(new_stack, items, 9000);
         }
 
-        peek_top_crates(&stacks)
+        Some(peek_top_crates(&stacks))
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let paragraphs = input.paragraphs().collect::<Vec<_>>();
         let mut stacks = parse_stacks(paragraphs[0]);
 
@@ -39,7 +39,7 @@ impl Solution for Day05 {
             stack_crates(new_stack, items, 9001);
         }
 
-        peek_top_crates(&stacks)
+        Some(peek_top_crates(&stacks))
     }
 }
 

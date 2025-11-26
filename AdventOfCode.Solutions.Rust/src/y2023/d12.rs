@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day12::solve_part_one(input),
         Part::P2 => Day12::solve_part_two(input),
@@ -9,11 +9,11 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day12;
 impl Solution for Day12 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         String::new()
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         String::new()
     }
 }

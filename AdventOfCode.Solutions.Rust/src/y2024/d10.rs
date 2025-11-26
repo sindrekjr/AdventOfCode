@@ -2,7 +2,7 @@ use std::collections::{HashMap, HashSet};
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day10::solve_part_one(input),
         Part::P2 => Day10::solve_part_two(input),
@@ -11,32 +11,36 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day10;
 impl Solution for Day10 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let map = parse_map(&input);
-        map.iter()
-            .filter_map(|(&trailhead, &h)| {
-                if h > 0 {
-                    None
-                } else {
-                    Some(hike(&trailhead, &map).len())
-                }
-            })
-            .sum::<usize>()
-            .to_string()
+        Some(
+            map.iter()
+                .filter_map(|(&trailhead, &h)| {
+                    if h > 0 {
+                        None
+                    } else {
+                        Some(hike(&trailhead, &map).len())
+                    }
+                })
+                .sum::<usize>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let map = parse_map(&input);
-        map.iter()
-            .filter_map(|(&trailhead, &h)| {
-                if h > 0 {
-                    None
-                } else {
-                    Some(trail_rating(&trailhead, &map))
-                }
-            })
-            .sum::<u32>()
-            .to_string()
+        Some(
+            map.iter()
+                .filter_map(|(&trailhead, &h)| {
+                    if h > 0 {
+                        None
+                    } else {
+                        Some(trail_rating(&trailhead, &map))
+                    }
+                })
+                .sum::<u32>()
+                .to_string(),
+        )
     }
 }
 

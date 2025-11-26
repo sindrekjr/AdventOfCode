@@ -1,6 +1,6 @@
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day25::solve_part_one(input),
         Part::P2 => Day25::solve_part_two(input),
@@ -9,7 +9,7 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day25;
 impl Solution for Day25 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut keys = vec![];
         let mut locks = vec![];
         for paragraph in input.split("\n\n") {
@@ -36,19 +36,21 @@ impl Solution for Day25 {
             }
         }
 
-        locks
-            .iter()
-            .fold(0, |count, lock| {
-                count
-                    + keys
-                        .iter()
-                        .filter(|key| lock.iter().enumerate().all(|(i, c)| c + key[i] <= 5))
-                        .count()
-            })
-            .to_string()
+        Some(
+            locks
+                .iter()
+                .fold(0, |count, lock| {
+                    count
+                        + keys
+                            .iter()
+                            .filter(|key| lock.iter().enumerate().all(|(i, c)| c + key[i] <= 5))
+                            .count()
+                })
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(_input: String) -> String {
-        "🎄".to_string()
+    fn solve_part_two(_input: String) -> Option<String> {
+        None
     }
 }

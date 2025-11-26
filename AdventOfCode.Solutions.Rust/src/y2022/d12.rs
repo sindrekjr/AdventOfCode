@@ -2,7 +2,7 @@ use crate::core::{Part, Solution};
 
 use super::coor::Position;
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day12::solve_part_one(input),
         Part::P2 => Day12::solve_part_two(input),
@@ -138,30 +138,32 @@ impl SquareMap<u8> {
 
 struct Day12;
 impl Solution for Day12 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let map = SquareMap::new(input);
         let lengths = map.find_lengths();
         let (x, y) = map.start.tuple();
 
-        (lengths[x][y] - 1).to_string()
+        Some((lengths[x][y] - 1).to_string())
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let map = SquareMap::new(input);
         let lengths = map.find_lengths();
 
-        (map.lowlands.iter().fold(i32::MAX, |closest, pos| {
-            let (x, y) = pos.tuple();
-            let steps = lengths[x][y];
+        Some(
+            (map.lowlands.iter().fold(i32::MAX, |closest, pos| {
+                let (x, y) = pos.tuple();
+                let steps = lengths[x][y];
 
-            // println!("{:?}", pos.tuple());
+                // println!("{:?}", pos.tuple());
 
-            if steps < closest && steps != 0 {
-                steps
-            } else {
-                closest
-            }
-        }) - 1)
-            .to_string()
+                if steps < closest && steps != 0 {
+                    steps
+                } else {
+                    closest
+                }
+            }) - 1)
+                .to_string(),
+        )
     }
 }

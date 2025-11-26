@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day21::solve_part_one(input),
         Part::P2 => Day21::solve_part_two(input),
@@ -159,35 +159,39 @@ const DIRECTIONAL_MAP: [((char, char), &str); 145] = [
 
 struct Day21;
 impl Solution for Day21 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let map: HashMap<(char, char), &str> = DIRECTIONAL_MAP.into();
-        input
-            .lines()
-            .map(|code| {
-                let len = (0..3)
-                    .fold(code.to_string(), |code, _| direct_robot(&map, &'A', &code))
-                    .len();
-                let num = code[..code.len() - 1].parse::<usize>().unwrap();
+        Some(
+            input
+                .lines()
+                .map(|code| {
+                    let len = (0..3)
+                        .fold(code.to_string(), |code, _| direct_robot(&map, &'A', &code))
+                        .len();
+                    let num = code[..code.len() - 1].parse::<usize>().unwrap();
 
-                len * num
-            })
-            .sum::<usize>()
-            .to_string()
+                    len * num
+                })
+                .sum::<usize>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let map: HashMap<(char, char), &str> = DIRECTIONAL_MAP.into();
         let mut memo: HashMap<(String, u8), usize> = HashMap::new();
-        input
-            .lines()
-            .map(|code| {
-                let len = modify_the_phase_variance(code, 26, &map, &mut memo);
-                let num = code[..code.len() - 1].parse::<usize>().unwrap();
+        Some(
+            input
+                .lines()
+                .map(|code| {
+                    let len = modify_the_phase_variance(code, 26, &map, &mut memo);
+                    let num = code[..code.len() - 1].parse::<usize>().unwrap();
 
-                len * num
-            })
-            .sum::<usize>()
-            .to_string()
+                    len * num
+                })
+                .sum::<usize>()
+                .to_string(),
+        )
     }
 }
 

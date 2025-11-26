@@ -2,7 +2,7 @@ use std::hash::{DefaultHasher, Hash, Hasher};
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day20::solve_part_one(input),
         Part::P2 => Day20::solve_part_two(input),
@@ -411,23 +411,25 @@ const SEA_MONSTER: [&str; 3] = [
 
 #[allow(unused_variables)]
 impl Solution for Day20 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let tiles: Vec<Tile> = input
             .split("\n\n")
             .map(|paragraph| Tile::from(paragraph))
             .collect();
 
-        tiles
-            .iter()
-            .filter_map(|tile| match tile.count_matches(&tiles) {
-                2 => Some(tile.id),
-                _ => None,
-            })
-            .product::<u64>()
-            .to_string()
+        Some(
+            tiles
+                .iter()
+                .filter_map(|tile| match tile.count_matches(&tiles) {
+                    2 => Some(tile.id),
+                    _ => None,
+                })
+                .product::<u64>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut puzzle = SquarePuzzle::new(
             input
                 .split("\n\n")
@@ -483,6 +485,6 @@ impl Solution for Day20 {
             roughness + row.chars().filter(|&ch| ch == '#').count()
         });
 
-        (roughness - sea_monster_habitat).to_string()
+        Some((roughness - sea_monster_habitat).to_string())
     }
 }

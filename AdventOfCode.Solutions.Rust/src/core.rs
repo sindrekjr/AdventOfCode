@@ -1,6 +1,6 @@
 pub trait Solution {
-    fn solve_part_one(input: String) -> String;
-    fn solve_part_two(input: String) -> String;
+    fn solve_part_one(input: String) -> Option<String>;
+    fn solve_part_two(input: String) -> Option<String>;
 }
 
 #[repr(i32)]

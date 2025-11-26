@@ -8,7 +8,7 @@ use crate::{
     utils::grid::{parse_grid, Coordinate, Direction},
 };
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day16::solve_part_one(input),
         Part::P2 => Day16::solve_part_two(input),
@@ -17,29 +17,31 @@ pub fn solve(part: Part, input: String) -> String {
 
 struct Day16;
 impl Solution for Day16 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let (start, end, walls) = parse_elements(&input);
         let width = walls.iter().max_by_key(|coor| coor.x).unwrap().x;
         let height = walls.iter().max_by_key(|coor| coor.y).unwrap().y;
 
-        dijkstra((start, Direction::E), walls, width, height)
-            .0
-            .iter()
-            .filter_map(
-                |(&(coor, _), cost)| {
-                    if coor == end {
-                        Some(cost)
-                    } else {
-                        None
-                    }
-                },
-            )
-            .min()
-            .unwrap()
-            .to_string()
+        Some(
+            dijkstra((start, Direction::E), walls, width, height)
+                .0
+                .iter()
+                .filter_map(
+                    |(&(coor, _), cost)| {
+                        if coor == end {
+                            Some(cost)
+                        } else {
+                            None
+                        }
+                    },
+                )
+                .min()
+                .unwrap()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let (start, end, walls) = parse_elements(&input);
         let width = walls.iter().max_by_key(|coor| coor.x).unwrap().x;
         let height = walls.iter().max_by_key(|coor| coor.y).unwrap().y;
@@ -49,7 +51,7 @@ impl Solution for Day16 {
             .filter_map(|(&key, _)| if key.0 == end { Some(key) } else { None })
             .collect::<Vec<_>>()[0];
 
-        predecessors[&key].len().to_string()
+        Some(predecessors[&key].len().to_string())
     }
 }
 

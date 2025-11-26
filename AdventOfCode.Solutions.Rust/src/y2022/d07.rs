@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use crate::core::{Part, Solution};
 
-pub fn solve(part: Part, input: String) -> String {
+pub fn solve(part: Part, input: String) -> Option<String> {
     match part {
         Part::P1 => Day07::solve_part_one(input),
         Part::P2 => Day07::solve_part_two(input),
@@ -20,15 +20,15 @@ struct Dir {
 
 impl Dir {
     fn total_size(&self, dirs: &HashMap<String, Dir>) -> i32 {
-        self.dirs.iter().fold(self.size, |total, key| {
-            total + dirs[key].total_size(dirs)
-        })
+        self.dirs
+            .iter()
+            .fold(self.size, |total, key| total + dirs[key].total_size(dirs))
     }
 }
 
 struct Day07;
 impl Solution for Day07 {
-    fn solve_part_one(input: String) -> String {
+    fn solve_part_one(input: String) -> Option<String> {
         let mut path = vec![];
         let directories: HashMap<String, Dir> = input
             .split("$ cd ")
@@ -38,9 +38,9 @@ impl Solution for Day07 {
                     None => return None,
                     Some("..") => {
                         path.pop();
-                        return None
-                    },
-                    Some(dir)  => dir,
+                        return None;
+                    }
+                    Some(dir) => dir,
                 };
 
                 path.push(dir);
@@ -62,15 +62,17 @@ impl Solution for Day07 {
             })
             .collect();
 
-        directories
-            .values()
-            .map(|dir| dir.total_size(&directories))
-            .filter(|size| size < &MAX_DIR_SIZE)
-            .sum::<i32>()
-            .to_string()
+        Some(
+            directories
+                .values()
+                .map(|dir| dir.total_size(&directories))
+                .filter(|size| size < &MAX_DIR_SIZE)
+                .sum::<i32>()
+                .to_string(),
+        )
     }
 
-    fn solve_part_two(input: String) -> String {
+    fn solve_part_two(input: String) -> Option<String> {
         let mut path = vec![];
         let directories: HashMap<String, Dir> = input
             .split("$ cd ")
@@ -80,9 +82,9 @@ impl Solution for Day07 {
                     None => return None,
                     Some("..") => {
                         path.pop();
-                        return None
-                    },
-                    Some(dir)  => dir,
+                        return None;
+                    }
+                    Some(dir) => dir,
                 };
 
                 path.push(dir);
@@ -104,19 +106,22 @@ impl Solution for Day07 {
             })
             .collect();
 
-        let needed_space = UPDATES_SIZE - (SYSTEM_SPACE - directories["/"].total_size(&directories));
-        directories
-            .values()
-            .filter_map(|dir| {
-                let size = dir.total_size(&directories);
-                if size >= needed_space {
-                    Some(size)
-                } else {
-                    None
-                }
-            })
-            .min()
-            .unwrap()
-            .to_string()
+        let needed_space =
+            UPDATES_SIZE - (SYSTEM_SPACE - directories["/"].total_size(&directories));
+        Some(
+            directories
+                .values()
+                .filter_map(|dir| {
+                    let size = dir.total_size(&directories);
+                    if size >= needed_space {
+                        Some(size)
+                    } else {
+                        None
+                    }
+                })
+                .min()
+                .unwrap()
+                .to_string(),
+        )
     }
 }
