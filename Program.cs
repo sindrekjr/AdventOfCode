@@ -12,7 +12,6 @@ if (arguments.Count > 0)
     days = DaysConverter.ParseString(args.First()).ToArray();
 }
 
-Console.WriteLine();
 foreach (var solution in SolutionCollector.FetchSolutions(year, days, targets, debug))
 {
     Console.WriteLine(solution.ToString());

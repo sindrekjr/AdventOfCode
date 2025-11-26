@@ -7,7 +7,6 @@ global using System.Linq;
 global using static AdventOfCode.Solutions.Utils.CalculationUtils;
 global using static AdventOfCode.Solutions.Utils.CollectionUtils;
 global using static AdventOfCode.Solutions.Utils.StringUtils;
-
 using System.Diagnostics;
 using System.Net;
 
@@ -163,17 +162,15 @@ public abstract class SolutionBase
     }
 
     public override string ToString() =>
-        $"--- Day {Day}: {Title} --- {(Debug ? "!! Debug mode active, using DebugInput !!" : "")}\n"
-        + PartToString(1)
+        $"\n--- Day {Day}: {Title} --- {(Debug ? "!! Debug mode active, using DebugInput !!" : "")}\n"
+        + PartToString(1) + '\n'
         + PartToString(2);
 
     private string PartToString(int part)
     {
         var header = $" - Part{part} => ";
-        return Targets
-            .Select(t => Solve(part, t))
-            .OfType<SolutionResult>()
-            .Aggregate(header, (str, r) => $"{str.PadRight(str.LastIndexOf('\n') + header.Length + 1)}{r}\n");
+        var results = Targets.Select(t => Solve(part, t)).OfType<SolutionResult>();
+        return header + string.Join("\n".PadRight(header.Length + 1), results);
     }
 
     protected abstract string? SolvePartOne();
