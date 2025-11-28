@@ -9,7 +9,7 @@ var debug = arguments.Remove("debug");
 
 if (arguments.Count > 0)
 {
-    days = DaysConverter.ParseString(args.First()).ToArray();
+    days = [.. DaysConverter.ParseString(args.First())];
 }
 
 foreach (var solution in SolutionCollector.FetchSolutions(year, days, targets, debug))

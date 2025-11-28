@@ -16,20 +16,23 @@ public abstract class SolutionBase
 {
     public int Day { get; }
     public int Year { get; }
-    public string Title { get; }
     public bool Debug { get; set; }
     public SolutionTarget[] Targets { get; set; }
 
+    public string Title => LoadTitle(Debug);
     public string Input => LoadInput(Debug);
     public string DebugInput => LoadInput(true);
+
+    private readonly string _titleOverride;
 
     private protected SolutionBase(int day, int year, string title, bool useDebugInput = false, SolutionTarget[]? targets = null)
     {
         Day = day;
         Year = year;
-        Title = title;
         Debug = useDebugInput;
         Targets = targets ?? [];
+
+        _titleOverride = title;
     }
 
     public SolutionResult? Solve(int part = 1, SolutionTarget target = SolutionTarget.CSharp)
@@ -111,11 +114,45 @@ public abstract class SolutionBase
         }
     }
 
+    private string InputsDirectory => $"./inputs/y{Year}/d{Day:D2}";
+
+    string LoadTitle(bool debug = false)
+    {
+        if (!string.IsNullOrEmpty(_titleOverride))
+        {
+            return _titleOverride;
+        }
+
+        var titleFilePath = $"{InputsDirectory}/title";
+        var file = new FileInfo(titleFilePath);
+        if (File.Exists(titleFilePath) && file.Length > 0)
+        {
+            return File.ReadAllText(titleFilePath);
+        }
+
+        if (debug) return "";
+
+        try
+        {
+            var title = InputService.FetchTitle(Year, Day).Result;
+            file.Directory?.Create();
+            File.WriteAllText(titleFilePath, title);
+            return title;
+        }
+        catch (InvalidOperationException)
+        {
+            var colour = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"Day {Day}: Cannot fetch puzzle input before given date (Eastern Standard Time).");
+            Console.ForegroundColor = colour;
+        }
+
+        return "";
+    }
+
     string LoadInput(bool debug = false)
     {
-        var inputFilepath =
-            $"./inputs/y{Year}/d{Day:D2}/{(debug ? "debug" : "input")}";
-
+        var inputFilepath = $"{InputsDirectory}/{(debug ? "debug" : "input")}";
         var file = new FileInfo(inputFilepath);
 
         if (File.Exists(inputFilepath) && file.Length > 0)
