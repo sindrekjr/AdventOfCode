@@ -6,6 +6,7 @@ mod y2020;
 mod y2022;
 mod y2023;
 mod y2024;
+mod y2025;
 
 use core::{Day, Part};
 use std::os::raw::c_char;
@@ -23,6 +24,7 @@ pub extern "C" fn solve(year: u16, day: Day, part: Part, ptr: *mut c_char) -> *m
         2022 => y2022::get_solution,
         2023 => y2023::get_solution,
         2024 => y2024::get_solution,
+        2025 => y2025::get_solution,
         _ => return ptr::null_mut(),
     };
 
