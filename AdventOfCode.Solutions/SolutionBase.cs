@@ -73,10 +73,10 @@ public abstract class SolutionBase
 
         }
 
-        (string? answer, TimeSpan duration) SolveZig()
+        (string? answer, TimeSpan? duration) SolveZig()
         {
             var answer = ZigSolver.Solve(Year, Day, part, Input);
-            var duration = TimeSpan.MaxValue;
+            var duration = ZigSolver.GetSolveDuration(Year, Day, part);
 
             return (answer, duration);
         }
