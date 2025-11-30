@@ -17,14 +17,14 @@ export fn solve(year: u16, day: u8, part: core.Part, ptr: [*:0]const u8) callcon
     const end_time = std.time.nanoTimestamp();
 
     if (result != null) {
-        timer.setDuration(year, day, part, end_time - start_time);
+        timer.setDuration(year, day, part, @intCast(end_time - start_time));
     }
 
     return result;
 }
 
-export fn getDuration(year: u16, day: u8, part: core.Part) callconv(.c) ?[*]u8 {
+export fn getDuration(year: u16, day: u8, part: core.Part) callconv(.c) u64 {
     if (timer.getDuration(year, day, part)) |ns| {
-        return core.toString(i128, &std.heap.page_allocator, ns);
-    } else return null;
+        return ns;
+    } else return 0;
 }
