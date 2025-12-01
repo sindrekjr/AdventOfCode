@@ -1,5 +1,11 @@
 # Advent of Code
-Solutions in C#.
+Solutions in C#, Rust, and Zig.
+
+## 2025
+
+|    | Puzzle | Solution | Notes |
+|----|--------|----------|-------|
+| 1  | [Secret Entrance](https://adventofcode.com/2025/day/1) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d01.zig) | Messy on first real Zig attempt. |
 
 ## 2024
 
