@@ -13,28 +13,17 @@ pub fn solvePartOne(input: []const u8) ?[*]u8 {
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
 
     var pass: u16 = 0;
-    var dial: u16 = 50;
+    var dial: i16 = 50;
+    var last_direction: ?bool = null;
     while (lines.next()) |line| {
-        const direction = line[0..1][0];
-
-        var clicks: u16 = 0;
-        for (line[1..]) |ch| {
-            const digit = ch - '0';
-            clicks = clicks * 10 + digit;
+        const direction: bool = line[0] == 'R';
+        if (direction != last_direction) {
+            dial = 100 - dial;
+            last_direction = direction;
         }
 
-        if (direction == 'R') {
-            dial += clicks;
-        } else {
-            if (clicks > dial) {
-                const diff = (clicks - dial) % 100;
-                dial = 100 - diff;
-            } else {
-                dial -= clicks;
-            }
-        }
-
-        dial %= 100;
+        dial += std.fmt.parseUnsigned(i16, line[1..], 10) catch return null;
+        dial = @mod(dial, 100);
 
         if (dial == 0) {
             pass += 1;
@@ -48,39 +37,16 @@ pub fn solvePartTwo(input: []const u8) ?[*]u8 {
     var lines = std.mem.tokenizeScalar(u8, input, '\n');
 
     var pass: u16 = 0;
-    var dial: u16 = 50;
+    var dial: i16 = 50;
+    var last_direction: ?bool = null;
     while (lines.next()) |line| {
-        const direction = line[0..1][0];
+        const direction: bool = line[0] == 'R';
+        dial = @mod(if (direction != last_direction) 100 - dial else dial, 100);
+        last_direction = direction;
 
-        var clicks: u16 = 0;
-        for (line[1..]) |ch| {
-            const digit = ch - '0';
-            clicks = clicks * 10 + digit;
-        }
-
-        if (clicks >= 100) {
-            pass += clicks / 100;
-            clicks %= 100;
-        }
-
-        if (direction == 'R') {
-            const diff = dial + clicks;
-            if (diff >= 100 and dial != 100) {
-                pass += 1;
-            }
-
-            dial = (dial + clicks) % 100;
-        } else {
-            if (clicks >= dial) {
-                if (dial != 0) {
-                    pass += 1;
-                }
-                const diff = (clicks - dial);
-                dial = 100 - (diff % 100);
-            } else {
-                dial -= clicks;
-            }
-        }
+        dial += std.fmt.parseUnsigned(i16, line[1..], 10) catch return null;
+        pass += @divFloor(@abs(dial), 100);
+        dial = @mod(dial, 100);
     }
 
     return core.toString(u16, &std.heap.page_allocator, pass);
