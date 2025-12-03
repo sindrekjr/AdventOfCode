@@ -6,6 +6,8 @@ Solutions in C#, Rust, and Zig.
 |    | Puzzle | Solution | Notes |
 |----|--------|----------|-------|
 | 1  | [Secret Entrance](https://adventofcode.com/2025/day/1) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d01.zig) | Messy on first real Zig attempt. |
+| 2  | [Gift Shop](https://adventofcode.com/2025/day/2) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d02.zig) | |
+| 3  | [Lobby](https://adventofcode.com/2025/day/3) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d03.zig) | Part 2 unlocked the correct way of thinking here. |
 
 ## 2024
 
