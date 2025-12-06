@@ -54,6 +54,45 @@ pub fn solvePartOne(input: []const u8) ?[*]u8 {
 }
 
 pub fn solvePartTwo(input: []const u8) ?[*]u8 {
-    _ = input;
-    return null;
+    const allocator = std.heap.page_allocator;
+    var lines = std.mem.tokenizeScalar(u8, input, '\n');
+
+    var rows: std.ArrayList([]const u8) = .empty;
+    defer rows.deinit(allocator);
+
+    var sum: u64 = 0;
+    while (lines.next()) |line| {
+        if (line[0] != '*' and line[0] != '+') {
+            rows.append(allocator, line) catch unreachable;
+            continue;
+        }
+
+        for (line, 0..) |op, i| {
+            if (op == ' ') continue;
+            if (op == '\n') break;
+
+            const start = i;
+            const end = std.mem.indexOfAny(u8, line[i + 1 ..], &[_]u8{ '*', '+' });
+            const length = if (end != null) end.? else line[i..].len;
+
+            var result: u64 = 0;
+            for (start..start + length) |col| {
+                var str: std.ArrayList(u8) = .empty;
+                for (rows.items) |numbers| {
+                    str.append(allocator, numbers[col]) catch unreachable;
+                }
+                const n = std.fmt.parseUnsigned(u64, std.mem.trim(u8, str.items, " "), 10) catch unreachable;
+
+                if (op == '*') {
+                    result = @max(1, result) * n;
+                } else {
+                    result += n;
+                }
+            }
+
+            sum += result;
+        }
+    }
+
+    return core.toString(u64, &allocator, sum);
 }

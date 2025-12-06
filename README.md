@@ -10,7 +10,7 @@ Solutions in C#, Rust, and Zig.
 | 3  | [Lobby](https://adventofcode.com/2025/day/3) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d03.zig) | Part 2 unlocked the correct way of thinking here. |
 | 4  | [Printing Department](https://adventofcode.com/2025/day/4) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/04.zig) | |
 | 5  | [Cafeteria](https://adventofcode.com/2025/day/5) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/05.zig) | |
-| 5  | [Trash Compactor](https://adventofcode.com/2025/day/6) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/06.zig) | |
+| 6  | [Trash Compactor](https://adventofcode.com/2025/day/6) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/06.zig) | Can I depend less on array_list? |
 
 ## 2024
 
