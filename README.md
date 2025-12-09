@@ -12,6 +12,8 @@ Solutions in C#, Rust, and Zig.
 | 5  | [Cafeteria](https://adventofcode.com/2025/day/5) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d05.zig) | |
 | 6  | [Trash Compactor](https://adventofcode.com/2025/day/6) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d06.zig) | Can I depend less on array_list? |
 | 7  | [Laboratories](https://adventofcode.com/2025/day/7) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d07.zig) | |
+| 8  | | |
+| 9  | [Movie Theater](https://adventofcode.com/2025/day/9) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d09.zig) | |
 
 ## 2024
 
