@@ -123,6 +123,75 @@ pub fn solvePartOne(input: []const u8) ?[*]u8 {
 }
 
 pub fn solvePartTwo(input: []const u8) ?[*]u8 {
-    _ = input;
-    return null;
+    const allocator = std.heap.page_allocator;
+    var lines = std.mem.tokenizeScalar(u8, input, '\n');
+
+    var boxes: std.ArrayList(JunctionBox) = .empty;
+    defer boxes.deinit(allocator);
+    while (lines.next()) |line| {
+        const junctionBox = JunctionBox.new(line) catch unreachable;
+        boxes.append(allocator, junctionBox) catch unreachable;
+    }
+
+    const box_count = boxes.items.len;
+
+    var pairs: std.ArrayList(JunctionBoxPair) = .empty;
+    defer pairs.deinit(allocator);
+
+    while (boxes.pop()) |a| {
+        for (boxes.items) |b| {
+            const distance = a.distance(b);
+            pairs.append(allocator, JunctionBoxPair{ .a = a, .b = b, .distance = distance }) catch unreachable;
+        }
+    }
+
+    std.mem.sort(JunctionBoxPair, pairs.items, {}, JunctionBoxPair.sortByDistance);
+
+    var circuits: std.ArrayList(std.ArrayList(JunctionBox)) = .empty;
+    var result: isize = 0;
+    while (pairs.pop()) |pair| {
+        const a = pair.a;
+        const b = pair.b;
+
+        var foundA: ?usize = null;
+        var foundB: ?usize = null;
+        for (circuits.items, 0..) |circuit, i| {
+            for (circuit.items) |box| {
+                if (box.x == a.x and box.y == a.y and box.z == a.z) {
+                    foundA = i;
+                }
+                if (box.x == b.x and box.y == b.y and box.z == b.z) {
+                    foundB = i;
+                }
+            }
+
+            if (foundA != null and foundB != null) break;
+        }
+
+        if (foundA != null and foundB == null) {
+            circuits.items[foundA.?].append(allocator, b) catch unreachable;
+        } else if (foundA == null and foundB != null) {
+            circuits.items[foundB.?].append(allocator, a) catch unreachable;
+        } else if (foundA != null and foundB != null) {
+            if (foundA.? != foundB.?) {
+                while (circuits.items[foundA.?].pop()) |box| {
+                    circuits.items[foundB.?].append(allocator, box) catch unreachable;
+                }
+            }
+        } else {
+            var circuit: std.ArrayList(JunctionBox) = .empty;
+            circuit.append(allocator, a) catch unreachable;
+            circuit.append(allocator, b) catch unreachable;
+            circuits.append(allocator, circuit) catch unreachable;
+        }
+
+        std.mem.sort(std.ArrayList(JunctionBox), circuits.items, {}, sortByLength);
+
+        if (circuits.items[0].items.len == box_count) {
+            result = a.x * b.x;
+            break;
+        }
+    }
+
+    return core.toString(isize, &allocator, result);
 }
