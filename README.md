@@ -14,6 +14,8 @@ Solutions in C#, Rust, and Zig.
 | 7  | [Laboratories](https://adventofcode.com/2025/day/7) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d07.zig) | |
 | 8  | [Playground](https://adventofcode.com/2025/day/8) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d08.zig) | |
 | 9  | [Movie Theater](https://adventofcode.com/2025/day/9) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d09.zig) | |
+| 10 |
+| 11 | [Reactor](https://adventofcode.com/2025/day/11) | [Zig](/AdventOfCode.Solutions.Zig/src/y2025/d11.zig) | |
 
 ## 2024
 
