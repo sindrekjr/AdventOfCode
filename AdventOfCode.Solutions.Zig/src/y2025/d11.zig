@@ -9,12 +9,12 @@ pub fn solve(part: core.Part, input: []const u8) ?[*]u8 {
     };
 }
 
-fn recursiveMemoSearch(machine: []const u8, machines: std.StringHashMap(std.ArrayList([]const u8)), memo: *std.StringHashMap(usize)) usize {
+fn recursiveMemoSearch(machine: []const u8, goal: []const u8, machines: std.StringHashMap(std.ArrayList([]const u8)), memo: *std.StringHashMap(usize)) usize {
     var paths: usize = 0;
 
-    const outputs = machines.get(machine).?;
+    const outputs = machines.get(machine) orelse return 0;
     for (outputs.items) |output| {
-        if (std.mem.eql(u8, output, "out")) {
+        if (std.mem.eql(u8, output, goal)) {
             paths += 1;
             continue;
         }
@@ -24,7 +24,7 @@ fn recursiveMemoSearch(machine: []const u8, machines: std.StringHashMap(std.Arra
             continue;
         }
 
-        const sub_paths = recursiveMemoSearch(output, machines, memo);
+        const sub_paths = recursiveMemoSearch(output, goal, machines, memo);
         memo.put(output, sub_paths) catch unreachable;
         paths += sub_paths;
     }
@@ -54,86 +54,40 @@ pub fn solvePartOne(input: []const u8) ?[*]u8 {
     var memo = std.StringHashMap(usize).init(allocator);
     defer memo.deinit();
 
-    const paths = recursiveMemoSearch("you", machines, &memo);
+    const paths = recursiveMemoSearch("you", "out", machines, &memo);
 
     return core.toString(usize, &allocator, paths);
 }
 
-fn recursiveMemoSearchPart2(allocator: std.mem.Allocator, machine: []const u8, goal: []const u8, machines: std.StringHashMap(std.ArrayList([]const u8)), memo: *std.StringHashMap(std.ArrayList([]const u8))) std.ArrayList([]const u8) {
-    var paths = std.ArrayList([]const u8).empty;
+pub fn solvePartTwo(input: []const u8) ?[*]u8 {
+    const allocator = std.heap.page_allocator;
 
-    const outputs = machines.get(machine) orelse return paths;
-    for (outputs.items) |output| {
-        if (std.mem.eql(u8, output, goal)) {
-            var path = std.ArrayList(u8).empty;
-            defer path.deinit(allocator);
-            path.appendSlice(allocator, output) catch unreachable;
-            paths.append(allocator, path.toOwnedSlice(allocator) catch unreachable) catch unreachable;
-            continue;
+    var machines = std.StringHashMap(std.ArrayList([]const u8)).init(allocator);
+    defer machines.deinit();
+
+    var lines = std.mem.tokenizeScalar(u8, input, '\n');
+    while (lines.next()) |line| {
+        var tokens = std.mem.tokenizeScalar(u8, line, ' ');
+        const machine = std.mem.trimEnd(u8, tokens.next().?, ":");
+
+        var outputs = std.ArrayList([]const u8).empty;
+        while (tokens.next()) |o| {
+            outputs.append(allocator, o) catch unreachable;
         }
 
-        if (memo.get(output)) |m| {
-            for (m.items) |known_path| {
-                var path = std.ArrayList(u8).empty;
-                defer path.deinit(allocator);
-                path.appendSlice(allocator, output) catch unreachable;
-                path.appendSlice(allocator, known_path) catch unreachable;
-                paths.append(allocator, path.toOwnedSlice(allocator) catch unreachable) catch unreachable;
-            }
-            continue;
-        }
-
-        const sub_paths = recursiveMemoSearchPart2(allocator, output, goal, machines, memo);
-        memo.put(output, sub_paths) catch unreachable;
-
-        for (sub_paths.items) |sub_path| {
-            var path = std.ArrayList(u8).empty;
-            defer path.deinit(allocator);
-            path.appendSlice(allocator, output) catch unreachable;
-            path.appendSlice(allocator, sub_path) catch unreachable;
-            paths.append(allocator, path.toOwnedSlice(allocator) catch unreachable) catch unreachable;
-        }
+        machines.put(machine, outputs) catch unreachable;
     }
 
-    memo.put(machine, paths) catch unreachable;
+    var memo = std.StringHashMap(usize).init(allocator);
+    defer memo.deinit();
 
-    return paths;
-}
+    const fft_dac = recursiveMemoSearch("fft", "dac", machines, &memo);
+    memo.clearAndFree();
+    const svr_fft = recursiveMemoSearch("svr", "fft", machines, &memo);
+    memo.clearAndFree();
+    const dac_out = recursiveMemoSearch("dac", "out", machines, &memo);
 
-pub fn solvePartTwo(input: []const u8) ?[*]u8 {
-    // const allocator = std.heap.page_allocator;
+    const paths = svr_fft * fft_dac * dac_out;
 
-    // var machines = std.StringHashMap(std.ArrayList([]const u8)).init(allocator);
-    // defer machines.deinit();
-
-    // var lines = std.mem.tokenizeScalar(u8, input, '\n');
-    // while (lines.next()) |line| {
-    //     var tokens = std.mem.tokenizeScalar(u8, line, ' ');
-    //     const machine = std.mem.trimEnd(u8, tokens.next().?, ":");
-
-    //     var outputs = std.ArrayList([]const u8).empty;
-    //     while (tokens.next()) |o| {
-    //         outputs.append(allocator, o) catch unreachable;
-    //     }
-
-    //     machines.put(machine, outputs) catch unreachable;
-    // }
-
-    // var memo = std.StringHashMap(std.ArrayList([]const u8)).init(allocator);
-    // defer memo.deinit();
-
-    // const paths = recursiveMemoSearchPart2(allocator, "fft", "dac", machines, &memo);
-
-    // var count: usize = 0;
-    // for (paths.items) |path| {
-    //     std.debug.print("Path: {s}\n", .{path});
-    //     if (std.mem.indexOf(u8, path, "fft") != null and std.mem.indexOf(u8, path, "dac") != null) {
-    //         count += 1;
-    //     }
-    // }
-
-    // return core.toString(usize, &allocator, count);
-
-    _ = input;
-    return null;
+    return core.toString(usize, &allocator, paths);
 }
